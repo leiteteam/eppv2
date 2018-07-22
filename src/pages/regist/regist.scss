@@ -1,0 +1,124 @@
+page-regist {
+
+    //设置背景颜色
+    ion-content{
+        .fixed-content{
+            background: rgba($color: #000000, $alpha: 0) !important;
+        }
+        .scroll-content{
+            background: rgba($color: #000000, $alpha: 0) !important;
+        }
+        background: rgb(245, 244, 244) !important;
+    }
+
+    .parent_gravity_center{
+        margin: 20px;
+        display:flex; 
+        justify-content:center; 
+        align-items:center; 
+    }
+
+    .itemtop
+    {
+        border: 0px;
+        .button-inner
+        {
+            color: color($colors,primary) !important;
+            background-color: transparent !important;
+        }
+        .button-ios{
+            background-color: transparent !important;
+            padding: 0 0 0 1rem !important;
+        }
+    }
+
+    .background{
+        width: 100%;
+        height: 100% !important;
+        background-position:top;
+        background-image: url(../assets/imgs/login_bg.jpg);
+        background-repeat: no-repeat;
+        background-size:100% 280px; 
+        z-index: 1;
+    }
+
+    .logoHeader{
+        margin-top: 80px;
+        margin-bottom: 60px;
+        img {
+         width: 100px;
+         height: 100px;
+         margin-top: 10px;
+         border-radius:50%;
+       }
+    }
+
+    .iputcenter{
+        width: 90%;
+        margin:0 auto;
+    }
+
+    .input{
+        font-size: 1.3rem !important;
+    }
+
+    .passwordopreation{
+        width: 90%;
+        margin:0 auto;
+        
+        ion-checkbox{
+            margin: 0 auto;
+            background: transparent;
+            vertical-align: middle;
+        }
+        p{
+            font-size: 12px;
+            margin-left: 5px;
+            color: black;
+            vertical-align: middle;
+        }
+    }
+
+    .btn:active{
+        background-color: color($colors,primary);
+        color: white
+    }
+
+    .btn_disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background-color: rgb(206, 205, 205);
+        color: white;
+        text-align: center;
+        width: 95%;
+        padding: 15px;
+        border-radius: 5px;
+        margin:0 auto;
+        display: block;
+        margin-top: 20px
+    }
+
+    .ready{
+        border-left: 1px solid rgb(212, 212, 212);
+        border-radius: 0px;
+        width: 30%;
+        .button-inner{
+            color: color($colors,primary) !important;
+        }
+    }
+    .counting{
+        border-left: 1px solid rgb(212, 212, 212);
+        border-radius: 0px;
+        width: 30%;
+        .button-inner{
+            color: gray !important;
+        }
+    }
+
+    .login{
+        color: color($colors,primary);
+        text-align: center;
+        margin-top: 15px;
+        font-size: 1.3rem;
+    }
+}

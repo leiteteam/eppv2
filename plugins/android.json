@@ -1,0 +1,58 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "cordova-plugin-cocoapod-support": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "cordova-plugin-ionic-webview": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "cordova-plugin-photo-library": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "ionic-plugin-keyboard": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "ty-plugin-native": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "com-sarriaroman-photoviewer": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "com.telerik.plugins.nativepagetransitions": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "cordova-plugin-broadcaster": {
+      "PACKAGE_NAME": "com.androidcat.ybb"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.whty.jepay"
+    }
+  }
+}

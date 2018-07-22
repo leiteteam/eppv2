@@ -1,0 +1,52 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header no-border>
+
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+        <ion-title>登录</ion-title>
+      </ion-navbar>
+
+</ion-header>
+<ion-content no-padding scroll="false" style="position:absolute;bottom:0px;"></ion-content>
+<ion-footer class="background">
+  <div class="logoHeader" text-center>
+
+</div>
+
+<div class="iputcenter">
+    <ion-item no-lines >
+      <!--<ion-label fixed>账号</ion-label>-->
+      <ion-icon name="contact" color="primary" item-left ios="ios-contact-outline" md="ios-contact-outline"></ion-icon>
+      <ion-input clearInput=true type="text" (keydown)="keydown($event)" placeholder="请输入账号" [(ngModel)]="username"></ion-input>
+    </ion-item>
+    
+    <ion-item no-lines style="margin-top:1px;">
+      <ion-icon name="lock" color="primary" item-left ios="ios-lock-outline" md="ios-lock-outline"></ion-icon>
+      <ion-input clearInput=true style="width:70%" type="password" (keydown)="keydown($event)" placeholder="请输入密码" [(ngModel)]="password"></ion-input>
+    </ion-item>
+  </div>
+
+  <div style="margin-top:30px;margin-left:20px;margin-right:20px">
+    <button ion-button block color="primary" (click)="tryLogin(username, password)">
+      登录
+    </button>
+  </div>
+  <ion-row no-margin *ngIf="hide">
+    <ion-col class="fastEntry" text-center>
+      <p class="regist" (click)="registBtnCliked()">快速注册</p>
+    </ion-col>
+    <ion-col text-center>
+      <p style="font-size:1.5rem;color:rgb(184, 184, 184)" text-center>|</p>
+    </ion-col>
+    <ion-col class="fastEntry" text-center>
+      <p class="forget" (click)="forgetpassword()">忘记密码?</p>
+    </ion-col>
+  </ion-row>
+</ion-footer>

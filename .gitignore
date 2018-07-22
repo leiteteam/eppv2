@@ -63,3 +63,18 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+
+# ionic
+.editorconfig
+.sourcemaps/
+.vscode/
+node_modules/
+www/
+*/*/.gradle/
+*/*/.idea/
+*/*/.settings/
+*/*/.platform_www/
+*/*/.release/
+*/*/*/build/
+
+

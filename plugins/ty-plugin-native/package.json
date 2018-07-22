@@ -1,0 +1,19 @@
+{
+  "name": "ty-plugin-native",
+  "version": "0.0.1",
+  "description": "",
+  "cordova": {
+    "id": "ty-plugin-native",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "",
+  "license": "ISC"
+}
