@@ -61,8 +61,8 @@ export class LoginPage extends BasePage{
 
       this.db.saveString(username, "username");
       this.db.saveString(password, "password");
-  
-       this.navCtrl.setRoot("HomePage");
+      
+      this.setRootTab(AppServiceProvider.getInstance().appType);
     }, (error) =>{
       console.log("then --> login "+error);
 
@@ -77,7 +77,7 @@ export class LoginPage extends BasePage{
         {
           "username": username,
           "pwd": password,
-          "appType":"Cy"
+          "appType":AppServiceProvider.getInstance().appType
           // "password":Md5.hashStr(password).toString().toLowerCase()
         },
         msg => {
@@ -111,6 +111,21 @@ export class LoginPage extends BasePage{
       return false;
     }
     return true;
+  }
+
+  setRootTab(appType:string){
+    if (appType ==="Cy"){
+      this.navCtrl.setRoot("CollectTabPage");
+    }
+    else if (appType ==="Zb"){
+      this.navCtrl.setRoot("BuildingPage");
+    }
+    else if (appType ==="Lz"){
+      this.navCtrl.setRoot("BuildingPage");
+    }
+    else if (appType ==="Jc"){
+      this.navCtrl.setRoot("BuildingPage");
+    }
   }
 
   forgetpassword() {

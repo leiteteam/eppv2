@@ -59,6 +59,8 @@ export class AppServiceProvider {
     userid:""
   };
 
+  public appType:string = "Cy";
+
   constructor() {
     if (AppServiceProvider.instance) {
       throw new Error("错误: 请使用AppServiceProvider.getInstance() 代替使用new.");

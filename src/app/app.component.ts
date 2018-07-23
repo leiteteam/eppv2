@@ -1,7 +1,7 @@
 import { DbServiceProvider } from './../providers/db-service/db-service';
 import { Events } from 'ionic-angular/util/events';
 import { Component, ViewChild } from '@angular/core';
-import { Platform, MenuController, Nav, Keyboard, IonicApp, ToastController } from 'ionic-angular';
+import { Platform, Nav, Keyboard, IonicApp, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DeviceIntefaceServiceProvider } from '../providers/device-inteface-service/device-inteface-service';
@@ -36,10 +36,10 @@ export class MyApp {
   hasLoggedIn:boolean = false;
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
+  rootPages:Array<string> = ["HomePage","LoginPage","RegistPage","CollectTabPage"];
 
   constructor(
     public db:DbServiceProvider,
-    public menu: MenuController,
     public platform: Platform,
     public ionicApp:IonicApp,
     public statusBar: StatusBar,
@@ -80,11 +80,10 @@ export class MyApp {
 
   platformReady(hasLoggedIn) {
     if (hasLoggedIn) {
-      //this.rootPage = "HomePage";
+      this.rootPage = "HomePage";
       //this.rootPage = "HomeTabPage";
-      this.rootPage = "LoginPage";
     } else {
-      this.rootPage = "LoginPage";
+      this.rootPage = "HomePage";
     }
   }
 
@@ -117,12 +116,6 @@ export class MyApp {
     // 从我们定义的PageInterface的结构来判断当前页面是tab框架子页面还是普通page
     if (page.index) {
       params = { tabIndex: page.index };
-    }
-
-    let act = this.nav.getActive();
-    if (act && act.id === page.name) {
-      this.menu.close();
-      return;
     }
 
     // If we are already on tabs just change the selected tab
@@ -177,16 +170,23 @@ export class MyApp {
         //loading的话，返回键无效
         return;
       }
-      if (this.menu.isOpen()){
-          console.log("menu.isOpen:");
-          this.menu.close();
-          return ;
-      }
 
       console.log("events go on ");
-      if ("HomePage" == this.nav.getActive().id){
-        return this.showExit();
+      let activeVC = this.nav.getActive();
+      let page = activeVC.instance;
+
+      if(page.tabs){        
+        let activeNav = page.tabs.getSelected();
+        if(activeNav.canGoBack()){
+          return activeNav.pop();
+        }else{
+          return this.showExit();
+        }       
       }
+
+      // if (this.rootPages.indexOf(this.nav.getActive().id) >= 0){
+      //   return this.showExit();
+      // }
       return this.nav.canGoBack() ? this.nav.pop() : this.showExit();//另外两种方法在这里将this.showExit()改为其他两种的方法的逻辑就好。
     }, 1);
   }

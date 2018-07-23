@@ -4,7 +4,7 @@ import { LoadingController } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-import { AppGlobal, AppServiceProvider } from '../app-service/app-service';
+import { AppGlobal } from '../app-service/app-service';
 
 /*
   Generated class for the WebTyNetworkServiceProvider provider.

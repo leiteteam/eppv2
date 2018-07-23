@@ -42,7 +42,6 @@
                 <category android:name="com.androidcat.eppv2" />
             </intent-filter>
         </activity>
-        <!--<activity android:name="com.amap.api.maps.offlinemap.OfflineMapActivity" android:screenOrientation="portrait"  />-->
         <service android:exported="false" android:name="cn.jpush.android.service.PushService" android:process=":mult">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />

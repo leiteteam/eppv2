@@ -1,11 +1,8 @@
 import { AppServiceProvider } from './../../providers/app-service/app-service';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import { BasePage } from '../base/base';
-import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
-import { AppGlobal } from '../../providers/app-service/app-service';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
-import { MenuToggle } from 'ionic-angular/components/menu/menu-toggle';
 
 /**
  * Generated class for the HomePage page.
@@ -22,7 +19,7 @@ import { MenuToggle } from 'ionic-angular/components/menu/menu-toggle';
 export class HomePage extends BasePage {
   newsList:any = [
     {
-			"imageUrl":"../assets/imgs/blur_bg.jpg","url":"","title":""
+			"imageUrl":"assets/imgs/blur_bg.jpg","url":"","title":""
 		}
   ];
 
@@ -30,8 +27,7 @@ export class HomePage extends BasePage {
     public device:DeviceIntefaceServiceProvider,
     public mtoast: ToastController, 
     public navCtrl: NavController, 
-    public navParams: NavParams, 
-    private net: TyNetworkServiceProvider) {
+    public navParams: NavParams) {
     super(navCtrl, navParams, mtoast);
   }
 
@@ -49,8 +45,9 @@ export class HomePage extends BasePage {
     });
   }
 
-  gotoCollectHome(){
-    this.navCtrl.push("CollectTabPage");
+  gotoLogin(appType:string){
+    AppServiceProvider.getInstance().appType = appType;
+    this.navCtrl.setRoot("LoginPage");
   }
 
   testprint(){
