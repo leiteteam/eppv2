@@ -1,0 +1,67 @@
+<!--
+  Generated template for the GroupSettingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>采样小组</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding>
+  <div class="ty-line15"></div>
+  <ion-list>
+
+    <ion-item>
+      <ion-icon name="people" item-start color="primary"></ion-icon>
+      <ion-label>小组名称</ion-label>
+      <p item-end>{{groupName}}</p>
+    </ion-item>
+
+    <div class="ty-line15"></div>
+
+    <ion-item>
+      <ion-icon name="hammer" item-start color="primary"></ion-icon>
+      <ion-label>采样工具</ion-label>
+      <!-- <ion-icon item-end name="arrow-down" style="color:rgb(201, 201, 201)"></ion-icon>> -->
+    </ion-item>
+
+    <ion-item detail-push>
+      <ion-icon name="pricetag" item-start style="color:rgba(255, 255, 255, 0)"></ion-icon>
+      <ion-label style="font-size: 1.5rem;">有机样品采样工具</ion-label>
+      <ion-multi-picker item-end style="color:darkgray" [(ngModel)]="organicSplTool" [multiPickerColumns]="organicSplTools" doneText="确定"
+        cancelText="取消"></ion-multi-picker>
+    </ion-item>
+    <ion-item detail-push>
+      <ion-icon name="pricetag" item-start style="color:rgba(255, 255, 255, 0)"></ion-icon>
+      <ion-label style="font-size: 1.5rem;">有机样品采样容器</ion-label>
+      <ion-multi-picker item-end style="color:darkgray" [(ngModel)]="organicSplContainer" [multiPickerColumns]="organicSplContainers"
+        doneText="确定" cancelText="取消"></ion-multi-picker>
+    </ion-item>
+    <ion-item detail-push>
+      <ion-icon name="pricetag" item-start style="color:rgba(255, 255, 255, 0)"></ion-icon>
+      <ion-label style="font-size: 1.5rem;">无机样品采样工具</ion-label>
+      <ion-multi-picker item-end style="color:darkgray" [(ngModel)]="abioSplTool" [multiPickerColumns]="abioSplTools" doneText="确定"
+        cancelText="取消"></ion-multi-picker>
+    </ion-item>
+    <ion-item detail-push>
+      <ion-icon name="pricetag" item-start style="color:rgba(255, 255, 255, 0)"></ion-icon>
+      <ion-label style="font-size: 1.5rem;">无机样品采样工具</ion-label>
+      <ion-multi-picker item-end style="color:darkgray" [(ngModel)]="organicSplContainer" [multiPickerColumns]="abioSplContainers"
+        doneText="确定" cancelText="取消"></ion-multi-picker>
+    </ion-item>
+
+    <div class="ty-line15"></div>
+
+    <ion-item detail-push>
+      <ion-icon name="trash" ios="md-trash" md="md-trash" item-start color="primary"></ion-icon>
+      <ion-label>数据清理</ion-label>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

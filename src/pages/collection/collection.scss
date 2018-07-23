@@ -40,14 +40,19 @@ page-collection {
         margin-left: 5px;
         margin-right:5px;
         white-space: normal;
+        font-size: 1.6rem;
     }
     .date{
         text-align: bottom;
-        margin-top: 15px !important;
         margin-left: 5px;
     }
     .empty{
         text-align: center;
         color: rgb(222, 222, 222)
+    }
+
+    .item-ios .item-button{
+        width: 65px;
+        height: 26px;
     }
 }

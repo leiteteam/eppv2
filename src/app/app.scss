@@ -66,6 +66,10 @@
     background: color($colors,ty-partingline) !important;
 }
 
+.header-ios .toolbar-ios:last-child .toolbar-background-ios{
+    border-width:0px !important;
+}
+
 ion-navbar {
     .toolbar-background-ios{
         background:color($colors,primary);

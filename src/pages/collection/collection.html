@@ -46,9 +46,9 @@
           <ion-item *ngFor="let spleTask of spleList[spleCategory]" (click)="goToSpleDetail(spleTask)">
             <P style="color: darkkhaki">详查单元编码:{{spleTask.spleNo}}</P>
             <h5 class="title">{{spleTask.addr}}</h5>
-            <h3 class="date">{{spleTask.title}}</h3>
-            <h3 class="date">{{spleTask.desc}}</h3>
-            <ion-item no-margin no-lines>
+            <p class="date">{{spleTask.title}}</p>
+            <p class="date">{{spleTask.desc}}</p>
+            <ion-item no-margin no-lines class="buttonItem">
               <button ion-button icon-start item-end>
                 <ion-icon name="create"></ion-icon>采样</button>
               <button ion-button icon-start item-end>

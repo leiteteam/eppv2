@@ -225,6 +225,9 @@ public class TyPluginManager {
         String data = jsonObject.optString("commandData");
         PluginCoreWorker.print(data,callbackContext);
       }
+      else if ("offlineMap".equals(code)){
+        PluginCoreWorker.openOfflineMap(plugin,callbackContext);
+      }
     } catch (JSONException e) {
       e.printStackTrace();
       callbackContext.error("解析缓存信息出错");

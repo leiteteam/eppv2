@@ -28,4 +28,8 @@ public class PluginCoreWorker {
     DzPrinterHelper printerHelper = new DzPrinterHelper();
     printerHelper.init(plugin.cordova.getActivity(),callbackContext);
   }
+
+  public static void openOfflineMap(final CordovaPlugin plugin, final CallbackContext callbackContext){
+
+  }
 }

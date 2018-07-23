@@ -16,10 +16,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class CollectTabPage {
 
   mapRoot = 'TaskMapPage'
-  deliveryRoot = 'BuildingPage'
   collectRoot = 'CollectionPage'
-  docRoot = 'BuildingPage'
-  moreRoot = 'BuildingPage'
+  syncRoot = 'BuildingPage'
+  moreRoot = 'MorePage'
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
