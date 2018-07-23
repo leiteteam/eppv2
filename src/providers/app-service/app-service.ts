@@ -19,12 +19,12 @@ export class AppGlobal {
     }
 
 
-    static domain = "http://120.25.249.105:8083"; //测试环境
+    static domain = "http://139.196.177.173:8093"; //测试环境
     // static domain = "http://10.8.3.51:9090"; //
 
     static API = {
         test:"",
-        login:'/api/v1/account/login',//登录
+        login:'/api/Account/Login',//登录
         smsCode:'/api/v1/account/smsCode',//短信验证码
         register: '/api/v1/account/register', //注册
         resetPassword: '/api/v1/account/resetPwd', //忘记密码
@@ -52,11 +52,13 @@ export class AppGlobal {
 @Injectable()
 export class AppServiceProvider {
   private static instance:AppServiceProvider = new AppServiceProvider();
+  //当前用户信息
   public userinfo:any = {
-    loginData:{userName:"",token:""},
-    userData:{}
-  };//当前用户信息
-  public merMenuList:any=[];
+    username:"",
+    token:"",
+    userid:""
+  };
+
   constructor() {
     if (AppServiceProvider.instance) {
       throw new Error("错误: 请使用AppServiceProvider.getInstance() 代替使用new.");

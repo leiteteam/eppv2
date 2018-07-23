@@ -56,8 +56,4 @@ export class SettingPage {
     alert.present();
   }
 
-  gotoSettings(){
-    this.navCtrl.push("SettingPage");
-  }
-
 }

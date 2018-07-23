@@ -7,6 +7,7 @@ import android.util.Base64;
 
 import com.androidcat.acnet.okhttp.MyOkHttp;
 import com.androidcat.acnet.okhttp.callback.RawResponseHandler;
+import com.androidcat.eppv2.bean.BaseResponse;
 import com.androidcat.utilities.GsonUtil;
 import com.androidcat.eppv2.MainActivity;
 import com.androidcat.eppv2.persistence.JepayDatabase;
@@ -14,6 +15,7 @@ import com.androidcat.eppv2.persistence.bean.KeyValue;
 import com.androidcat.eppv2.ui.MyWebBrowserActivity;
 import com.androidcat.eppv2.utils.Utils;
 import com.androidcat.eppv2.utils.log.LogUtil;
+import com.google.gson.Gson;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -65,15 +67,20 @@ public class TyPluginManager {
       MyOkHttp.getInstance().post().url(url).jsonParams(params).tag(context).enqueue(new RawResponseHandler() {
         @Override
         public void onSuccess(int statusCode, String response) {
-          if (!GsonUtil.isJson(response)){
-            callbackContext.error("解析信息出错");
-            return;
-          }
           if (com.androidcat.utilities.Utils.isNull(response)){
             callbackContext.error("服务端返回信息为空");
             return;
           }
-          callbackContext.success(response);
+          if (!GsonUtil.isJson(response)){
+            callbackContext.error("解析信息出错");
+            return;
+          }
+          BaseResponse baseResponse = new Gson().fromJson(response,BaseResponse.class);
+          if (baseResponse.ret == 200){
+            callbackContext.success(response);
+          }else {
+            callbackContext.error(baseResponse.desc);
+          }
         }
 
         @Override

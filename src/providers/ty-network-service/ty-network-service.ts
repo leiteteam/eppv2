@@ -70,7 +70,7 @@ export class TyNetworkServiceProvider {
     let mParams = {
     };
     if(AppServiceProvider.getInstance().userinfo!=null){
-      params.userName = AppServiceProvider.getInstance().userinfo.userName;
+      params.userid = AppServiceProvider.getInstance().userinfo.userid;
       params.token = AppServiceProvider.getInstance().userinfo.token;
       mParams = {
         "postData":JSON.stringify(params),

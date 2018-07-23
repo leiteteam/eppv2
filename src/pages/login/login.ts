@@ -52,7 +52,6 @@ export class LoginPage extends BasePage{
   }
 
   tryLogin(username, password) {
-    this.navCtrl.push("HomePage");
     if (!this.isInfoLegal(username, password)){
       return;
     }
@@ -62,27 +61,12 @@ export class LoginPage extends BasePage{
 
       this.db.saveString(username, "username");
       this.db.saveString(password, "password");
-      this.events.publish('user:login');
-      //获取用户信息
-      return this.sendUserInfoRequest();
+  
+       this.navCtrl.setRoot("HomePage");
     }, (error) =>{
       console.log("then --> login "+error);
 
       this.toast(error);
-    })
-    .then( getUserInfoSuccess => {
-      console.log("then -->"+getUserInfoSuccess);
-      if (getUserInfoSuccess){
-        this.events.publish('userinfo:saved');
-        //this.navCtrl.setRoot("HomePage");
-        this.navCtrl.setRoot("CirclesPage");
-      }      
-    },getUserInfoFail => {
-      console.log("then -->"+getUserInfoFail);
-      if (getUserInfoFail){
-        // this.navCtrl.setRoot("HomePage");
-        this.navCtrl.setRoot("CirclesPage");
-      }
     });
   }
 
@@ -91,47 +75,22 @@ export class LoginPage extends BasePage{
       this.net.httpPost(
         AppGlobal.API.login,
         {
-          "userName": username,
-          "password": password
+          "username": username,
+          "pwd": password,
+          "appType":"Cy"
           // "password":Md5.hashStr(password).toString().toLowerCase()
         },
         msg => {
           let obj = JSON.parse(msg);
-          if (obj.ret == AppGlobal.RETURNCODE.succeed) {
-            AppServiceProvider.getInstance().userinfo.loginData = obj.data;
-            resolve();
-          } else {
-            reject(obj.desc)
-          }
+          AppServiceProvider.getInstance().userinfo.username = obj.username;
+          AppServiceProvider.getInstance().userinfo.userid = obj.userid;
+          AppServiceProvider.getInstance().userinfo.token = obj.token;
+          resolve();
         },
         error => {
           reject(error);
         },
         true);
-    });
-  }
-
-  sendUserInfoRequest() {
-    return new Promise((resolve,reject)=>{
-      let params = {
-        "userName": AppServiceProvider.getInstance().userinfo.loginData.userName,
-        "token": AppServiceProvider.getInstance().userinfo.loginData.token
-      };
-      this.net.httpPost(AppGlobal.API.getUserInfo, params, msg => {
-        console.log(msg);
-        let obj = JSON.parse(msg);
-        if (obj.ret == AppGlobal.RETURNCODE.succeed) {
-          this.info.userName = AppServiceProvider.getInstance().userinfo.loginData.userName;
-          this.info.token = AppServiceProvider.getInstance().userinfo.loginData.token;
-          this.info.avatar = obj.data.avatar;
-          AppServiceProvider.getInstance().userinfo.userData = this.info;
-          resolve('getUserInfoSuccess');
-        }else {
-          reject('getUserInfoFail');
-        }
-      }, error => {
-        reject('getUserInfoFail');
-      }, true);
     });
   }
 
@@ -144,10 +103,10 @@ export class LoginPage extends BasePage{
   }
 
   isInfoLegal(username, password) {
-    if (username == 0) {
+    if (username.length == 0) {
       this.toast("请输入用户名");
       return false;
-    } else if (password == 0) {
+    } else if (password.length == 0) {
       this.toast("请输入密码");
       return false;
     }
