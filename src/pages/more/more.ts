@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { BasePage } from '../base/base';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 
@@ -17,8 +17,8 @@ import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-s
 })
 export class MorePage extends BasePage{
 
-  constructor(public device:DeviceIntefaceServiceProvider,public navCtrl: NavController, public navParams: NavParams) {
-    super(navCtrl,navParams);
+  constructor(public device:DeviceIntefaceServiceProvider,public navCtrl: NavController, public navParams: NavParams,public toastCtrl: ToastController) {
+    super(navCtrl,navParams,toastCtrl);
   }
 
   ionViewDidLoad() {
@@ -40,5 +40,15 @@ export class MorePage extends BasePage{
 
   gotoSettings(){
     this.navCtrl.push("SettingPage");
+  }
+
+  gotoDelivery(){
+    this.navCtrl.push("SpleInfoPage");
+    // this.device.push("qrCodeScan",'',(spleNo)=>{
+    //   console.log("spleNo:"+spleNo);
+    //   this.navCtrl.push("SpleInfoPage");
+    // },(err)=>{
+    //   this.toastShort(err);
+    // });
   }
 }

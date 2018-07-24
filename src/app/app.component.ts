@@ -36,7 +36,7 @@ export class MyApp {
   hasLoggedIn:boolean = false;
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
-  rootPages:Array<string> = ["HomePage","LoginPage","RegistPage","CollectTabPage"];
+  rootPages:Array<string> = ["HomePage","LoginPage","RegistPage","CollectionTabPage"];
 
   constructor(
     public db:DbServiceProvider,
@@ -152,6 +152,7 @@ export class MyApp {
         this.keyboard.close();
         return;
       };
+
       //如果想点击返回按钮隐藏toast或loading或Overlay就把下面加上
       // this.ionicApp._toastPortal.gaetActive() || this.ionicApp._loadingPortal.getActive() || this.ionicApp._overlayPortal.getActive()
       //不写this.ionicApp._toastPortal.getActive()是因为连按2次退出
@@ -171,7 +172,6 @@ export class MyApp {
         return;
       }
 
-      console.log("events go on ");
       let activeVC = this.nav.getActive();
       let page = activeVC.instance;
 
@@ -182,12 +182,12 @@ export class MyApp {
         }else{
           return this.showExit();
         }       
-      }
+      } 
 
-      // if (this.rootPages.indexOf(this.nav.getActive().id) >= 0){
-      //   return this.showExit();
-      // }
-      return this.nav.canGoBack() ? this.nav.pop() : this.showExit();//另外两种方法在这里将this.showExit()改为其他两种的方法的逻辑就好。
+      console.log("events go on ");
+      if (this.rootPages.indexOf(this.nav.getActive().id) >= 0){
+        return this.showExit();
+      }
     }, 1);
   }
 

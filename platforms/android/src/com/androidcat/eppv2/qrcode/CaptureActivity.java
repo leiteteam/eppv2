@@ -14,15 +14,15 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.Window;
 
+import com.androidcat.eppv2.R;
+import com.androidcat.eppv2.ui.BaseActivity;
+import com.androidcat.eppv2.utils.log.LogUtil;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.core.CameraManager;
 import com.google.zxing.core.CaptureActivityHandler;
 import com.google.zxing.core.InactivityTimer;
 import com.google.zxing.core.ViewfinderView;
-import com.androidcat.eppv2.ui.BaseActivity;
-import com.androidcat.eppv2.utils.ResourceUtil;
-import com.androidcat.eppv2.utils.log.LogUtil;
 
 import java.io.IOException;
 import java.util.Vector;
@@ -52,10 +52,10 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		BaseActivity.needOpenTimmer = true;
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
-		setContentView(ResourceUtil.getLayoutId("R.layout.activity_capture"));
+		setContentView(R.layout.activity_capture);
 		CameraManager.init(getApplication());
 
-		viewfinderView = (ViewfinderView) findViewById(ResourceUtil.getId("R.id.viewfinder_view"));
+		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
 	}
@@ -63,7 +63,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		SurfaceView surfaceView = (SurfaceView) findViewById(ResourceUtil.getId("R.id.preview_view"));
+		SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
 		SurfaceHolder surfaceHolder = surfaceView.getHolder();
 		if (hasSurface) {
 			initCamera(surfaceHolder);
@@ -151,12 +151,12 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		inactivityTimer.onActivity();
 		viewfinderView.drawResultBitmap(barcode);
 		playBeepSoundAndVibrate();
-		Intent data = new Intent(this,QrCodeDisplayActivity.class);
+		Intent data = new Intent();
 		LogUtil.e("扫描二维码结果", obj.getText());
 		data.putExtra("result", obj.getText());
-		//setResult(RESULT_OK, data);
-		startActivity(data);
-		//finish();
+		setResult(RESULT_OK, data);
+		//startActivity(data);
+		finish();
 	}
 
 	private void initBeepSound() {
@@ -166,7 +166,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
 			mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 			mediaPlayer.setOnCompletionListener(beepListener);
 
-			AssetFileDescriptor file = getResources().openRawResourceFd(ResourceUtil.getRawId("R.raw.beep"));
+			AssetFileDescriptor file = getResources().openRawResourceFd(R.raw.beep);
 			try {
 				mediaPlayer.setDataSource(file.getFileDescriptor(),
 						file.getStartOffset(), file.getLength());

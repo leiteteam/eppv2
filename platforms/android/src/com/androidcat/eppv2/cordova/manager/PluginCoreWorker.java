@@ -1,9 +1,12 @@
 package com.androidcat.eppv2.cordova.manager;
 
 import com.androidcat.eppv2.cordova.plugin.print.DzPrinterHelper;
+import com.androidcat.eppv2.cordova.plugin.qrcode.QrCodeHelper;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.PluginResult;
+import org.json.JSONObject;
 
 /**
  * Created by androidcat on 2018/7/22.
@@ -31,5 +34,16 @@ public class PluginCoreWorker {
 
   public static void openOfflineMap(final CordovaPlugin plugin, final CallbackContext callbackContext){
 
+  }
+
+  /**
+   * 用于处理二维码生成或识别的接口.
+   *
+   * @param plugin          连接此接口的插件
+   * @param callbackContext 回调函数句柄；向js返回数据靠此
+   */
+  public static void qrcode(CordovaPlugin plugin, final CallbackContext callbackContext) {
+    QrCodeHelper qrCodeHelper = QrCodeHelper.getQrCodeHelper(plugin, callbackContext);
+    qrCodeHelper.gotoQrCapture();
   }
 }

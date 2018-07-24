@@ -18,12 +18,14 @@ export class TaskMapPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  //public map: any;
+  map: any;
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TaskMapPage');
     this.loadMap();
   }
+
+
 
   loadMap() {
     // this.map = new AMap.Map('mapView', {
@@ -32,16 +34,27 @@ export class TaskMapPage {
     //   center: [114.39, 35.5]
     // });
 
-    var map = new AMap.Map('mapView',{
-      zoom:12,
-      center:[116.39,39.9]
-  });
-    AMap.plugin(['AMap.ToolBar','AMap.Geolocation'],function(){//异步加载插件
+    this.map = new AMap.Map('mapView', {
+      zoom: 12,
+      center: [116.39, 39.9]
+    });
+    AMap.plugin(['AMap.ToolBar', 'AMap.Geolocation'], function () {//异步加载插件
       var toolbar = new AMap.ToolBar();
-      map.addControl(toolbar);
-      var locate = new AMap.Geolocation();
-      map.addControl(locate);
-  });
+      this.map.addControl(toolbar);
+      // var locate = new AMap.Geolocation();
+      // map.addControl(locate);
+    });
 
+  }
+
+  // 实例化点标记
+  addMarker(lnglatXY) {
+    //console.log(lnglatXY);
+    let marker = new AMap.Marker({
+      icon: "http://webapi.amap.com/theme/v1.3/markers/b/loc.png",
+      position: lnglatXY
+    });
+    marker.setMap(this.map);
+    this.map.setFitView();// 执行定位
   }
 }

@@ -1,0 +1,104 @@
+<!--
+  Generated template for the SpleInfoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>样品信息</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content no-padding>
+  <ion-item  no-lines style="min-height:3.5rem;background-color:rgb(236, 234, 234)">
+    <p item-start>{{title}}</p>
+</ion-item>
+<ion-list no-margin no-padding>
+  <ion-item no-lines>
+    <ion-label>样品名称</ion-label>
+    <ion-note item-end style="width: 65%">{{info.name}}</ion-note>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>主样编号</ion-label>
+    <ion-note item-end style="width: 65%">{{info.spleNo}}</ion-note>
+  </ion-item>
+  <ion-item *ngIf="isSub">
+    <ion-label>子样编号</ion-label>
+    <ion-note item-end style="width: 65%">{{info.subSpleNo}}</ion-note>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>样品质量</ion-label>
+    <ion-note item-end style="width: 65%">{{info.weight}}</ion-note>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>样品用途</ion-label>
+    <ion-note item-end style="width: 65%">{{info.use}}</ion-note>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>送达单位</ion-label>
+    <ion-note item-end style="width: 65%">{{info.storage}}</ion-note>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>单位地址</ion-label>
+    <ion-note item-end style="width: 65%">{{info.addr}}</ion-note>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>联系方式</ion-label>
+    <ion-note item-end style="width: 65%">{{info.contact}}</ion-note>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>送达期限</ion-label>
+    <ion-note item-end style="width: 65%">{{info.limit}}</ion-note>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>保存方式</ion-label>
+    <ion-note item-end style="width: 65%">{{info.keep}}</ion-note>
+  </ion-item>
+</ion-list>
+
+<ion-item  no-lines style="min-height:3.5rem;background-color:rgb(236, 234, 234)">
+  <p item-start>采样小组自查</p>
+</ion-item>
+
+<ion-item>
+  <p item-start style="width: 80%">{{conditions.a1}}</p>
+  <ion-checkbox item-end checked="true"></ion-checkbox>
+</ion-item>
+<ion-item>
+  <p item-start style="width: 80%">{{conditions.a2}}</p>
+  <ion-checkbox item-end checked="true"></ion-checkbox>
+</ion-item>
+<ion-item>
+  <p item-start style="width: 80%">{{conditions.a3}}</p>
+  <ion-checkbox item-end checked="false"></ion-checkbox>
+</ion-item>
+<ion-item>
+  <p item-start style="width: 80%">{{conditions.a4}}</p>
+  <ion-checkbox item-end checked="true"></ion-checkbox>
+</ion-item>
+<ion-item>
+  <p item-start style="width: 80%">{{conditions.a5}}</p>
+  <ion-checkbox item-end checked="false"></ion-checkbox>
+</ion-item>
+
+<div class="ty-line15"></div>
+<div text-center style="width:100%;overflow:auto;">
+  <div class="cancel" float-left col-6 (click)="resetClick()">
+    <p>退出</p>
+  </div>
+  <div class="comfirm" float-left col-6 (click)="comfirm()">
+    <p style="color:white;">确定</p>
+  </div>  
+</div>
+</ion-content>

@@ -1,3 +1,51 @@
 page-task-map {
+    .amap-logo {
+        display: none !important;
+    }
 
+    .amap-copyright {
+        opacity: 0;
+    }
+
+    .item-ios{
+        background-color: transparent !important;
+    }
+
+    .label-ios {
+        margin: 0px 8px 0px 0;
+    }
+    
+    .row .col-33 {
+        margin-left: 0;
+        text-align: center;
+    }
+    .btn-group input[type="checkbox"], .btn-group input[type="radio"] {
+        display: none;
+    }
+    
+    .btn-group input[type="checkbox"] + label, .btn-group input[type="radio"] + label, .btn-group input[type="text"], .btn-group input[type="number"] {
+        display: block;
+        border: 1px solid #ccc;
+        //margin: 0 0 .5rem 0; 
+        border-radius: .2rem;
+        padding: .5rem .2rem;
+        text-align: center;
+        transition: all .5s;
+        font-size: 1.5rem;
+        background: #eee;
+        box-shadow: none;
+    }
+    .btn-group input[type="checkbox"]:checked + label, .btn-group input[type="radio"]:checked + label {
+        display: block;
+        //margin: 0 0 .5rem 0; 
+        border-radius: .2rem;
+        padding: .5rem .2rem;
+        text-align: center;
+        transition: all .5s;
+        font-size: 1.5rem;
+        box-shadow: none;
+        border: 1px solid #429170;
+        color: #eee;
+        background: #429170;
+    }
 }

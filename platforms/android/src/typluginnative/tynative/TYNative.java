@@ -1,9 +1,12 @@
 package typluginnative;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.androidcat.eppv2.cordova.manager.TyPluginManager;
 import com.androidcat.eppv2.cordova.plugin.ITyPlugin;
+import com.androidcat.eppv2.cordova.plugin.TyPluginRequestCode;
+import com.androidcat.eppv2.cordova.plugin.qrcode.QrCodeHelper;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -104,4 +107,14 @@ public class TYNative extends CordovaPlugin implements ITyPlugin {
       }
     });
   }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    if (requestCode == TyPluginRequestCode.REQUEST_QRCODE_SCAN){
+      if (QrCodeHelper.getQrCodeHelper() != null){
+        QrCodeHelper.getQrCodeHelper().onActivityResult(requestCode,resultCode,intent);
+      }
+    }
+  }
+
 }

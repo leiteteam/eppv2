@@ -235,6 +235,9 @@ public class TyPluginManager {
       else if ("offlineMap".equals(code)){
         PluginCoreWorker.openOfflineMap(plugin,callbackContext);
       }
+      else if("qrCodeScan".equals(code)){
+        PluginCoreWorker.qrcode(plugin,callbackContext);
+      }
     } catch (JSONException e) {
       e.printStackTrace();
       callbackContext.error("解析缓存信息出错");

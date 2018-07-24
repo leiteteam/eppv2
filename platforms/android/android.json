@@ -115,49 +115,49 @@
   },
   "installed_plugins": {
     "cordova-plugin-add-swift-support": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "cordova-plugin-camera": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "cordova-plugin-cocoapod-support": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "cordova-plugin-device": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "cordova-plugin-file": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "cordova-plugin-ionic-webview": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "cordova-plugin-photo-library": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "ionic-plugin-keyboard": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "ty-plugin-native": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "com-sarriaroman-photoviewer": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "com.telerik.plugins.nativepagetransitions": {
-      "PACKAGE_NAME": "com.whty.jepay"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     },
     "cordova-plugin-broadcaster": {
-      "PACKAGE_NAME": "com.androidcat.ybb"
+      "PACKAGE_NAME": "com.androidcat.eppv2"
     }
   },
   "dependent_plugins": {},
