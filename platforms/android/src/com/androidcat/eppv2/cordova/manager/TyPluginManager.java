@@ -238,6 +238,13 @@ public class TyPluginManager {
       else if("qrCodeScan".equals(code)){
         PluginCoreWorker.qrcode(plugin,callbackContext);
       }
+      else if("undoneTask".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.undoneTaskList(plugin,commandData,callbackContext);
+      }
+      else if("countTask".equals(code)){
+        PluginCoreWorker.qrcode(plugin,callbackContext);
+      }
     } catch (JSONException e) {
       e.printStackTrace();
       callbackContext.error("解析缓存信息出错");

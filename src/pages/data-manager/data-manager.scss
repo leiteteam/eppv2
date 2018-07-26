@@ -1,0 +1,27 @@
+page-data-manager {
+    .item-ios{
+        height: 65px;
+    }
+
+    .list-ios > .item-block:first-child{
+        border-top:0px !important;
+    }
+
+    .content{
+        background-color: color($colors,ty-partingline);
+    }
+
+    .btnDiv{
+        margin:auto;
+        width:  100%;
+        text-align: center;
+    }
+
+    .button-ios{
+        margin:0.4rem 2rem 0.4rem 2rem !important;
+    }
+
+    [icon-left] ion-icon, [icon-start] ion-icon{
+        margin-left: 10px !important;
+    }
+}

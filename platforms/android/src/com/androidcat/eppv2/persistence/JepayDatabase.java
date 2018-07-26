@@ -2,11 +2,16 @@ package com.androidcat.eppv2.persistence;
 
 import android.content.Context;
 
+import com.androidcat.eppv2.persistence.bean.TaskData;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.DbUtils.DaoConfig;
+import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
 import com.androidcat.eppv2.persistence.bean.KeyValue;
 import com.androidcat.eppv2.utils.log.LogUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -101,4 +106,105 @@ public class JepayDatabase {
 		}
 	}
 
+	public List<String> getUndoneTaskList(String userid){
+    if (mDbUtils == null){
+      return new ArrayList<String>();
+    }
+    try {
+      List<TaskData> taskList = mDbUtils.findAll(Selector.from(TaskData.class).where("userid","=",userid).and("state","=","0"));
+      List<String> dataList = new ArrayList<String>();
+      for (TaskData data : taskList){
+        dataList.add(data.taskData);
+      }
+      return dataList;
+    } catch (DbException e) {
+      e.printStackTrace();
+      return new ArrayList<String>();
+    }
+  }
+
+  public List<String> getDoneTaskList(String userid){
+    if (mDbUtils == null){
+      return new ArrayList<String>();
+    }
+    try {
+      List<TaskData> taskList = mDbUtils.findAll(Selector.from(TaskData.class).where("userid","=",userid).and("state","=","1"));
+      List<String> dataList = new ArrayList<String>();
+      for (TaskData data : taskList){
+        dataList.add(data.taskData);
+      }
+      return dataList;
+    } catch (DbException e) {
+      e.printStackTrace();
+      return new ArrayList<String>();
+    }
+  }
+
+  public boolean updateTaskData(TaskData taskData){
+    if (mDbUtils == null){
+      return false;
+    }
+    try {
+      mDbUtils.replace(taskData);
+      return true;
+    } catch (DbException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
+  public boolean updateTaskDataList(List<TaskData> list){
+    if (mDbUtils == null){
+      return false;
+    }
+    try {
+      for (TaskData taskData :list){
+        TaskData localData = getTaskData(taskData.taskid);
+        if (localData != null && localData.state == 1){
+          continue;
+        }
+        mDbUtils.replace(taskData);
+      }
+      return true;
+    } catch (DbException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
+  public TaskData getTaskData(String taskid){
+    if (mDbUtils == null){
+      return null;
+    }
+    try {
+      return mDbUtils.findById(TaskData.class,taskid);
+    } catch (DbException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public long getUndoneTaskCount(String userid){
+    if (mDbUtils == null){
+      return 0;
+    }
+    try {
+      return mDbUtils.count(Selector.from(TaskData.class).where("userid","=",userid).and("state","=","0"));
+    } catch (DbException e) {
+      e.printStackTrace();
+      return 0;
+    }
+  }
+
+  public long getDoneTaskCount(String userid){
+    if (mDbUtils == null){
+      return 0;
+    }
+    try {
+      return mDbUtils.count(Selector.from(TaskData.class).where("userid","=",userid).and("state","=","1"));
+    } catch (DbException e) {
+      e.printStackTrace();
+      return 0;
+    }
+  }
 }

@@ -15,46 +15,49 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class TaskMapPage {
 
+  markers = [{lat:"30.5678",lng:"114.3456"},
+  {lat:"30.778",lng:"114.6352"},
+  {lat:"30.2342",lng:"114.2342"},
+  {lat:"30.6456",lng:"114.56756"},
+  {lat:"30.2342",lng:"114.2524"},
+  {lat:"30.235",lng:"114.4767"},
+  {lat:"30.345345",lng:"114.45746"}];
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  map: any;
+  //public map: any;
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TaskMapPage');
     this.loadMap();
+    
   }
 
-
-
   loadMap() {
-    // this.map = new AMap.Map('mapView', {
-    //   resizeEnable: true,
-    //   zoom: 8,
-    //   center: [114.39, 35.5]
-    // });
-
-    this.map = new AMap.Map('mapView', {
+    let map = new AMap.Map('mapView', {
       zoom: 12,
       center: [116.39, 39.9]
     });
-    AMap.plugin(['AMap.ToolBar', 'AMap.Geolocation'], function () {//异步加载插件
+    AMap.plugin('AMap.ToolBar',function(){
       var toolbar = new AMap.ToolBar();
-      this.map.addControl(toolbar);
-      // var locate = new AMap.Geolocation();
-      // map.addControl(locate);
-    });
+      map.addControl(toolbar);
+   })
 
+    this.markers.forEach(element => {
+      this.addMarker(map,new AMap.LngLat(element.lng,element.lat));
+    });
+    map.setFitView();// 执行定位
   }
 
   // 实例化点标记
-  addMarker(lnglatXY) {
+  addMarker(map,lnglatXY) {
     //console.log(lnglatXY);
     let marker = new AMap.Marker({
-      icon: "http://webapi.amap.com/theme/v1.3/markers/b/loc.png",
+      icon: "assets/imgs/marker.png",
       position: lnglatXY
     });
-    marker.setMap(this.map);
-    this.map.setFitView();// 执行定位
+    marker.setMap(map);
+    //this.map.setFitView();// 执行定位
   }
 }
