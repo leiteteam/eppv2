@@ -30,7 +30,7 @@ export class AppGlobal {
         resetPassword: '/api/v1/account/resetPwd', //忘记密码
         modifyPassword: '/api/v1/account/modifyPwd', //修改密码
         editUserInfo: '/api/v1/account/editUserInfo', //编辑用户信息
-        getUserInfo: '/api/v1/account/getUserInfo', //获取用户信息
+        taskSummary: '/api/v1/account/taskSummary', //获取用户信息
         taskList: '/api/TaskList/PostTaskList', //获取任务列表列表
         recordList: '/api/v1/recordList', //获取已上传记录列表
         sampleDetails:"/api/v1/sampleDetails",
@@ -58,8 +58,22 @@ export class AppServiceProvider {
     token:"",
     userid:""
   };
+  //带下载任务列表
+  public undownTaskList:any[] = [];
+
+  //已下载任务列表
+  public downloadedTaskList:any[] = [];
+
+  //已上传任务列表
+  public uploadedTaskList:any[] = [];
+
+  //已撤回任务列表
+  public returnedTaskList:any[] = [];
 
   public appType:string = "Cy";
+
+  public spleTeam:string = "";
+  public teamMember:string = "";
 
   constructor() {
     if (AppServiceProvider.instance) {

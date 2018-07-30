@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
 import { BasePage } from '../base/base';
+import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
+import { AppServiceProvider } from '../../providers/app-service/app-service';
 
 /**
  * Generated class for the CollectionPage page.
@@ -18,11 +20,10 @@ export class CollectionPage extends BasePage{
   spleCategory: any = "todo";
   spleType = "main";
   tabList = [{name:"todo",count:4},{name:"done",count:0},{name:"uploaded",count:0},{name:"togo",count:0}];
-  spleList: { [category: string]: Array<any> } = {
-    "todo":[{spleNo:"07219388",addr:"武汉市江夏区梁子湖",title:"表层土壤有机物监控点",desc:"甚或影响区，表层"},
-              {spleNo:"07219389",addr:"武汉市江夏区梁子湖",title:"表层土壤有机物监控点",desc:"甚或影响区，表层"}
-            ],
-  };
+  todoList:any[] = [];
+  doneList:any[] = [];
+  uploadedList:any[] = [];
+  togoList:any[] = [];
 
   mainSpleTogoList = [
     {
@@ -140,25 +141,84 @@ export class CollectionPage extends BasePage{
     }
   ];
 
-  recordsTotalList: { [category: string]: number } = {};
-  constructor(public navCtrl: NavController, public navParams: NavParams,public toastCtrl:ToastController,public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,
+    public toastCtrl:ToastController,
+    public modalCtrl: ModalController,
+    public device:DeviceIntefaceServiceProvider) {
     super(navCtrl,navParams,toastCtrl);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CollectionPage');
+    this.getTodoList();
   }
 
   segmentClick(index:number) {
     //alert(this.dictCode[item]);
     this.spleCategory = this.tabList[index].name;
-    if (this.spleList[this.spleCategory] == null || this.spleList[this.spleCategory].length == 0) {
-      //this.findLoaFindDetailsByPage(null);
+    if (index == 0){
+      if (this.todoList.length == 0){
+        this.getTodoList();
+      }
     }
+
+    if (index == 1){
+      if (this.doneList.length == 0){
+        this.getDoneList();
+      }
+    }
+  }
+
+  getTodoList(){
+    this.device.push(
+      "getTodoList",
+      AppServiceProvider.getInstance().userinfo.username,
+      (taskList)=>{
+        //console.log(JSON.stringify(taskList));
+        taskList.forEach(element => {
+          let task = JSON.parse(element);
+          task.data = JSON.parse(task.data);
+          if (task.samples){
+            task.samples = JSON.parse(task.samples);
+          }
+          this.todoList.push(task);
+        });
+      },
+      (err)=>{
+        this.toast(err);
+      }
+      ,true
+    );
+  }
+
+  getDoneList(){
+    this.device.push(
+      "getDoneList",
+      AppServiceProvider.getInstance().userinfo.username,
+      (taskList)=>{
+        taskList.forEach(element => {
+          let task = JSON.parse(element);
+          task.data = JSON.parse(task.data);
+          if (task.samples){
+            task.samples = JSON.parse(task.samples);
+          }
+          this.doneList.push(task);
+        });
+      },
+      (err)=>{
+        this.toast(err);
+      }
+      ,true
+    );
   }
 
   spleDetail(sple){
     const profileModal = this.modalCtrl.create("SpleStationInfoPage", { sple: sple }, { showBackdrop: false }, );
     profileModal.present();
+  }
+
+  navigation(task){
+    this.device.push( "navigation", {lat:task.data.Point.Latitude,lng:task.data.Point.Longitude} );
   }
 }

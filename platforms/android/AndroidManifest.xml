@@ -23,10 +23,11 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.hardware.camera.autofocus" />
     <application android:hardwareAccelerated="true" android:icon="@mipmap/icon" android:label="@string/app_name" android:name="com.androidcat.eppv2.application.YbbApplication" android:supportsRtl="true">
-      //高德地图
-                                      <meta-data android:name="com.amap.api.v2.apikey" android:value="f93c4639c7efa00395c2bac42985a2c6" />
+        //高德地图
+                                                                                                                                                                                                                                                                                                                                                                                                        <meta-data android:name="com.amap.api.v2.apikey" android:value="f93c4639c7efa00395c2bac42985a2c6" />
         <service android:name="com.amap.api.location.APSService" />
         <activity android:launchMode="singleTop" android:name="com.amap.api.maps.offlinemap.OfflineMapActivity" />
+        <activity android:configChanges="orientation|keyboardHidden|screenSize" android:name="com.amap.api.navi.AmapRouteActivity" android:theme="@android:style/Theme.NoTitleBar" />
         <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:label="@string/activity_name" android:launchMode="singleTop" android:name="com.androidcat.eppv2.MainActivity" android:theme="@style/AppTheme" android:windowSoftInputMode="adjustPan">
             <intent-filter android:label="@string/launcher_name">
                 <action android:name="android.intent.action.MAIN" />
@@ -44,6 +45,8 @@
                 <category android:name="com.androidcat.eppv2" />
             </intent-filter>
         </activity>
+        <activity android:name=".CheckPermissionActivity" />
+        <activity android:name="com.androidcat.utilities.permission.PermissionActivity" />
         <service android:exported="false" android:name="cn.jpush.android.service.PushService" android:process=":mult">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />

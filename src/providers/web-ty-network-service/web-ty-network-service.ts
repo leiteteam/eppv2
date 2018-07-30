@@ -64,16 +64,16 @@ export class WebTyNetworkServiceProvider {
             loading.present();
         }
 
-        let sortParams = {};
-        let sortKeys = Object.keys(params).sort();
-        for (let index = 0; index < sortKeys.length; index++) {
-          const key = sortKeys[index];
-          sortParams[key] = params[key];
-        }
+        // let sortParams = {};
+        // let sortKeys = Object.keys(params).sort();
+        // for (let index = 0; index < sortKeys.length; index++) {
+        //   const key = sortKeys[index];
+        //   sortParams[key] = params[key];
+        // }
         
         console.log("request url:"+AppGlobal.domain+api);
-        console.log("request data:"+JSON.stringify(sortParams));
-        this.http.post(AppGlobal.domain+api,JSON.stringify(sortParams),{
+        console.log("request data:"+JSON.stringify(params));
+        this.http.post(AppGlobal.domain+api,JSON.stringify(params),{
           headers:new Headers({
             "content-type":"application/json;charset=UTF-8"
           })

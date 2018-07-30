@@ -15,20 +15,37 @@
   
   <ion-content no-padding no-margin>
     <ion-list>
+
+        <ion-item style="margin-top: 15px;">
+            <ion-icon name="cloud-download" item-start style="color: #c4b173;"></ion-icon>
+            <ion-label>待下载任务数</ion-label>
+            <p item-end>{{tobeDownloadedNum}}</p>
+        </ion-item>
   
       <ion-item style="margin-top: 15px;">
           <ion-icon name="bookmark" item-start style="color: rgb(196, 177, 115);"></ion-icon>
-          <ion-label>待更新任务数</ion-label>
+          <ion-label>已下载任务数</ion-label>
           <p item-end>{{undoneCountNum}}</p>
       </ion-item>
-    
-      <ion-item>
-          <ion-icon name="bookmark" item-start color="primary"></ion-icon>
-          <ion-label>待上传任务数</ion-label>
-          <p item-end>{{doneCountNum}}</p>
-      </ion-item>
-    </ion-list>
   
+    <ion-item>
+        <ion-icon name="bookmark" item-start color="primary"></ion-icon>
+        <ion-label>待上传任务数</ion-label>
+        <p item-end>{{doneCountNum}}</p>
+    </ion-item>
+
+      <ion-item style="margin-top: 15px;">
+        <ion-icon name="cloud-done" item-start color="primary"></ion-icon>
+        <ion-label>上传成功</ion-label>
+        <p item-end>{{successNum}}</p>
+    </ion-item>
+    <ion-item>
+          <ion-icon name="warning" item-start style="color: rgb(177, 100, 69);"></ion-icon>
+          <ion-label>上传失败</ion-label>
+          <p item-end>{{failNum}}</p>
+    </ion-item>
+  </ion-list>
+
     <div class="btnDiv">
         <button ion-button icon-start (click)="download();">
             下载任务

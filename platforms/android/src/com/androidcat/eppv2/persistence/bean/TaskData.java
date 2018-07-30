@@ -15,6 +15,8 @@ import com.lidroid.xutils.db.annotation.Table;
 @Table(name = "TaskData")
 public class TaskData implements Parcelable {
 
+  public TaskData(){}
+
   @Id
   @NotNull
   @Column(column = "taskid")
@@ -23,10 +25,13 @@ public class TaskData implements Parcelable {
   @Column(column = "userid")
   public String userid;
 
-  @Column(column = "taskData")
-  public String taskData;
+  @Column(column = "data")
+  public String data;
 
-  //0:待采样;1:已采样未上传，可修改
+  @Column(column = "samples")
+  public String samples;
+
+  //0:待采样;1:已采样未上传，可修改，2：已上传
   @Column(column = "state")
   public int state;
 
@@ -34,7 +39,8 @@ public class TaskData implements Parcelable {
   protected TaskData(Parcel in) {
     taskid = in.readString();
     userid = in.readString();
-    taskData = in.readString();
+    data = in.readString();
+    samples = in.readString();
     state = in.readInt();
   }
 
@@ -59,7 +65,8 @@ public class TaskData implements Parcelable {
   public void writeToParcel(Parcel dest, int flags) {
     dest.writeString(taskid);
     dest.writeString(userid);
-    dest.writeString(taskData);
+    dest.writeString(data);
+    dest.writeString(samples);
     dest.writeInt(state);
   }
 }

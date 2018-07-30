@@ -16,7 +16,7 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 export class SpleStationInfoPage {
 
   sple:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl:ViewController,) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl:ViewController) {
     this.sple = navParams.data.sple;
   }
 

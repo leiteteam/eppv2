@@ -106,37 +106,29 @@ public class JepayDatabase {
 		}
 	}
 
-	public List<String> getUndoneTaskList(String userid){
+	public List<TaskData> getUndoneTaskList(String userid){
     if (mDbUtils == null){
-      return new ArrayList<String>();
+      return new ArrayList<TaskData>();
     }
     try {
       List<TaskData> taskList = mDbUtils.findAll(Selector.from(TaskData.class).where("userid","=",userid).and("state","=","0"));
-      List<String> dataList = new ArrayList<String>();
-      for (TaskData data : taskList){
-        dataList.add(data.taskData);
-      }
-      return dataList;
+      return taskList;
     } catch (DbException e) {
       e.printStackTrace();
-      return new ArrayList<String>();
+      return new ArrayList<TaskData>();
     }
   }
 
-  public List<String> getDoneTaskList(String userid){
+  public List<TaskData> getDoneTaskList(String userid){
     if (mDbUtils == null){
-      return new ArrayList<String>();
+      return new ArrayList<TaskData>();
     }
     try {
       List<TaskData> taskList = mDbUtils.findAll(Selector.from(TaskData.class).where("userid","=",userid).and("state","=","1"));
-      List<String> dataList = new ArrayList<String>();
-      for (TaskData data : taskList){
-        dataList.add(data.taskData);
-      }
-      return dataList;
+      return taskList;
     } catch (DbException e) {
       e.printStackTrace();
-      return new ArrayList<String>();
+      return new ArrayList<TaskData>();
     }
   }
 
@@ -146,6 +138,23 @@ public class JepayDatabase {
     }
     try {
       mDbUtils.replace(taskData);
+      return true;
+    } catch (DbException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
+  public boolean updateTaskData(String taskid,String samples){
+    if (mDbUtils == null){
+      return false;
+    }
+    try {
+      TaskData taskData = getTaskData(taskid);
+      if (taskData != null){
+        taskData.samples = samples;
+        mDbUtils.replace(taskData);
+      }
       return true;
     } catch (DbException e) {
       e.printStackTrace();

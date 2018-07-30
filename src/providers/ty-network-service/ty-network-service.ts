@@ -61,9 +61,10 @@ export class TyNetworkServiceProvider {
     //   this.webGet(url, params, success,failed, loader);
     //   return;
     // }
-    let loading = this.loadingCtrl.create();
-    console.log("post:"+api+"-->"+params);
     
+    console.log("post:"+api+"-->"+params);
+    let loading = this.loadingCtrl.create();
+
     if (loader) {
         loading.present();
     }

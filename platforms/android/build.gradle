@@ -171,7 +171,7 @@ android {
     if (cdvMinSdkVersion != null) {
       minSdkVersion cdvMinSdkVersion
     }
-    targetSdkVersion 19
+    targetSdkVersion 26
 
     ndk {
       abiFilters "armeabi"
@@ -238,6 +238,7 @@ dependencies {
   implementation files('libs/DzPrinter-2017-06-16.jar')
 
   compile(name: '3DMap_6.2.0_Navi_6.1.0_Search_6.1.0_Location_4.0.1_AMap', ext: 'aar')
+  compile project(path: ':acwidgets')
 }
 
 def promptForReleaseKeyPassword() {

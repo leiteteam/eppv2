@@ -41,27 +41,27 @@
   <!-- 推荐 -->
   <div [ngSwitch]="spleCategory">
       <div *ngIf="spleCategory=='todo'">
-        <ion-list *ngIf="spleList[spleCategory]!=null&&spleList[spleCategory].length>0" no-margin>
-          <ion-item *ngFor="let spleTask of spleList[spleCategory]" (click)="goToSpleDetail(spleTask)">
-            <P style="color: #949059">详查单元编码:{{spleTask.spleNo}}</P>
-            <h5 class="title">{{spleTask.addr}}</h5>
-            <p class="date">{{spleTask.title}}</p>
-            <p class="date">{{spleTask.desc}}</p>
+        <ion-list *ngIf="todoList!=null&&todoList.length>0" no-margin>
+          <ion-item *ngFor="let spleTask of todoList" (click)="goToSpleDetail(spleTask)">
+            <P style="color: #949059">详查单元编码:{{spleTask.data.Point.SampleNumber}}</P>
+            <h5 class="title">{{spleTask.data.Point.ForecastAddress}}</h5>
+            <p class="date">{{spleTask.data.Point.PointName}}</p>
+            <p class="date">{{spleTask.data.category[spleTask.data.SampleCategory].CategoryName}}</p>
             <ion-item no-margin no-lines class="buttonItem">
               <button ion-button icon-start item-end>
                 <ion-icon name="create"></ion-icon>采样</button>
-              <button ion-button icon-start item-end>
+              <button ion-button icon-start item-end (click)="navigation(spleTask)">
                 <ion-icon name="pin"></ion-icon>导航</button>
             </ion-item>
           </ion-item>
         </ion-list>
-        <div class="empty" *ngIf="spleList[spleCategory] == null||spleList[spleCategory].length==0 ">
+        <div class="empty" *ngIf="todoList == null|| todoList.length==0 ">
           <p>暂无内容</p>
         </div>
       </div>
 
       <div *ngIf="spleCategory=='done'">
-        <ion-list *ngIf="spleList[spleCategory]!=null&&spleList[spleCategory].length>0" no-margin>
+        <ion-list *ngIf="doneList!=null&&doneList.length>0" no-margin>
           <ion-item *ngFor="let spleTask of spleList[spleCategory]" (click)="goToSpleDetail(spleTask)">
             <P style="color: #949059">详查单元编码:{{spleTask.spleNo}}</P>
             <h5 class="title">{{spleTask.addr}}</h5>
@@ -75,13 +75,13 @@
             </ion-item>
           </ion-item>
         </ion-list>
-        <div class="empty" *ngIf="spleList[spleCategory] == null||spleList[spleCategory].length==0 ">
+        <div class="empty" *ngIf="doneList == null|| doneList.length==0 ">
           <p>暂无内容</p>
         </div>
       </div>
 
       <div *ngIf="spleCategory=='uploaded'">
-        <ion-list *ngIf="spleList[spleCategory]!=null&&spleList[spleCategory].length>0" no-margin>
+        <ion-list *ngIf="uploadedList!=null&&uploadedList.length>0" no-margin>
           <ion-item *ngFor="let spleTask of spleList[spleCategory]" (click)="goToSpleDetail(spleTask)">
             <P style="color: #949059">详查单元编码:{{spleTask.spleNo}}</P>
             <h5 class="title">{{spleTask.addr}}</h5>
@@ -95,7 +95,7 @@
             </ion-item>
           </ion-item>
         </ion-list>
-        <div class="empty" *ngIf="spleList[spleCategory] == null||spleList[spleCategory].length==0 ">
+        <div class="empty" *ngIf="uploadedList == null|| uploadedList.length==0 ">
           <p>暂无内容</p>
         </div>
       </div>

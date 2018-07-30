@@ -3,10 +3,6 @@ package com.androidcat.utilities.persistence;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.androidcat.utilities.Utils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 
 /**
  * Created by coolbear on 2015/3/16.
@@ -153,47 +149,6 @@ public class SharePreferencesUtil {
             prefs = new SecurePreferences(context, INIT_KEY, FILE_NAME);
         }
         prefs.edit().remove(key).commit();
-    }
-
-    public static boolean setObject(Object obj) {
-        if (prefs == null) {
-            prefs = new SecurePreferences(context, INIT_KEY, FILE_NAME);
-        }
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .enableComplexMapKeySerialization()//支持Map的key为复杂对象的形式
-                .serializeNulls() //智能null
-                .create();
-
-        SharedPreferences.Editor editor = prefs.edit();
-
-        editor.putString(obj.getClass().getCanonicalName(), gson.toJson(obj));
-        return editor.commit();
-    }
-
-    public static Object getObject(Class<?> clazz) {
-        if (prefs == null) {
-            prefs = new SecurePreferences(context, INIT_KEY, FILE_NAME);
-        }
-        Object objResult = null;
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .enableComplexMapKeySerialization()//支持Map的key为复杂对象的形式
-                .serializeNulls() //智能null
-                .create();
-        String objJson = prefs.getString(clazz.getCanonicalName(), "");
-        if (Utils.isNull(objJson)) {
-            try {
-                objResult = clazz.newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        } else {
-            objResult = gson.fromJson(objJson, clazz);
-        }
-        return objResult;
     }
 
     public static void removeObject(Class<?> clazz) {
