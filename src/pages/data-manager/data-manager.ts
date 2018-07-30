@@ -38,6 +38,7 @@ export class DataManagerPage extends BasePage{
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DataManagerPage');
+    this.tobeDownloadedNum = AppServiceProvider.getInstance().undownTaskList.length;
     this.countTask();
   }
 
@@ -45,6 +46,9 @@ export class DataManagerPage extends BasePage{
     this.requestUndoneTasks()
     .then(()=>{
       return this.updateUndoneTask();
+    })
+    .then(()=>{
+      return this.notifyDownloadSuccess()
     })
     .then(()=>{
       this.countTask();
@@ -57,38 +61,37 @@ export class DataManagerPage extends BasePage{
         AppGlobal.API.taskList,
         {
           "username": AppServiceProvider.getInstance().userinfo.username,
-          "token": AppServiceProvider.getInstance().userinfo.token
+          "token": AppServiceProvider.getInstance().userinfo.token,
+          "statu":1
         },
         msg => {
           console.log(msg);
     
           let info = JSON.parse(msg);
-          let category = info.category;
+          //清空缓存待下载任务列表
           AppServiceProvider.getInstance().undownTaskList = [];
-          AppServiceProvider.getInstance().downloadedTaskList = [];
-          AppServiceProvider.getInstance().uploadedTaskList = [];
+          AppServiceProvider.getInstance().newTaskList = [];
           AppServiceProvider.getInstance().returnedTaskList = [];
 
+          if (info.Tasks.length == 0){
+            this.toast("当前已无待下载任务。");
+            reject();
+          }
+          let category = info.category;
           info.Tasks.forEach(element => {
             let task:any = element;
             task.category = category;
             task.GroupName = info.GroupName;
             task.GroupMember = info.GroupMember;
-            // 1 待下载 2 待采样 3 已上传 4 已撤回
+            // 1 待下载 2 待采样 4 已上传 5 已撤回
+            // 两重确保服务器数据不会混乱
             if (task.SampleStatus == 1){
-              AppServiceProvider.getInstance().undownTaskList.push(task);
+              AppServiceProvider.getInstance().newTaskList.push(task);
             }
-            if (task.SampleStatus == 2){
-              //do nothing...改状态由本地维护，直到本地上传成功
-              AppServiceProvider.getInstance().downloadedTaskList.push(task);
-            }
-            if (task.SampleStatus == 3){
-              AppServiceProvider.getInstance().uploadedTaskList.push(task);
-            }
-            if (task.SampleStatus == 4){
+            if (task.SampleStatus == 5){
               AppServiceProvider.getInstance().returnedTaskList.push(task);
             }
-      
+            AppServiceProvider.getInstance().undownTaskList.push(task);
           });
           resolve();
         },
@@ -125,19 +128,125 @@ export class DataManagerPage extends BasePage{
     });
   }
 
-  countTask(){
-    this.device.push(
-      "countTask",
-      AppServiceProvider.getInstance().userinfo.username,
-      (success)=>{
-        this.undoneCountNum = success.undoneCountNum;
-        this.doneCountNum = success.doneCountNum;
-      },
-      (err)=>{
-        //this.toastShort(err);
-      },
-      false
-    );
+  notifyDownloadSuccess(){
+      return new Promise((resolve,reject)=>{
+      let status:any[] = [];
+      AppServiceProvider.getInstance().undownTaskList.forEach(element => {
+        status.push({
+          TaskID:element.TaskID,
+          Statu:2
+        });
+      });
+      this.net.httpPost(
+        AppGlobal.API.notifyDownloadSuccess,
+        {
+          "username": AppServiceProvider.getInstance().userinfo.username,
+          "token": AppServiceProvider.getInstance().userinfo.token,
+          "status":status
+        },
+        msg => {
+          console.log(msg);
+          AppServiceProvider.getInstance().undownTaskList = [];
+          this.tobeDownloadedNum = 0;
+          resolve();
+        },
+        error => {
+          this.toastShort(error);
+          AppServiceProvider.getInstance().undownTaskList = [];
+          this.tobeDownloadedNum = 0;
+          resolve();
+        },
+        true);
+    });
   }
 
+  countTask(){
+    return new Promise((resolve,reject)=>{
+      this.device.push(
+        "countTask",
+        AppServiceProvider.getInstance().userinfo.username,
+        (success)=>{
+          this.undoneCountNum = success.undoneCountNum;
+          this.doneCountNum = success.doneCountNum;
+        },
+        (err)=>{
+          //this.toastShort(err);
+        },
+        false
+      );
+    });
+  }
+
+  upload(){
+    this.getDoneTaskList()
+    .then((taskList)=>{
+      return this.uploadSamples(taskList);
+    })
+    .then((taskidList)=>{
+      return this.updateTaskToUploaded(taskidList);
+    });
+  }
+
+  getDoneTaskList(){
+    return new Promise((resolve,reject)=>{
+      this.device.push(
+        "getDoneList",
+        AppServiceProvider.getInstance().userinfo.username,
+        (taskList)=>{
+          if (taskList == null || taskList.length == 0){
+            this.toast("当前尚无待上传任务。");
+          }else {
+            resolve(taskList);
+          }
+        },
+        (err)=>{
+          this.toast(err);
+        }
+        ,true
+      );
+    });
+  }
+
+  uploadSamples(taskList){
+    return new Promise((resolve,reject)=>{
+      let spleList:any[] = [];
+      let taskidList:string[] = [];
+      taskList.forEach(element => {
+        let task = JSON.parse(element);
+        task.data = JSON.parse(task.data);
+        if (task.samples){
+          task.samples = JSON.parse(task.samples);
+        }
+        taskidList.push(task.taskid);
+        spleList.push(task.samplesk);
+      });
+
+      this.net.httpPost(
+        AppGlobal.API.uploadSamples,
+        {
+          "username": AppServiceProvider.getInstance().userinfo.username,
+          "token": AppServiceProvider.getInstance().userinfo.token,
+          "samples":spleList
+        },
+        msg => {
+          console.log(msg);
+          this.doneCountNum = 0;
+          this.successNum = taskidList.length;
+          this.failNum = 0;
+          resolve(taskidList);
+        },
+        error => {
+          this.toastShort(error);
+          this.successNum = 0;
+          this.failNum = taskidList.length;
+        },
+        true);
+    });
+  }
+
+  updateTaskToUploaded(taskidList){
+    this.device.push("updateTaskDataToUploaded",JSON.stringify(taskidList),success=>{
+
+    });
+  }
 }

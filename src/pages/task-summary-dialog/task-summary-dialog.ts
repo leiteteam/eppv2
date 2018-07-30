@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { AppServiceProvider } from '../../providers/app-service/app-service';
+import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
+import { AppServiceProvider, AppGlobal } from '../../providers/app-service/app-service';
+import { BasePage } from '../base/base';
+import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 
 /**
  * Generated class for the TaskSummaryDialogPage page.
@@ -14,7 +16,7 @@ import { AppServiceProvider } from '../../providers/app-service/app-service';
   selector: 'page-task-summary-dialog',
   templateUrl: 'task-summary-dialog.html',
 })
-export class TaskSummaryDialogPage {
+export class TaskSummaryDialogPage extends BasePage{
   
   spleTeam:string = "";
   teamMember:string = "";
@@ -23,7 +25,8 @@ export class TaskSummaryDialogPage {
   undown:number = 0;
   returned:number = 0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl:ViewController) {
+  constructor(public net:TyNetworkServiceProvider,public toastCtrl:ToastController,public navCtrl: NavController, public navParams: NavParams,public viewCtrl:ViewController) {
+    super(navCtrl,navParams,toastCtrl);
   }
 
   ionViewDidLoad() {
@@ -31,10 +34,37 @@ export class TaskSummaryDialogPage {
       this.spleTeam = AppServiceProvider.getInstance().spleTeam;
       this.teamMember = AppServiceProvider.getInstance().teamMember;
 
-      this.uploaded = AppServiceProvider.getInstance().uploadedTaskList.length;
-      this.doing = AppServiceProvider.getInstance().downloadedTaskList.length;
-      this.undown = AppServiceProvider.getInstance().undownTaskList.length;
-      this.returned = AppServiceProvider.getInstance().returnedTaskList.length;
+      this.requestTaskSummary();
+  }
+
+  
+  requestTaskSummary(){
+    return new Promise((resolve, reject) => {
+      this.net.httpPost(
+        AppGlobal.API.taskSummary,
+        {
+          "username": AppServiceProvider.getInstance().userinfo.username,
+          "token": AppServiceProvider.getInstance().userinfo.token
+        },
+        msg => {
+          console.log(msg);
+          let ret = JSON.parse(msg);
+          let counts = ret.counts;
+          this.undown = counts.WaitDownload;
+          this.doing = counts.WaitSampling;
+          this.uploaded = counts.UploadFinished;
+          this.returned = counts.Back;
+          resolve();
+        },
+        error => {
+          //this.toastShort(error);
+          this.uploaded = AppServiceProvider.getInstance().uploadedTaskList.length;
+          this.doing = AppServiceProvider.getInstance().downloadedTaskList.length;
+          this.undown = AppServiceProvider.getInstance().undownTaskList.length;
+          this.returned = AppServiceProvider.getInstance().returnedTaskList.length;
+        },
+        true);
+    });
   }
 
   close(){

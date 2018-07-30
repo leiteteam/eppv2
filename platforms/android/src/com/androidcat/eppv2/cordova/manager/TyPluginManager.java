@@ -254,6 +254,10 @@ public class TyPluginManager {
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.getDoneTaskList(plugin,commandData,callbackContext);
       }
+      else if("updateTaskDataToUploaded".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.getUndoneTaskList(plugin,commandData,callbackContext);
+      }
       else if("navigation".equals(code)){
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.navigation(plugin,commandData,callbackContext);

@@ -181,6 +181,23 @@ public class JepayDatabase {
     }
   }
 
+  public boolean updateTaskDataToUploaded(List<String> list){
+    if (mDbUtils == null){
+      return false;
+    }
+    try {
+      for (String taskid :list){
+        TaskData localData = getTaskData(taskid);
+        localData.state = 2;
+        mDbUtils.replace(localData);
+      }
+      return true;
+    } catch (DbException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
   public TaskData getTaskData(String taskid){
     if (mDbUtils == null){
       return null;

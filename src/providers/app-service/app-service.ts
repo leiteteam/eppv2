@@ -29,12 +29,12 @@ export class AppGlobal {
         register: '/api/v1/account/register', //注册
         resetPassword: '/api/v1/account/resetPwd', //忘记密码
         modifyPassword: '/api/v1/account/modifyPwd', //修改密码
-        editUserInfo: '/api/v1/account/editUserInfo', //编辑用户信息
-        taskSummary: '/api/v1/account/taskSummary', //获取用户信息
+        notifyDownloadSuccess: '/api/StatusUpdate/Post', //编辑用户信息
+        taskSummary: '/api/TaskCount/Post', //获取用户信息
         taskList: '/api/TaskList/PostTaskList', //获取任务列表列表
         recordList: '/api/v1/recordList', //获取已上传记录列表
         sampleDetails:"/api/v1/sampleDetails",
-        uploadRecord: '/api/v1/sampleInfo', //上传采集数据
+        uploadSamples: '/api/Update/Post', //上传采集数据
         uploadImage:'/api/v1/user/uploadImage',
         getNewsList:'/api/v1/news/getNewsList',
         comments:'/api/v1/comments',
@@ -58,9 +58,10 @@ export class AppServiceProvider {
     token:"",
     userid:""
   };
-  //带下载任务列表
+  //带下载任务列表,已撤回和新任务的并集
   public undownTaskList:any[] = [];
-
+//带下载任务列表
+  public newTaskList:any[] = [];
   //已下载任务列表
   public downloadedTaskList:any[] = [];
 

@@ -129,25 +129,6 @@ export class TaskMapPage extends BasePage{
     this.map.setFitView();// 执行定位
   }
 
-  requestTaskSummary(){
-    return new Promise((resolve, reject) => {
-      this.net.httpPost(
-        AppGlobal.API.taskSummary,
-        {
-          "username": AppServiceProvider.getInstance().userinfo.username,
-          "token": AppServiceProvider.getInstance().userinfo.token
-        },
-        msg => {
-          console.log(msg);
-          resolve(msg);
-        },
-        error => {
-          this.toastShort(error);
-        },
-        true);
-    });
-  }
-
   updateMarkers(){
     console.log("-------updateMarkers-------");
     this.allMarkers = [];
@@ -203,7 +184,8 @@ export class TaskMapPage extends BasePage{
         AppGlobal.API.taskList,
         {
           "username": AppServiceProvider.getInstance().userinfo.username,
-          "token": AppServiceProvider.getInstance().userinfo.token
+          "token": AppServiceProvider.getInstance().userinfo.token,
+          "statu":0
         },
         msg => {
           console.log(msg);
@@ -223,7 +205,7 @@ export class TaskMapPage extends BasePage{
             task.category = info.category;
             task.GroupName = info.GroupName;
             task.GroupMember = info.GroupMember;
-            // 1 待下载 2 待采样 3 已上传 4 已撤回
+            // 1 待下载 2 待采样 4 已上传 5 已撤回
             if (task.SampleStatus == 1){
               AppServiceProvider.getInstance().undownTaskList.push(task);
             }
@@ -231,11 +213,12 @@ export class TaskMapPage extends BasePage{
               //do nothing...改状态由本地维护，直到本地上传成功
               AppServiceProvider.getInstance().downloadedTaskList.push(task);
             }
-            if (task.SampleStatus == 3){
+            if (task.SampleStatus == 4){
               AppServiceProvider.getInstance().uploadedTaskList.push(task);
             }
-            if (task.SampleStatus == 4){
+            if (task.SampleStatus == 5){
               AppServiceProvider.getInstance().returnedTaskList.push(task);
+              AppServiceProvider.getInstance().undownTaskList.push(task);
             }
       
           });
