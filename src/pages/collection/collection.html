@@ -62,15 +62,15 @@
 
       <div *ngIf="spleCategory=='done'">
         <ion-list *ngIf="doneList!=null&&doneList.length>0" no-margin>
-          <ion-item *ngFor="let spleTask of spleList[spleCategory]" (click)="goToSpleDetail(spleTask)">
-            <P style="color: #949059">详查单元编码:{{spleTask.spleNo}}</P>
-            <h5 class="title">{{spleTask.addr}}</h5>
-            <p class="date">{{spleTask.title}}</p>
-            <p class="date">{{spleTask.desc}}</p>
+          <ion-item *ngFor="let spleTask of doneList" (click)="goToSpleDetail(spleTask)">
+            <P style="color: #949059">详查单元编码:{{spleTask.data.Point.SampleNumber}}</P>
+            <h5 class="title">{{spleTask.data.Point.ForecastAddress}}</h5>
+            <p class="date">{{spleTask.data.Point.PointName}}</p>
+            <p class="date">{{spleTask.data.category[spleTask.data.SampleCategory].CategoryName}}</p>
             <ion-item no-margin no-lines class="buttonItem">
               <button ion-button icon-start item-end>
                 <ion-icon name="create"></ion-icon>修改</button>
-              <button ion-button icon-start item-end>
+              <button ion-button icon-start item-end (click)="navigation(spleTask)">
                 <ion-icon name="pin"></ion-icon>导航</button>
             </ion-item>
           </ion-item>
@@ -82,15 +82,15 @@
 
       <div *ngIf="spleCategory=='uploaded'">
         <ion-list *ngIf="uploadedList!=null&&uploadedList.length>0" no-margin>
-          <ion-item *ngFor="let spleTask of spleList[spleCategory]" (click)="goToSpleDetail(spleTask)">
-            <P style="color: #949059">详查单元编码:{{spleTask.spleNo}}</P>
-            <h5 class="title">{{spleTask.addr}}</h5>
-            <p class="date">{{spleTask.title}}</p>
-            <p class="date">{{spleTask.desc}}</p>
+          <ion-item *ngFor="let spleTask of uploadedList" (click)="goToSpleDetail(spleTask)">
+            <P style="color: #949059">详查单元编码:{{spleTask.Point.SampleNumber}}</P>
+            <h5 class="title">{{spleTask.Point.ForecastAddress}}</h5>
+            <p class="date">{{spleTask.Point.PointName}}</p>
+            <p class="date">{{spleTask.category[spleTask.SampleCategory].CategoryName}}</p>
             <ion-item no-margin no-lines class="buttonItem">
               <button ion-button icon-start item-end>
                 <ion-icon name="eye"></ion-icon>查看</button>
-              <button ion-button icon-start item-end>
+              <button ion-button icon-start item-end (click)="navigation(spleTask)">
                 <ion-icon name="pin"></ion-icon>导航</button>
             </ion-item>
           </ion-item>

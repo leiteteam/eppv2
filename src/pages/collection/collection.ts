@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
 import { BasePage } from '../base/base';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
-import { AppServiceProvider } from '../../providers/app-service/app-service';
+import { AppServiceProvider, AppGlobal } from '../../providers/app-service/app-service';
+import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 
 /**
  * Generated class for the CollectionPage page.
@@ -145,6 +146,7 @@ export class CollectionPage extends BasePage{
     public navParams: NavParams,
     public toastCtrl:ToastController,
     public modalCtrl: ModalController,
+    private net: TyNetworkServiceProvider,
     public device:DeviceIntefaceServiceProvider) {
     super(navCtrl,navParams,toastCtrl);
   }
@@ -167,6 +169,16 @@ export class CollectionPage extends BasePage{
       if (this.doneList.length == 0){
         this.getDoneList();
       }
+    }
+
+    if (index == 2){
+      if (this.uploadedList.length == 0){
+        this.getUploadedList();
+      }
+    }
+
+    if (index == 3){
+      
     }
   }
 
@@ -219,6 +231,52 @@ export class CollectionPage extends BasePage{
   }
 
   navigation(task){
-    this.device.push( "navigation", {lat:task.data.Point.Latitude,lng:task.data.Point.Longitude} );
+    if (task.data){
+      this.device.push( "navigation", {lat:task.data.Point.Latitude,lng:task.data.Point.Longitude} );
+    }
+    if (task.Point){
+      this.device.push( "navigation", {lat:task.Point.Latitude,lng:task.Point.Longitude} );
+    }
+  }
+
+  getUploadedList(){
+    return new Promise((resolve, reject) => {
+      this.net.httpPost(
+        AppGlobal.API.taskList,
+        {
+          "username": AppServiceProvider.getInstance().userinfo.username,
+          "token": AppServiceProvider.getInstance().userinfo.token,
+          "statu":4
+        },
+        msg => {
+          console.log(msg);
+    
+          let info = JSON.parse(msg);
+          //清空缓存待下载任务列表
+          AppServiceProvider.getInstance().uploadedTaskList = [];
+          this.uploadedList = [];
+          if (info.Tasks.length == 0){
+            reject();
+          }
+          let category = info.category;
+          info.Tasks.forEach(element => {
+            let task:any = element;
+            task.category = category;
+            task.GroupName = info.GroupName;
+            task.GroupMember = info.GroupMember;
+            // 1 待下载 2 待采样 4 已上传 5 已撤回
+            // 两重确保服务器数据不会混乱
+            if (task.SampleStatus == 4){
+              AppServiceProvider.getInstance().uploadedTaskList.push(task);
+              this.uploadedList.push(task);
+            }
+          });
+          resolve();
+        },
+        error => {
+          this.toastShort(error);
+        },
+        true);
+    });
   }
 }
