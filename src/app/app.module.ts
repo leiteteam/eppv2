@@ -19,7 +19,6 @@ import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
 import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 import { UploadManagerProvider } from '../providers/upload-manager/upload-manager';
-import { TaskServiceProvider } from '../providers/task-service/task-service';
 
 
 export function netFactory(platform:Platform,loadingCtrl:LoadingController,http:Http,zone:NgZone) {
@@ -76,9 +75,7 @@ export function dbFactory(platform:Platform,zone:NgZone) {
     },
     DeviceIntefaceServiceProvider,
     UploadManagerProvider,
-    NativePageTransitions,
-    WebTyNetworkServiceProvider,
-    TaskServiceProvider
+    NativePageTransitions
   ]
 })
 export class AppModule {}

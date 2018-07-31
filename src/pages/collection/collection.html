@@ -43,13 +43,13 @@
     <div *ngFor="let item of tabList">
       <div *ngIf="spleCategory==item.name">
         <ion-list *ngIf="spleList[spleCategory]!=null&&spleList[spleCategory].length>0" no-margin>
-          <ion-item *ngFor="let spleTask of spleList[spleCategory]" > <!--(click)="goToSpleDetail(spleTask)"-->
+          <ion-item *ngFor="let spleTask of spleList[spleCategory]" (click)="goToSpleDetail(spleTask)">
             <P style="color: darkkhaki">详查单元编码:{{spleTask.spleNo}}</P>
             <h5 class="title">{{spleTask.addr}}</h5>
             <p class="date">{{spleTask.title}}</p>
             <p class="date">{{spleTask.desc}}</p>
             <ion-item no-margin no-lines class="buttonItem">
-              <button ion-button icon-start item-end (click)="onCllect(spleTask)">
+              <button ion-button icon-start item-end>
                 <ion-icon name="create"></ion-icon>采样</button>
               <button ion-button icon-start item-end>
                 <ion-icon name="pin"></ion-icon>导航</button>

@@ -111,7 +111,7 @@ export class WebTyNetworkServiceProvider {
         }
         let i = api.lastIndexOf('/');
         let actioname = api.substring(i+1);
-        let murl ="assets/data/"+actioname+".json";
+        let murl ="assets/data/"+actioname+'.json';
         this.http.get(murl)
             .toPromise()
             .then(res => {
