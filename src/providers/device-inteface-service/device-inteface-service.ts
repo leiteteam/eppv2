@@ -1,5 +1,5 @@
 import { AppGlobal } from './../app-service/app-service';
-import { Platform } from 'ionic-angular';
+import { Platform, LoadingController } from 'ionic-angular';
 import { Injectable, NgZone } from '@angular/core';
 // import { Http } from '@angular/http';
 // import 'rxjs/add/operator/map';
@@ -14,20 +14,26 @@ declare var cordova;
 @Injectable()
 export class DeviceIntefaceServiceProvider {
 
-  constructor(private platfrom:Platform,public zone:NgZone){
+  constructor(public loadingCtrl: LoadingController,private platfrom:Platform,public zone:NgZone){
     console.log('Hello DeviceIntefaceServiceProvider Provider');
   }
   
-  push(command,commandData?, success?,failed?){
+  push(command,commandData?, success?,failed?,showLoading?){
     if(this.platfrom.is("mobileweb")||this.platfrom.is("mobile")==false){
       if(failed){
         failed("平台暂不支持");
       }
     }else{
+    let loading = this.loadingCtrl.create();
+    if (showLoading) {
+        loading.present();
+    }
       let param= {"command":command,"commandData":commandData}
       cordova.plugins.TYNative.push(param,msg=>{
         this.zone.runGuarded(()=>{
-      
+          if (showLoading) {
+            loading.dismiss();
+          }
           if(success){
             success(msg);
           }
@@ -35,6 +41,9 @@ export class DeviceIntefaceServiceProvider {
         
       },error=>{
         this.zone.runGuarded(()=>{
+          if (showLoading) {
+            loading.dismiss();
+          }
           if(failed){
             failed(error);
           }

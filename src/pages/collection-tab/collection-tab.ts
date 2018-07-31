@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Tabs, Events } from 'ionic-angular';
+import { BasePage } from '../base/base';
 
 /**
  * Generated class for the CollectionTabPage tabs.
@@ -10,17 +11,33 @@ import { IonicPage, NavController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-collection-tab',
   templateUrl: 'collection-tab.html'
 })
-export class CollectionTabPage {
+export class CollectionTabPage extends BasePage{
 
   mapRoot = 'TaskMapPage'
   collectRoot = 'CollectionPage'
-  syncRoot = 'BuildingPage'
+  syncRoot = 'DataManagerPage'
   moreRoot = 'MorePage'
 
+  @ViewChild('tabs')  tabs:Tabs;
+  constructor(public navCtrl: NavController,public navParams: NavParams,public events:Events) {
+    super(navCtrl,navParams);
+    events.subscribe('logoutNotification',()=>{
+      this.navCtrl.setRoot("LoginPage");
+    });
+  }
 
-  constructor(public navCtrl: NavController) {}
+  ionViewDidEnter(){
 
+  }
+
+  onTabChanged(){
+    let previous = this.tabs.previousTab(false);
+    if (previous){
+      console.log("previous tab is -->"+previous.root);
+    }else {
+      
+    }
+  }
 }

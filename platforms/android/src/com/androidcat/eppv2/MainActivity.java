@@ -19,13 +19,20 @@
 
 package com.androidcat.eppv2;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.androidcat.acnet.okhttp.MyOkHttp;
 import com.androidcat.acnet.okhttp.callback.RawResponseHandler;
 import com.androidcat.utilities.GsonUtil;
+import com.androidcat.utilities.LogUtil;
 import com.dothantech.printer.IDzPrinter;
+
+import org.json.JSONObject;
 
 public class MainActivity extends LocationActivity  {
 
@@ -35,7 +42,17 @@ public class MainActivity extends LocationActivity  {
   public void onCreate(Bundle savedInstanceState) {
     Log.e("onCreate", "----MainActivity onCreate----");
     super.onCreate(savedInstanceState);
-    //Utils.fullScreen(this);
+    super.init();
+    LogUtil.d(TAG, "onCreate launchUrl1 = " + launchUrl);
+
+    // enable Cordova apps to be started in the background
+    Bundle extras = getIntent().getExtras();
+    if (extras != null && extras.getBoolean("cdvStartInBackground", false)) {
+      moveTaskToBack(true);
+    }
+    loadUrl(launchUrl);
+    //register native event broadcast receiver
+    registerEventReceiver();
     checkUpdate();
   }
 
@@ -85,5 +102,39 @@ public class MainActivity extends LocationActivity  {
     // App退出，不再使用打印机进行打印，调用quit()方法结束IDzPrinter对象
     IDzPrinter.Factory.getInstance().quit();
     super.onDestroy();
+    unregisterEventReceiver();
+  }
+
+  class EventReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      String eventName = intent.getStringExtra("eventName");
+      String data = intent.getStringExtra("data");
+      fireWindowEvent(eventName,data);
+    }
+  }
+  private MainActivity.EventReceiver eventReceiver = new MainActivity.EventReceiver();
+  private void registerEventReceiver(){
+    IntentFilter filter = new IntentFilter();
+    filter.addAction("androidcat.nativeEvent");
+    this.registerReceiver(eventReceiver,filter);
+    Log.e("Amap", "registerEventReceiver");
+  }
+
+  private void unregisterEventReceiver(){
+    this.unregisterReceiver(eventReceiver);
+    Log.e("Amap", "unregisterEventReceiver");
+  }
+
+  private void fireWindowEvent(String eventName,Object data){
+    String method = "";
+    if( data instanceof JSONObject) {
+      method = String.format("javascript:cordova.fireWindowEvent('%s', %s );", eventName, data.toString() );
+    }
+    else  {
+      method = String.format("javascript:cordova.fireWindowEvent('%s','%s');", eventName, data.toString() );
+    }
+    this.appView.loadUrl(method);
   }
 }

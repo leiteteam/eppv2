@@ -8,13 +8,13 @@ import android.util.Base64;
 import com.androidcat.acnet.okhttp.MyOkHttp;
 import com.androidcat.acnet.okhttp.callback.RawResponseHandler;
 import com.androidcat.eppv2.bean.BaseResponse;
-import com.androidcat.utilities.GsonUtil;
 import com.androidcat.eppv2.MainActivity;
 import com.androidcat.eppv2.persistence.JepayDatabase;
 import com.androidcat.eppv2.persistence.bean.KeyValue;
 import com.androidcat.eppv2.ui.MyWebBrowserActivity;
 import com.androidcat.eppv2.utils.Utils;
 import com.androidcat.eppv2.utils.log.LogUtil;
+import com.androidcat.utilities.GsonUtil;
 import com.google.gson.Gson;
 
 import org.apache.cordova.CallbackContext;
@@ -237,6 +237,56 @@ public class TyPluginManager {
       }
       else if("qrCodeScan".equals(code)){
         PluginCoreWorker.qrcode(plugin,callbackContext);
+      }
+      else if("downloadTask".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.downloadTask(plugin,commandData,callbackContext);
+      }
+      else if("countTask".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.countTask(plugin,commandData,callbackContext);
+      }
+      else if("getTodoList".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.getUndoneTaskList(plugin,commandData,callbackContext);
+      }
+      else if("getDoneList".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.getDoneTaskList(plugin,commandData,callbackContext);
+      }
+      else if("updateTaskDataToUploaded".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.updateTaskDataToUploaded(plugin,commandData,callbackContext);
+      }
+      else if("saveSample".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.saveSample(plugin,commandData,callbackContext);
+      }
+      else if("navigation".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.navigation(plugin,commandData,callbackContext);
+      }
+      else if("wifiState".equals(code)){
+        PluginCoreWorker.getWifiState(plugin,callbackContext);
+      }
+      else if("g4State".equals(code)){
+        PluginCoreWorker.get4gState(plugin,callbackContext);
+      }
+      else if("bleState".equals(code)){
+        PluginCoreWorker.getBleState(plugin,callbackContext);
+      }
+      else if("switchWifi".equals(code)){
+        PluginCoreWorker.switchWifi(plugin,callbackContext);
+      }
+      else if("switch4g".equals(code)){
+        PluginCoreWorker.switch4g(plugin,callbackContext);
+      }
+      else if("switchBle".equals(code)){
+        PluginCoreWorker.switchBle(plugin,callbackContext);
+      }
+      else if("clearCache".equals(code)){
+        // TODO: 2018/7/27
+        callbackContext.success();
       }
     } catch (JSONException e) {
       e.printStackTrace();

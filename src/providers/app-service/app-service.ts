@@ -29,15 +29,15 @@ export class AppGlobal {
         register: '/api/v1/account/register', //注册
         resetPassword: '/api/v1/account/resetPwd', //忘记密码
         modifyPassword: '/api/v1/account/modifyPwd', //修改密码
-        editUserInfo: '/api/v1/account/editUserInfo', //编辑用户信息
-        getUserInfo: '/api/v1/account/getUserInfo', //获取用户信息
-        msgList: '/api/v1/msgList', //获取推送消息列表
+        notifyDownloadSuccess: '/api/StatusUpdate/Post', //编辑用户信息
+        taskSummary: '/api/TaskCount/Post', //获取用户信息
+        taskList: '/api/TaskList/PostTaskList', //获取任务列表列表
         recordList: '/api/v1/recordList', //获取已上传记录列表
         sampleDetails:"/api/v1/sampleDetails",
-        uploadRecord: '/api/v1/sampleInfo', //上传采集数据
+        uploadSamples: '/api/Update/Post', //上传采集数据
         uploadImage:'/api/v1/user/uploadImage',
-        getNewsList:'/api/v1/news/getNewsList',
-        comments:'/api/v1/comments',
+        sampleFlow:'/api/SampleFlow/Post',
+        updateFlow:'/api/FlowStatusUpdate/Post',
         praises:'/api/v1/praises'
     };
     static DATA:any ={
@@ -58,8 +58,23 @@ export class AppServiceProvider {
     token:"",
     userid:""
   };
+  //带下载任务列表,已撤回和新任务的并集
+  public undownTaskList:any[] = [];
+//带下载任务列表
+  public newTaskList:any[] = [];
+  //已下载任务列表
+  public downloadedTaskList:any[] = [];
+
+  //已上传任务列表
+  public uploadedTaskList:any[] = [];
+
+  //已撤回任务列表
+  public returnedTaskList:any[] = [];
 
   public appType:string = "Cy";
+
+  public spleTeam:string = "";
+  public teamMember:string = "";
 
   constructor() {
     if (AppServiceProvider.instance) {

@@ -19,7 +19,7 @@ export class BasePage {
   toast(info){
     if(this.toastCtrl!=null)
     this.toastCtrl.create({
-      message:  info,
+      message:info,
       duration: 3000,
       position: 'middle',
       showCloseButton:true,

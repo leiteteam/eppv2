@@ -15,26 +15,26 @@
 
 <ion-content no-padding>
   <div style="width: 100%;height: 100%;" id="mapView"></div>
-  <ion-icon name="ios-locate-outline" style="color:rgb(105, 105, 105) ; position: absolute;left: 15px;bottom: 15px;font-size: 3.9rem;"></ion-icon>
+  <ion-icon (click)="locate()" name="ios-locate-outline" style="color:rgb(105, 105, 105) ; position: absolute;left: 15px;bottom: 15px;font-size: 3.9rem;"></ion-icon>
 
   <ion-list style="position: absolute;width: 65px; bottom: 100px;right: 1px;" class="btn-group row pt-5 pl-5">
-      <ion-item class="col-33">
+      <ion-item class="col-33" (click)="showAll()">
         <input type="radio" name="choose" id="quan" checked="true">
         <label for="quan">全</label>
       </ion-item>
-      <ion-item class="col-33">
+      <ion-item class="col-33" (click)="showUndown()">
           <input type="radio" name="choose" id="dai">
           <label for="dai">待</label>
       </ion-item>
-      <ion-item class="col-33">
+      <ion-item class="col-33" (click)="showDownloaded()">
           <input type="radio" name="choose" id="cun">
           <label for="cun">存</label>
       </ion-item>
-      <ion-item class="col-33">
+      <ion-item class="col-33" (click)="showUploaded()">
           <input type="radio" name="choose" id="chuan">
           <label for="chuan">传</label>
       </ion-item>
-      <ion-item class="col-33">
+      <ion-item class="col-33" (click)="showReturned()">
           <input type="radio" name="choose" id="che">
           <label for="che">撤</label>
       </ion-item>

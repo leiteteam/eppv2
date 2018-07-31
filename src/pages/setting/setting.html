@@ -15,35 +15,57 @@
 <ion-content fullscreen no-padding no-margin>
     <ion-list>
 
-        <ion-item style="margin-top: 15px;">
+        <!-- <ion-item style="margin-top: 15px;">
             <ion-icon name="wifi" item-start color="primary"></ion-icon>
             <ion-label>WIFI</ion-label>
-          <ion-toggle [(ngModel)]="wifiOnOff" color="secondary"></ion-toggle>
+          <ion-toggle [(ngModel)]="wifiState" color="secondary"  (ionChange)="switchWifi($event)"></ion-toggle>
         </ion-item>
       
         <ion-item>
             <ion-icon name="link" item-start color="primary"></ion-icon>
             <ion-label>移动网络连接</ion-label>
-          <ion-toggle [(ngModel)]="linkOnOff" color="secondary"></ion-toggle>
-        </ion-item>
+          <ion-toggle [(ngModel)]="g4State" color="secondary" (ionChange)="switch4g($event)"></ion-toggle>
+        </ion-item> -->
       
-        <ion-item>
+        <!-- <ion-item>
             <ion-icon name="pin" item-start color="primary"></ion-icon>
             <ion-label>定位服务</ion-label>
           <ion-toggle [(ngModel)]="gpsOnOff"  color="secondary"></ion-toggle>
-        </ion-item>
+        </ion-item> -->
 
-        <ion-item>
+        <!-- <ion-item>
             <ion-icon name="bluetooth" item-start color="primary"></ion-icon>
             <ion-label>蓝牙</ion-label>
-          <ion-toggle [(ngModel)]="btOnOff" color="secondary" ></ion-toggle>
-        </ion-item>
+          <ion-toggle [(ngModel)]="bleState" color="secondary" (ionChange)="switchBle($event)" ></ion-toggle>
+        </ion-item> -->
       
         <ion-item style="margin-top: 15px;">
             <ion-icon name="print" item-start color="primary"></ion-icon>
             <ion-label>打印机连接状态</ion-label>
-            <p item-end>未连接</p>
+            <p item-end>{{printState}}</p>
         </ion-item>
+
+        <ion-item style="margin-top: 15px;" detail-push (click)="clearCache();">
+          <ion-icon name="md-trash" item-start color="primary"></ion-icon>
+          <ion-label>离线数据清理</ion-label>
+      </ion-item>
+
+      <ion-item style="margin-top: 15px;" detail-push (click)="checkUpdate();">
+        <ion-icon name="cloud-circle" item-start color="primary"></ion-icon>
+        <ion-label>检查更新</ion-label>
+    </ion-item>
+
+    <ion-item detail-push (click)="about();">
+      <ion-icon name="information-circle" item-start color="primary"></ion-icon>
+      <ion-label>关于我们</ion-label>
+    </ion-item>
+      
       </ion-list>
+
+      <div text-center style="position: absolute;bottom: 0; width:100%;overflow:auto;">
+        <div class="comfirm" float-left col-12 (click)="logout()">
+          <p style="color:white;">退出登录</p>
+        </div>  
+      </div>
 </ion-content>
 
