@@ -80,24 +80,23 @@ export class TaskMapPage extends BasePage{
   }
 
   locate(){
-    this.navCtrl.push("FindEntPage",{entLng:114.4567,entLat:30.5678});
-    // this.device.push("location","",(location)=>{
-    //   if (this.curLocMarker && this.map){
-    //       this.map.remove(this.curLocMarker);
-    //   }
-    //   location = JSON.parse(location);
-    //   let lnglatXY = new AMap.LngLat(location.lng,location.lat);
-    //   this.curLocMarker = new AMap.Marker({
-    //     icon: "assets/imgs/loc.png",
-    //     position: lnglatXY
-    //   });
-    //   this.map.add(this.curLocMarker);
-    //   this.map.setZoom(15);// 执行定位
-    //   this.map.setCenter(lnglatXY);
-    //   }, (err)=>{
-    //     this.toast("定位失败，请在室外空旷处再试!");
-    //   }
-    // );
+    this.device.push("location","",(location)=>{
+      if (this.curLocMarker && this.map){
+          this.map.remove(this.curLocMarker);
+      }
+      location = JSON.parse(location);
+      let lnglatXY = new AMap.LngLat(location.lng,location.lat);
+      this.curLocMarker = new AMap.Marker({
+        icon: "assets/imgs/loc.png",
+        position: lnglatXY
+      });
+      this.map.add(this.curLocMarker);
+      this.map.setZoom(15);// 执行定位
+      this.map.setCenter(lnglatXY);
+      }, (err)=>{
+        this.toast("定位失败，请在室外空旷处再试!");
+      }
+    );
   }
 
   showAll(){
