@@ -160,21 +160,15 @@ export class CollectionPage extends BasePage{
     //alert(this.dictCode[item]);
     this.spleCategory = this.tabList[index].name;
     if (index == 0){
-      if (this.todoList.length == 0){
-        this.getTodoList();
-      }
+      this.getTodoList();
     }
 
     if (index == 1){
-      if (this.doneList.length == 0){
-        this.getDoneList();
-      }
+      this.getDoneList();
     }
 
     if (index == 2){
-      if (this.uploadedList.length == 0){
-        this.getUploadedList();
-      }
+      this.getUploadedList();
     }
 
     if (index == 3){

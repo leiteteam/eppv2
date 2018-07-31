@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Events } from 'ionic-angular';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 import { BasePage } from '../base/base';
 
@@ -28,6 +28,7 @@ export class SettingPage extends BasePage{
     public navCtrl: NavController, 
     public navParams: NavParams, 
     public alert:AlertController,
+    public events:Events,
     public device:DeviceIntefaceServiceProvider,
     public loadingCtrl:LoadingController) {
       super(navCtrl,navParams);
@@ -122,7 +123,20 @@ export class SettingPage extends BasePage{
   }
 
   logout(){
-    this.navCtrl.setRoot("LoginPage");
+    let alert = this.alert.create({
+      title:'您确定退出此登陆账号吗？',
+      buttons:[{
+        text:'取消'
+      },{
+        text:'确定',
+        handler:()=>{
+          this.events.publish('logoutNotification');
+        }
+      }],
+      enableBackdropDismiss:false
+    });
+
+    alert.present();
   }
 
   checkUpdate(){

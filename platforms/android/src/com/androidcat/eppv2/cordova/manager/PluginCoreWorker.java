@@ -134,6 +134,26 @@ public class PluginCoreWorker {
     callbackContext.success(jsonArray);
   }
 
+  public static void updateTaskDataToUploaded(CordovaPlugin plugin, String listStr, final CallbackContext callbackContext) {
+    JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
+    List<String> taskidList = new Gson().fromJson(listStr,new TypeToken<List<String>>(){}.getType());
+    if(database.updateTaskDataToUploaded(taskidList)){
+      callbackContext.success();
+    }else {
+      callbackContext.error("本地数据更新失败,请重新上传");
+    }
+  }
+
+  public static void saveSample(CordovaPlugin plugin, String dataStr, final CallbackContext callbackContext) {
+    JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
+    TaskData taskData = new Gson().fromJson(dataStr,new TypeToken<TaskData>(){}.getType());
+    if(database.updateTaskData(taskData)){
+      callbackContext.success();
+    }else {
+      callbackContext.error("本地数据更新失败,请重新保存");
+    }
+  }
+
   public static void navigation(CordovaPlugin plugin,String commData, final CallbackContext callbackContext){
     try {
       JSONObject data = new JSONObject(commData);

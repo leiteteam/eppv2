@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Tabs } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Tabs, Events } from 'ionic-angular';
 import { BasePage } from '../base/base';
 
 /**
@@ -21,8 +21,11 @@ export class CollectionTabPage extends BasePage{
   moreRoot = 'MorePage'
 
   @ViewChild('tabs')  tabs:Tabs;
-  constructor(public navCtrl: NavController,public navParams: NavParams,) {
+  constructor(public navCtrl: NavController,public navParams: NavParams,public events:Events) {
     super(navCtrl,navParams);
+    events.subscribe('logoutNotification',()=>{
+      this.navCtrl.setRoot("LoginPage");
+    });
   }
 
   ionViewDidEnter(){

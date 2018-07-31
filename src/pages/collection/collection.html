@@ -9,11 +9,6 @@
     <ion-title>样品采集</ion-title>
   </ion-navbar>
 
-</ion-header>
-
-
-<ion-content no-padding no-margin>
-
   <ion-segment mode="md" class="commSegBtn" [(ngModel)]="spleCategory">
     <ion-segment-button  value="todo" (click)="segmentClick(0)">
       <!-- <p>{{item.count}}</p> -->
@@ -33,11 +28,14 @@
       <div class="bolder-sm"></div>
     </ion-segment-button>
   </ion-segment>
+</ion-header>
 
+
+<ion-content no-padding no-margin>
   <div class="ty-line15"></div>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
+  <!-- <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+  </ion-refresher> -->
   <!-- 推荐 -->
   <div [ngSwitch]="spleCategory">
       <div *ngIf="spleCategory=='todo'">
