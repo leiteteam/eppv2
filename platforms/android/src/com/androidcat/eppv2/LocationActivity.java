@@ -13,14 +13,13 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 
-import org.apache.cordova.CordovaActivity;
 import org.json.JSONObject;
 
 /**
  * Created by androidcat on 2018/7/2.
  */
 
-public class LocationActivity extends CordovaActivity implements AMapLocationListener {
+public class LocationActivity extends CheckPermissionActivity implements AMapLocationListener {
 
   private boolean currentGPSState;
   private AMapLocationClient locationClient = null;
@@ -38,16 +37,7 @@ public class LocationActivity extends CordovaActivity implements AMapLocationLis
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    super.init();
-    // enable Cordova apps to be started in the background
-    Bundle extras = getIntent().getExtras();
-    if (extras != null && extras.getBoolean("cdvStartInBackground", false)) {
-      moveTaskToBack(true);
-    }
-    loadUrl(launchUrl);
 
-    //register native event broadcast receiver
-    registerEventReceiver();
     initLocationService();
   }
 
@@ -70,7 +60,6 @@ public class LocationActivity extends CordovaActivity implements AMapLocationLis
   @Override
   public void onDestroy() {
     super.onDestroy();
-    unregisterEventReceiver();
     if (locationClient != null) {
       locationClient.stopLocation();
       locationClient.onDestroy();
@@ -78,17 +67,6 @@ public class LocationActivity extends CordovaActivity implements AMapLocationLis
     }
     locationClient = null;
   }
-
-  class EventReceiver extends BroadcastReceiver {
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-      String eventName = intent.getStringExtra("eventName");
-      String data = intent.getStringExtra("data");
-      fireWindowEvent(eventName,data);
-    }
-  }
-  private MainActivity.EventReceiver eventReceiver = new MainActivity.EventReceiver();
 
   private void initLocationService(){
     //获取定位服务
@@ -111,9 +89,9 @@ public class LocationActivity extends CordovaActivity implements AMapLocationLis
    */
   private AMapLocationClientOption getDefaultOption() {
     locationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
-    locationOption.setInterval(30000);
+    locationOption.setInterval(60000);
     locationOption.setNeedAddress(true);//可选，设置是否返回逆地理地址信息。默认是true
-    locationOption.setOnceLocation(true); //可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+    locationOption.setOnceLocation(false); //可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
     locationOption.setLocationCacheEnable(true); //可选，设置是否使用缓存定位，默认为true
     return locationOption;
   }
@@ -150,28 +128,5 @@ public class LocationActivity extends CordovaActivity implements AMapLocationLis
         + aMapLocation.getErrorInfo();
       Log.e("AmapErr", errText);
     }
-  }
-
-  private void registerEventReceiver(){
-    IntentFilter filter = new IntentFilter();
-    filter.addAction("androidcat.nativeEvent");
-    this.registerReceiver(eventReceiver,filter);
-    Log.e("Amap", "registerEventReceiver");
-  }
-
-  private void unregisterEventReceiver(){
-    this.unregisterReceiver(eventReceiver);
-    Log.e("Amap", "unregisterEventReceiver");
-  }
-
-  private void fireWindowEvent(String eventName,Object data){
-    String method = "";
-    if( data instanceof JSONObject) {
-      method = String.format("javascript:cordova.fireWindowEvent('%s', %s );", eventName, data.toString() );
-    }
-    else  {
-      method = String.format("javascript:cordova.fireWindowEvent('%s','%s');", eventName, data.toString() );
-    }
-    this.appView.loadUrl(method);
   }
 }

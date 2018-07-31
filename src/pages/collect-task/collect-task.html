@@ -1,0 +1,102 @@
+<!--
+  Generated template for the CollectTaskPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>样品采集</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-item no-lines>
+    <ion-label item-start>样品编号</ion-label>
+    <ion-input type="text" class="input-border" [value]="taskData.MainSampleId" disabled=true></ion-input>
+    <button ion-button item-end (click)="goSampleCode()">制码</button>
+  </ion-item>
+  <ion-item no-lines>
+    <label item-start style="display: inline-block;">实际经/纬度
+      <span style="color: red">*</span>
+    </label>
+    <div item-end>
+      <input type="text" class="input-border" style="width: 31%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.FactLongitude" /> -
+      <input type="text" class="input-border" style="width: 31%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.FactLatitude" />
+      <button class="btn-get">获取</button>
+    </div>
+  </ion-item>
+  <ion-item no-lines>
+    <p style="text-align: center;" [ngStyle]="{'color':distance > 50 ? '#f53d3d' : '#8aa88f' }">偏移距离：{{distance}} m</p>
+  </ion-item>
+  <ion-item no-lines>
+    <ion-textarea class="input-border" placeholder="样点变更说明" [disabled]="isFlagInput" [(ngModel)]="sampleData.ChangeReason"></ion-textarea>
+  </ion-item>
+  <div class="item item-ios">
+    <label style="display: inline-block;">采样深度(cm)
+      <span style="color: red">*</span>
+    </label>
+    <div style="display: inline-block; width: 60%;">
+      <input type="text" class="input-border" style="width: 45%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.SampleDepthFrom"/> -
+      <input type="text" class="input-border" style="width: 45%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.SampleDepthTo"/>
+    </div>
+  </div>
+  <ion-item no-lines>
+    <ion-label>采样深度备注</ion-label>
+    <ion-textarea class="input-border" [disabled]="isFlagInput" [(ngModel)]="sampleData.SampleDepthRemark"></ion-textarea>
+  </ion-item>
+  <ion-item no-lines detail-push>
+    <ion-label style="opacity:1 !important;">是否质控样品</ion-label>
+    <ion-multi-picker item-end style="color:darkgray" disabled=true [(ngModel)]="taskData.QualityType" [multiPickerColumns]="controlSamples" doneText="确定"
+      cancelText="取消"></ion-multi-picker>
+  </ion-item>
+  <ion-item no-lines>
+    <ion-label>样品质量(g)
+      <span style="color: red">*</span>
+    </ion-label>
+    <ion-input type="text" class="input-border" [disabled]="isFlagInput" [(ngModel)]="sampleData.Weight"></ion-input>
+  </ion-item>
+  <ion-item no-lines detail-push>
+    <ion-label>土壤质地
+      <span style="color: red">*</span>
+    </ion-label>
+    <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.SoilTexture" [multiPickerColumns]="soilTypes" doneText="确定" cancelText="取消"></ion-multi-picker>
+  </ion-item>
+  <ion-item no-lines detail-push>
+    <ion-label>三角表土壤颜色
+      <span style="color: red">*</span>
+    </ion-label>
+    <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.SoilColor" [multiPickerColumns]="soilColors" doneText="确定"
+      cancelText="取消"></ion-multi-picker>
+  </ion-item>
+  <ion-item no-lines>
+    <ion-label>样品说明</ion-label>
+    <ion-textarea class="input-border" [disabled]="isFlagInput" [(ngModel)]="sampleData.SampleRemark"></ion-textarea>
+  </ion-item>
+  <div class="item item-ios" style="height:200px;">
+      <div (click)="addImg(1)" (press)='delImg(1)' style="white-space: nowrap;display: inline-block;height: 60%; width:30%; margin-top: 5%; text-align: center;">
+        <img src="{{gpsView != null ? gpsView : 'assets/imgs/addphoto.png'}}"  style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        GPS屏显
+      </div>
+      <div (click)="addImg(2)" (press)='delImg(2)' style="white-space: nowrap;display: inline-block;height: 60%; width:30%; margin-top: 5%;; text-align: center;">
+        <img src="{{sampleProcess != null ? sampleProcess : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        采样工作过程
+      </div>
+      <div (click)="addImg(3)" (press)='delImg(3)' style="white-space: nowrap;display: inline-block;height: 60%; width:30%; margin-top: 5%;; text-align: center;">
+        <img src="{{samplePerson != null ? samplePerson : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        采样负责人
+      </div>
+    </div>
+    <div class="item item-ios" style="height:170px;width: 100%;padding: 0;">
+        <div (click)="addImg(4)" (press)='delImg(4)' style="white-space: nowrap;height: 60%; width:30%; margin: 0 auto; text-align: center;">
+          <img src="{{changeImg != null ? changeImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+          变更照片
+        </div>
+      </div>
+      <div style="margin-top:30px;margin-left:20px;margin-right:20px">
+          <button ion-button block color="primary" [disabled]="isFlagInput" (click)="save()">
+            保存
+          </button>
+        </div>
+</ion-content>

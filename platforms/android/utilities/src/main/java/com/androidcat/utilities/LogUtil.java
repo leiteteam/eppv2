@@ -2,10 +2,6 @@ package com.androidcat.utilities;
 
 import android.util.Log;
 
-import com.androidcat.utilities.log.Logger;
-import com.androidcat.utilities.persistence.CacheFileManager;
-
-import java.util.Date;
 
 /**
  * ***********************************************************
@@ -18,7 +14,7 @@ import java.util.Date;
 
 public final class LogUtil {
 
-    private static final String TAG = "utilities_";
+    private static final String TAG = "epp_v2_";
 
     private static final boolean GLOBAL = true;
     private static final boolean DEBUG = true;
@@ -40,7 +36,7 @@ public final class LogUtil {
             return;
         }
         if (ERROR) {
-            Logger.e(e,msg);
+          Log.e(tag,e.getMessage());
         }
     }
 
@@ -49,7 +45,7 @@ public final class LogUtil {
             return;
         }
         if (VERBOSE) {
-            Logger.v(msg);
+          Log.v(TAG+tag,msg);
         }
     }
 
@@ -58,7 +54,7 @@ public final class LogUtil {
             return;
         }
         if (INFO) {
-            Logger.i(msg);
+          Log.i(TAG+tag,msg);
         }
     }
 
@@ -67,7 +63,7 @@ public final class LogUtil {
             return;
         }
         if (DEBUG) {
-            Logger.d(msg);
+          Log.d(TAG+tag,msg);
         }
     }
 
@@ -76,34 +72,7 @@ public final class LogUtil {
             return;
         }
         if (WARN) {
-            Logger.w(msg);
-        }
-    }
-
-    public static void logException(Class c, Throwable e) {
-        try {
-            StringBuilder exceptionInfo = new StringBuilder();
-            if (e == null) {
-                exceptionInfo.append(new Date().toGMTString() + "\n"
-                        + "Exception:"
-                        + "e is null,probably null pointer exception" + "\n");
-            } else {
-                e.printStackTrace();
-                exceptionInfo.append(new Date().toGMTString() + "\n");
-                exceptionInfo.append(e.getClass().getCanonicalName() + ":"
-                        + e.getMessage() + "\n");
-                StackTraceElement[] stes = e.getStackTrace();
-                for (StackTraceElement ste : stes) {
-                    exceptionInfo.append("at " + ste.getClassName() + "$"
-                            + ste.getMethodName() + "$" + ste.getFileName()
-                            + ":" + ste.getLineNumber() + "\n");
-                }
-            }
-
-            e(c.getCanonicalName(), exceptionInfo.toString());
-            CacheFileManager.getInstance().log(exceptionInfo.toString());
-        } catch (Exception ex) {
-            e(c.getCanonicalName(), ex.getMessage());
+          Log.w(TAG+tag,msg);
         }
     }
 }

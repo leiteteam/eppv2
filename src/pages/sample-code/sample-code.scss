@@ -1,0 +1,22 @@
+page-sample-code {
+    .input-border input, .input-border textarea  {
+        margin-top: 3px !important;
+        margin-bottom: 3px !important;
+        margin-left: 3px;
+    }
+    .input-border{
+        margin-top: 5px;
+        margin-bottom: 3px;
+        border: solid 1px #aaa;
+    }
+    ion-label {
+        white-space: normal;
+        width: 40% !important;
+    }
+    .input-border[disabled=true]{
+        background-color: #ddd;
+    }
+    ion-content{
+        background-color: #eee !important;
+    }
+}

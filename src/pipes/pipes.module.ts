@@ -8,25 +8,35 @@ import { FloatSpliterPipe } from './float-spliter/float-spliter';
 import { ParseAmountPipe } from './parse-amount/parse-amount';
 import { ProductStatusPipe } from './product-status/product-status';
 import { StockNamePipe } from './stock-name/stock-name';
+import { PointTypePipe } from './point-type/point-type';
+import { InvestigationTypePipe } from './investigation-type/investigation-type';
 @NgModule({
-	declarations: [PayStatusPipe,
-    StockStatusPipe,
-    TydatePipe,
-    ParseFloatPipe,
-    StockPrewarningStatusPipe,
-    FloatSpliterPipe,
-    ParseAmountPipe,
-    ProductStatusPipe,
-    StockNamePipe],
+	declarations: [
+        PayStatusPipe,
+        StockStatusPipe,
+        TydatePipe,
+        ParseFloatPipe,
+        StockPrewarningStatusPipe,
+        FloatSpliterPipe,
+        ParseAmountPipe,
+        ProductStatusPipe,
+        StockNamePipe,
+        PointTypePipe,
+    InvestigationTypePipe
+    ],
 	imports: [],
-	exports: [PayStatusPipe,
-    StockStatusPipe,
-    TydatePipe,
-    ParseFloatPipe,
-    StockPrewarningStatusPipe,
-    FloatSpliterPipe,
-    ParseAmountPipe,
-    ProductStatusPipe,
-    StockNamePipe]
+	exports: [
+        PayStatusPipe,
+        StockStatusPipe,
+        TydatePipe,
+        ParseFloatPipe,
+        StockPrewarningStatusPipe,
+        FloatSpliterPipe,
+        ParseAmountPipe,
+        ProductStatusPipe,
+        StockNamePipe,
+        PointTypePipe,
+    InvestigationTypePipe
+    ]
 })
 export class PipesModule {}

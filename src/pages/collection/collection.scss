@@ -1,15 +1,47 @@
 page-collection {
-    .segment-button{
-        color: black !important;
-    }
-    .segment-button.segment-activated{
-        color: color($colors,primary) !important;
-        font-weight: bold;
-        .bolder-sm{
-            border: 5px solid color($colors, primary);
-            margin: 0 auto;
+//设置背景颜色
+ion-content{
+    // .fixed-content{
+    //     background: color($colors,ty-partingline) !important;
+    // }
+    // .scroll-content{
+    //     background: color($colors,ty-partingline) !important;
+    // }
+    background: color($colors,ty-partingline) !important;
+}
+
+    .commSegBtn{
+        background: white!important;
+        .segment-button{
+            color: black !important;
+        }
+        .segment-button.segment-activated{
+            color: color($colors,primary) !important;
+            font-weight: bold;
+            .bolder-sm{
+                border: 5px solid color($colors, primary);
+                margin: 0 auto;
+            }
         }
     }
+
+    .togoSeg{
+        background:#f3f2f2;
+        margin:auto;
+        width:  65%;
+    }
+    .togoSegBtn{
+        
+        .segment-button{
+            border-color: #9e9e9e;
+            color: #9e9e9e !important;
+        }
+        .segment-button.segment-activated{
+            background-color:#9e9e9e !important;
+            color: white !important;
+        }
+    }
+    
     .item-button{
         padding-left: 0.2rem !important;
         padding-right: 0.2rem !important;
@@ -54,5 +86,10 @@ page-collection {
     .item-ios .item-button{
         width: 65px;
         height: 26px;
+    }
+
+    .card-ios{
+        text-align: center;
+        border-radius:0 !important;
     }
 }

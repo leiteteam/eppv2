@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController } from 'ionic-angular';
 import { BasePage } from '../base/base';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 
@@ -16,15 +16,27 @@ import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-s
   templateUrl: 'more.html',
 })
 export class MorePage extends BasePage{
-
-  constructor(public device:DeviceIntefaceServiceProvider,public navCtrl: NavController, public navParams: NavParams,public toastCtrl: ToastController) {
+  printState:string = "未连接";
+  constructor(
+    public device:DeviceIntefaceServiceProvider,
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public alert:AlertController,
+    public loadingCtrl:LoadingController,
+    public toastCtrl: ToastController) {
     super(navCtrl,navParams,toastCtrl);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MorePage');
+    this.initState();
   }
 
+  initState(){
+    this.device.push("printState","",(state)=>{
+      this.printState = state;
+    });
+  }
   
   gotoSpleFiles(){
     this.navCtrl.push("SpleFilesPage");
@@ -43,12 +55,13 @@ export class MorePage extends BasePage{
   }
 
   gotoDelivery(){
-    this.navCtrl.push("SpleInfoPage");
-    // this.device.push("qrCodeScan",'',(spleNo)=>{
-    //   console.log("spleNo:"+spleNo);
-    //   this.navCtrl.push("SpleInfoPage");
-    // },(err)=>{
-    //   this.toastShort(err);
-    // });
+    //this.navCtrl.push("SpleInfoPage");
+    this.device.push("qrCodeScan",'',(spleNo)=>{
+      console.log("spleNo:"+spleNo);
+      this.navCtrl.push("SpleInfoPage",{spleId:spleNo});
+    },(err)=>{
+      this.toastShort(err);
+    });
   }
+
 }
