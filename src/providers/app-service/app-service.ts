@@ -36,8 +36,8 @@ export class AppGlobal {
         sampleDetails:"/api/v1/sampleDetails",
         uploadSamples: '/api/Update/Post', //上传采集数据
         uploadImage:'/api/v1/user/uploadImage',
-        getNewsList:'/api/v1/news/getNewsList',
-        comments:'/api/v1/comments',
+        sampleFlow:'/api/SampleFlow/Post',
+        updateFlow:'/api/FlowStatusUpdate/Post',
         praises:'/api/v1/praises'
     };
     static DATA:any ={

@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { BasePage } from '../base/base';
+import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
+import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
+import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 
 /**
  * Generated class for the SpleInfoPage page.
@@ -13,20 +17,23 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-sple-info',
   templateUrl: 'sple-info.html',
 })
-export class SpleInfoPage {
+export class SpleInfoPage extends BasePage{
   isSub:boolean = false;
+  spleId:string = "";
+  spleIdTxt:string = "";
   title:string = "主样品信息";
+
   info:any = {
-    name:"河边土壤",
-    spleNo:"4657653245",
-    subSpleNo:"456568797897",
-    weight:"2000g",
-    use:"国家入库字样，省级入库字样,级入库字样",
-    storage:"大连图纸见测距",
-    addr:"中央路似乎安心",
-    contact:"何洁 13544356666",
-    limit:"2018-09-12-2018-09-28",
-    keep:"常温"
+    SampleName:"",
+    MainSampleId:"",
+    SubSampleId:"",
+    Weight:0,
+    SamplePurpose:"",
+    UnitName:"",
+    UnitAddress:"",
+    Phone:"",
+    TimeLimit:"",
+    StorageMethod:""
   };
 
   conditions:any = {
@@ -37,11 +44,82 @@ export class SpleInfoPage {
     a5:"样品保存方式符合要求(常温/低温/避光)"
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  labelcheck:boolean = false;
+  weightcheck:boolean = false;
+  numcheck:boolean = false;
+  packcheck:boolean = false;
+  storagecheck:boolean = false;
+
+  constructor(public net:TyNetworkServiceProvider,
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public device:DeviceIntefaceServiceProvider,
+    public toastCtrl:ToastController,) {
+      super(navCtrl,navParams,toastCtrl);
+      if (navParams.data.spleId){
+        this.spleId = navParams.data.spleId;
+        if(this.spleId.indexOf('&') != -1){
+          this.spleIdTxt = this.spleId.split('&')[0];
+          this.isSub = this.spleId.split('&')[1] == 'sub';
+          if (this.isSub){
+            this.title = "子样品信息";
+          }
+        }
+      }
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SpleInfoPage');
+    if (this.spleIdTxt){
+      this.querySampleInfo();
+    }
   }
 
+  querySampleInfo(){
+    this.net.httpPost(
+      AppGlobal.API.sampleFlow,
+      {
+        'sampleCode':this.spleId
+      },
+      msg => {
+        console.log(msg);
+        let resp = JSON.parse(msg);
+        this.info = resp.info;
+      },
+      error => {
+        this.toast(error);
+      },
+      true);
+  }
+
+  comfirm(){
+    let sampleCheck:any = {
+      labelcheck:this.labelcheck?'1':'0',
+      weightcheck:this.weightcheck?'1':'0',
+      numcheck:this.numcheck?'1':'0',
+      packcheck:this.packcheck?'1':'0',
+      storagecheck:this.storagecheck?'1':'0',
+    };
+    this.net.httpPost(
+      AppGlobal.API.updateFlow,
+      {
+        "username": AppServiceProvider.getInstance().userinfo.username,
+        "token": AppServiceProvider.getInstance().userinfo.token,
+        'sampleCode':this.info.SubSampleId?this.info.SubSampleId+'&sub' : this.info.MainSampleId+'&main',
+        "sampleCheck":JSON.stringify(sampleCheck)
+      },
+      msg => {
+        console.log(msg);
+        this.toastShort("流转成功");
+        this.back();
+      },
+      error => {
+        this.toast(error);
+      },
+      true);
+  }
+
+  back(){
+    this.navCtrl.pop();
+  }
 }

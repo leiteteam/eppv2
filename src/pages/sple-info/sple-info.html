@@ -19,51 +19,51 @@
 <ion-list no-margin no-padding>
   <ion-item no-lines>
     <ion-label>样品名称</ion-label>
-    <ion-note item-end style="width: 65%">{{info.name}}</ion-note>
+    <ion-note item-end style="width: 65%">{{info.SampleName}}</ion-note>
   </ion-item>
 
   <ion-item>
     <ion-label>主样编号</ion-label>
-    <ion-note item-end style="width: 65%">{{info.spleNo}}</ion-note>
+    <ion-note item-end style="width: 65%">{{info.MainSampleId}}</ion-note>
   </ion-item>
   <ion-item *ngIf="isSub">
     <ion-label>子样编号</ion-label>
-    <ion-note item-end style="width: 65%">{{info.subSpleNo}}</ion-note>
+    <ion-note item-end style="width: 65%">{{info.SubSampleId}}</ion-note>
   </ion-item>
 
   <ion-item>
-    <ion-label>样品质量</ion-label>
-    <ion-note item-end style="width: 65%">{{info.weight}}</ion-note>
+    <ion-label>样品质量(g)</ion-label>
+    <ion-note item-end style="width: 65%">{{info.Weight}}</ion-note>
   </ion-item>
 
   <ion-item>
     <ion-label>样品用途</ion-label>
-    <ion-note item-end style="width: 65%">{{info.use}}</ion-note>
+    <ion-note item-end style="width: 65%">{{info.SamplePurpose}}</ion-note>
   </ion-item>
 
   <ion-item>
     <ion-label>送达单位</ion-label>
-    <ion-note item-end style="width: 65%">{{info.storage}}</ion-note>
+    <ion-note item-end style="width: 65%">{{info.UnitName}}</ion-note>
   </ion-item>
 
   <ion-item>
     <ion-label>单位地址</ion-label>
-    <ion-note item-end style="width: 65%">{{info.addr}}</ion-note>
+    <ion-note item-end style="width: 65%">{{info.UnitAddress}}</ion-note>
   </ion-item>
 
   <ion-item>
     <ion-label>联系方式</ion-label>
-    <ion-note item-end style="width: 65%">{{info.contact}}</ion-note>
+    <ion-note item-end style="width: 65%">{{info.Phone}}</ion-note>
   </ion-item>
 
   <ion-item>
     <ion-label>送达期限</ion-label>
-    <ion-note item-end style="width: 65%">{{info.limit}}</ion-note>
+    <ion-note item-end style="width: 65%">{{info.TimeLimit}}</ion-note>
   </ion-item>
 
   <ion-item>
     <ion-label>保存方式</ion-label>
-    <ion-note item-end style="width: 65%">{{info.keep}}</ion-note>
+    <ion-note item-end style="width: 65%">{{info.StorageMethod}}</ion-note>
   </ion-item>
 </ion-list>
 
@@ -73,36 +73,36 @@
 
 <ion-item no-lines>
   <p item-start style="width: 80%">{{conditions.a1}}</p>
-  <ion-checkbox item-end checked="true"></ion-checkbox>
+  <ion-checkbox item-end checked="true" [(ngModel)]="labelcheck"></ion-checkbox>
 </ion-item>
 <div class="ty-line1"></div>
 
 <ion-item no-lines>
   <p item-start style="width: 80%">{{conditions.a2}}</p>
-  <ion-checkbox item-end checked="true"></ion-checkbox>
+  <ion-checkbox item-end checked="true" [(ngModel)]="weightcheck"></ion-checkbox>
 </ion-item>
 <div class="ty-line1"></div>
 
 <ion-item no-lines>
   <p item-start style="width: 80%">{{conditions.a3}}</p>
-  <ion-checkbox item-end checked="false"></ion-checkbox>
+  <ion-checkbox item-end checked="false" [(ngModel)]="numcheck"></ion-checkbox>
 </ion-item>
 <div class="ty-line1"></div>
 
 <ion-item no-lines>
   <p item-start style="width: 80%">{{conditions.a4}}</p>
-  <ion-checkbox item-end checked="true"></ion-checkbox>
+  <ion-checkbox item-end checked="true" [(ngModel)]="packcheck"></ion-checkbox>
 </ion-item>
 <div class="ty-line1"></div>
 
 <ion-item no-lines>
   <p item-start style="width: 80%">{{conditions.a5}}</p>
-  <ion-checkbox item-end checked="false"></ion-checkbox>
+  <ion-checkbox item-end checked="false" [(ngModel)]="storagecheck"></ion-checkbox>
 </ion-item>
 
 <div class="ty-line15"></div>
 <div text-center style="width:100%;overflow:auto;">
-  <div class="cancel" float-left col-6 (click)="resetClick()">
+  <div class="cancel" float-left col-6 (click)="back()">
     <p>退出</p>
   </div>
   <div class="comfirm" float-left col-6 (click)="comfirm()">

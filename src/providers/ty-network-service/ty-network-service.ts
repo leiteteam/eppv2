@@ -62,7 +62,7 @@ export class TyNetworkServiceProvider {
     //   return;
     // }
     
-    console.log("post:"+api+"-->"+params);
+    console.log("post:"+api+"-->"+JSON.stringify(params));
     let loading = this.loadingCtrl.create();
 
     if (loader) {

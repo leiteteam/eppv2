@@ -55,13 +55,13 @@ export class MorePage extends BasePage{
   }
 
   gotoDelivery(){
-    this.navCtrl.push("SpleInfoPage");
-    // this.device.push("qrCodeScan",'',(spleNo)=>{
-    //   console.log("spleNo:"+spleNo);
-    //   this.navCtrl.push("SpleInfoPage");
-    // },(err)=>{
-    //   this.toastShort(err);
-    // });
+    //this.navCtrl.push("SpleInfoPage");
+    this.device.push("qrCodeScan",'',(spleNo)=>{
+      console.log("spleNo:"+spleNo);
+      this.navCtrl.push("SpleInfoPage",{spleId:spleNo});
+    },(err)=>{
+      this.toastShort(err);
+    });
   }
 
 }

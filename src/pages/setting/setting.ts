@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Events, ToastController } from 'ionic-angular';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 import { BasePage } from '../base/base';
 
@@ -30,8 +30,9 @@ export class SettingPage extends BasePage{
     public alert:AlertController,
     public events:Events,
     public device:DeviceIntefaceServiceProvider,
-    public loadingCtrl:LoadingController) {
-      super(navCtrl,navParams);
+    public loadingCtrl:LoadingController,
+    public toastCtrl:ToastController) {
+      super(navCtrl,navParams,toastCtrl);
   }
 
   ionViewDidLoad() {

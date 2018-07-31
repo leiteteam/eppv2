@@ -182,6 +182,7 @@ export class CollectionPage extends BasePage{
       AppServiceProvider.getInstance().userinfo.username,
       (taskList)=>{
         //console.log(JSON.stringify(taskList));
+        this.todoList = [];
         taskList.forEach(element => {
           let task = JSON.parse(element);
           task.data = JSON.parse(task.data);
@@ -203,6 +204,7 @@ export class CollectionPage extends BasePage{
       "getDoneList",
       AppServiceProvider.getInstance().userinfo.username,
       (taskList)=>{
+        this.doneList = [];
         taskList.forEach(element => {
           let task = JSON.parse(element);
           task.data = JSON.parse(task.data);
