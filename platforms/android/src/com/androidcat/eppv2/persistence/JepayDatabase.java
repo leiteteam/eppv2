@@ -112,6 +112,9 @@ public class JepayDatabase {
     }
     try {
       List<TaskData> taskList = mDbUtils.findAll(Selector.from(TaskData.class).where("userid","=",userid).and("state","=","0"));
+      if(taskList == null){
+          return new ArrayList<TaskData>();
+      }
       return taskList;
     } catch (DbException e) {
       e.printStackTrace();
@@ -125,6 +128,9 @@ public class JepayDatabase {
     }
     try {
       List<TaskData> taskList = mDbUtils.findAll(Selector.from(TaskData.class).where("userid","=",userid).and("state","=","1"));
+      if(taskList == null){
+          return new ArrayList<TaskData>();
+      }
       return taskList;
     } catch (DbException e) {
       e.printStackTrace();
