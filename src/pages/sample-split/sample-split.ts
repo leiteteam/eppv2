@@ -21,7 +21,15 @@ export class SampleSplitPage {
       this.categorys[index]['text'] = this.categorys[index]["ParamList"].join("、");
     }
   }
+  checkedBtn(dom){
+    
+  }
+  splitBtn(){
 
+  }
+  successBtn(){
+
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SampleSplitPage');
   }

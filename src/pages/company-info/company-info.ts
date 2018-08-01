@@ -1,3 +1,4 @@
+import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface-service/device-inteface-service';
 import { BasePage } from './../base/base';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
@@ -15,11 +16,13 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
   templateUrl: 'company-info.html',
 })
 export class CompanyInfoPage extends BasePage{
+  lng:number;
+  lat:number;
   callback:any;
   company: any;
   isFlagInput: boolean = false;
   newCompany: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl:ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public device: DeviceIntefaceServiceProvider, public toastCtrl:ToastController) {
     super(navCtrl,navParams,toastCtrl);
     this.callback = navParams.get("callback");
     this.company = this.navParams.get("Company");
@@ -27,14 +30,24 @@ export class CompanyInfoPage extends BasePage{
       this.isFlagInput = true;
     }
     this.newCompany = this.navParams.get("newCompany");
-    this.companyType = this.newCompany["Industry"];
+  }
+  findEnt = ({entLng, entLat}) => {
+    return new Promise((resolve, reject) =>{
+      this.newCompany.FactLongitude = entLng;
+      this.newCompany.FactLatitude = entLat;
+      this.newCompany.DeviationDistance = this.getDistance(this.company.CLatitude, this.company.CLongitude, entLat, entLng);
+      resolve();
+    })
+  }
+  findEntBtn(){
+    this.navCtrl.push("FindEntPage", {callback: this.findEnt,entLng: this.company.CLongitude,entlat:this.company.CLatitude});
   }
   save(){
     if(!this.newCompany.FactCompanyName){
       this.toast("请输入现企业名称");
       return;
     }
-    if(this.companyType == 0){
+    if(this.newCompany["Industry"] == 0){
       this.toast("请选择企业行业");
       return;
     }
@@ -46,9 +59,9 @@ export class CompanyInfoPage extends BasePage{
       this.toast("请输入实际经/纬度");
       return;
     }
+    this.newCompany.DeviationDistance = this.getDistance(this.company.CLatitude, this.company.CLongitude, this.newCompany.FactLatitude, this.newCompany.FactLongitude);
     this.callback(this.newCompany).then(() => { this.navCtrl.pop() });
   }
-  companyType = 0;
   companyTypes: any = [
     {
       name: '',
@@ -84,7 +97,7 @@ export class CompanyInfoPage extends BasePage{
     let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
       Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
     s = s * 6378.137;// EARTH_RADIUS;
-    s = Math.round(s * 10000) / 10000;
+    s = Math.round(s * 10000) / 10;
     return s;
   }
 }

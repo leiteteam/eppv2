@@ -18,7 +18,6 @@ import { DeviceIntefaceServiceProvider } from '../providers/device-inteface-serv
 import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
 import { NativePageTransitions } from '@ionic-native/native-page-transitions';
-import { UploadManagerProvider } from '../providers/upload-manager/upload-manager';
 import { TaskServiceProvider } from '../providers/task-service/task-service';
 
 
@@ -75,7 +74,6 @@ export function dbFactory(platform:Platform,zone:NgZone) {
       deps:[Platform,NgZone]
     },
     DeviceIntefaceServiceProvider,
-    UploadManagerProvider,
     NativePageTransitions,
     WebTyNetworkServiceProvider,
     TaskServiceProvider

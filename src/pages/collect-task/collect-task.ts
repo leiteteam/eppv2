@@ -1,6 +1,8 @@
+import { BasePage } from './../base/base';
+import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface-service/device-inteface-service';
 import { CameraOptions, Camera } from '@ionic-native/camera';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 
 /**
  * Generated class for the CollectTaskPage page.
@@ -14,8 +16,9 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
   selector: 'page-collect-task',
   templateUrl: 'collect-task.html',
 })
-export class CollectTaskPage {
-  callback:any;
+export class CollectTaskPage extends BasePage {
+  //callback:any;
+  spleTask:any;
   taskData:any;
   sampleData:any;
   isFlagInput:boolean = false;
@@ -23,11 +26,15 @@ export class CollectTaskPage {
   sampleProcess:String;
   samplePerson:String;
   changeImg:String;
-  distance:number = 50.24;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private camera: Camera, public alertCtrl:AlertController) {
-    this.callback = navParams.get("callback");
-    this.taskData = navParams.get("taskData");
-    this.sampleData = navParams.get("sampleData");
+  distance:number = 0;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public device:DeviceIntefaceServiceProvider, private camera: Camera, public alertCtrl:AlertController) {
+    super(navCtrl, navParams, toastCtrl);
+    //this.callback = navParams.get("callback");
+    this.spleTask = navParams.get('spleTask');
+    this.taskData = this.spleTask['data'];
+    this.sampleData = this.spleTask['samples'];
+    //this.taskData = navParams.get("taskData");
+    //this.sampleData = navParams.get("sampleData");
     if (this.navParams.get("model") == 2) {
       this.isFlagInput = true;
     }
@@ -48,6 +55,17 @@ export class CollectTaskPage {
           break;
       }
     }
+  }
+  getLatLng(){
+    this.device.push("location","",(location)=>{
+      location = JSON.parse(location);
+      this.sampleData.FactLongitude = location.lng;
+      this.sampleData.FactLatitude = location.lat;
+      this.sampleData.DeviationDistance = this.getDistance(this.taskData.Point.Latitude, this.taskData.Point.Longitude, location.lat, location.lng);
+      }, (err)=>{
+        this.toast("定位失败，请在室外空旷处再试!");
+      }
+    );
   }
   //保存
   save(){
@@ -87,11 +105,14 @@ export class CollectTaskPage {
     }
     // 设置选项
     const options: CameraOptions = {
-      quality: 100,
+      quality: 80,
       sourceType: this.camera.PictureSourceType.CAMERA,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation:true,
+      targetHeight:520,
+      targetWidth:360
     }
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
@@ -211,6 +232,17 @@ export class CollectTaskPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad CollectTaskPage');
   }
-
+  
+  getDistance(lat1: number, lng1: number, lat2: number, lng2: number) {
+    let radLat1 = lat1 * Math.PI / 180.0;
+    let radLat2 = lat2 * Math.PI / 180.0;
+    let a = radLat1 - radLat2;
+    let b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+    let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+      Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+    s = s * 6378.137;// EARTH_RADIUS;
+    s = Math.round(s * 10000) / 10;
+    return s;
+  }
 }
 

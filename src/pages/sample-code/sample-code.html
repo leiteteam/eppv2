@@ -18,7 +18,7 @@
   <ion-item no-lines>
     <ion-icon name="ios-hammer-outline" item-start></ion-icon>
     <ion-input type="text" class="input-border" disabled="true" item-start></ion-input>
-    <button ion-button item-end>样品制码</button>
+    <button ion-button item-end (click)="printCodes()">样品制码</button>
   </ion-item>
   <ion-list>
     <ion-item *ngFor="let subSample of subSamples">
@@ -28,7 +28,7 @@
           <p>子样编码：{{subSample.SubSampleId}}</p>
       </div>
       <div item-end>
-          <button ion-button>子样制码</button>
+          <button ion-button (click)="printCode(subSample.SubSampleId)">子样制码</button>
       </div>
       
     </ion-item>

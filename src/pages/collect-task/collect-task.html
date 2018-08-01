@@ -24,20 +24,20 @@
     <div item-end>
       <input type="text" class="input-border" style="width: 31%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.FactLongitude" /> -
       <input type="text" class="input-border" style="width: 31%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.FactLatitude" />
-      <button class="btn-get">获取</button>
+      <button class="btn-get" (click)="getLatLng()">获取</button>
     </div>
   </ion-item>
   <ion-item no-lines>
-    <p style="text-align: center;" [ngStyle]="{'color':distance > 50 ? '#f53d3d' : '#8aa88f' }">偏移距离：{{distance}} m</p>
+    <p style="text-align: center;" [ngStyle]="{'color':sampleData.DeviationDistance > 50 ? '#f53d3d' : '#8aa88f' }">偏移距离：{{sampleData.DeviationDistance}} m</p>
   </ion-item>
   <ion-item no-lines>
     <ion-textarea class="input-border" placeholder="样点变更说明" [disabled]="isFlagInput" [(ngModel)]="sampleData.ChangeReason"></ion-textarea>
   </ion-item>
   <div class="item item-ios">
-    <label style="display: inline-block;">采样深度(cm)
+    <label item-start>采样深度(cm)
       <span style="color: red">*</span>
     </label>
-    <div style="display: inline-block; width: 60%;">
+    <div item-end style="width: 58%;float: right;">
       <input type="text" class="input-border" style="width: 45%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.SampleDepthFrom"/> -
       <input type="text" class="input-border" style="width: 45%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.SampleDepthTo"/>
     </div>
@@ -88,7 +88,7 @@
         采样负责人
       </div>
     </div>
-    <div class="item item-ios" style="height:170px;width: 100%;padding: 0;">
+    <div class="item item-ios" style="height:200px;width: 100%;padding: 0;">
         <div (click)="addImg(4)" (press)='delImg(4)' style="white-space: nowrap;height: 60%; width:30%; margin: 0 auto; text-align: center;">
           <img src="{{changeImg != null ? changeImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
           变更照片

@@ -20,12 +20,12 @@
     <button ion-item detail-push (click)="sampleInfoBtn()">
       样点信息
     </button>
-    <button ion-item detail-push (click)="companyInfoBtn()">
+    <button ion-item detail-push (click)="companyInfoBtn()" *ngIf="taskData?.Point?.IsYXQ">
       企业信息核查
     </button>
-    <button ion-item detail-push (click)="collcetTaskBtn()">
+    <!-- <button ion-item detail-push (click)="collcetTaskBtn()">
       样品采集
-    </button>
+    </button> -->
 
     <ion-item no-lines>
       <ion-label>实际采样地点</ion-label>
@@ -47,75 +47,39 @@
     </ion-item>
     <ion-item no-lines detail-push>
       <ion-label>灌溉方式</ion-label>
-      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="irrigateWay" [multiPickerColumns]="irrigateWays"
+      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.IrrigationMethod" [multiPickerColumns]="irrigateWays"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
     <ion-item no-lines detail-push>
       <ion-label>灌溉水类型</ion-label>
-      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="irrigateType" [multiPickerColumns]="irrigateTypes"
+      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.IrrigationType" [multiPickerColumns]="irrigateTypes"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
     <ion-item no-lines detail-push>
       <ion-label>地形类型</ion-label>
-      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="terrainType" [multiPickerColumns]="terrainTypes"
+      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.TerrainType" [multiPickerColumns]="terrainTypes"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
     <ion-item no-lines detail-push>
       <ion-label>天气</ion-label>
-      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="weatherSetting" [multiPickerColumns]="weatherSettings"
+      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.Weather" [multiPickerColumns]="weatherSettings"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
-    <ion-item detail-push (click)="aroundBtn(1)">
+    <ion-item detail-push (click)="aroundBtn('正东',1)">
       <ion-label>正东</ion-label>
-      <ion-input disabled="true" [value]="dueEast" placeholder="请选择" class="input-checked"></ion-input>
-      <!-- <ion-label style="display: inline-block;width: 60% !important;">
-        <label><input name="zd" [disabled]="isFlagInput" type="checkbox">居民区</label>
-        <label><input name="zd" [disabled]="isFlagInput" type="checkbox">厂矿</label>
-        <label><input name="zd" [disabled]="isFlagInput" type="checkbox">耕地</label>
-        <label><input name="zd" [disabled]="isFlagInput" type="checkbox">林地</label>
-        <label><input name="zd" [disabled]="isFlagInput" type="checkbox">草地</label>
-        <label><input name="zd" [disabled]="isFlagInput" type="checkbox">水域</label>
-        <label><input name="zd" [disabled]="isFlagInput" type="checkbox">其它</label>
-      </ion-label> -->
+      <ion-input disabled="true" [value]="sampleData?.DueEast" placeholder="请选择" class="input-checked"></ion-input>
     </ion-item>
-    <ion-item detail-push (click)="aroundBtn(2)">
+    <ion-item detail-push (click)="aroundBtn('正南',2)">
       <ion-label>正南</ion-label>
-      <ion-input disabled="true" [value]="dueSouth" placeholder="请选择" class="input-checked"></ion-input>
-      <!-- <ion-label style="display: inline-block;width: 60% !important;">
-        <label><input name="zd" type="checkbox">居民区</label>
-        <label><input name="zd" type="checkbox">厂矿</label>
-        <label><input name="zd" type="checkbox">耕地</label>
-        <label><input name="zd" type="checkbox">林地</label>
-        <label><input name="zd" type="checkbox">草地</label>
-        <label><input name="zd" type="checkbox">水域</label>
-        <label><input name="zd" type="checkbox">其它</label>
-      </ion-label> -->
+      <ion-input disabled="true" [value]="sampleData?.DueSouth" placeholder="请选择" class="input-checked"></ion-input>
     </ion-item>
-    <ion-item detail-push (click)="aroundBtn(3)">
+    <ion-item detail-push (click)="aroundBtn('正西',3)">
       <ion-label>正西</ion-label>
-      <ion-input disabled="true" [value]="dueWest" placeholder="请选择" class="input-checked"></ion-input>
-      <!-- <ion-label style="display: inline-block;width: 60% !important;">
-        <label><input name="zd" type="checkbox">居民区</label>
-        <label><input name="zd" type="checkbox">厂矿</label>
-        <label><input name="zd" type="checkbox">耕地</label>
-        <label><input name="zd" type="checkbox">林地</label>
-        <label><input name="zd" type="checkbox">草地</label>
-        <label><input name="zd" type="checkbox">水域</label>
-        <label><input name="zd" type="checkbox">其它</label>
-      </ion-label> -->
+      <ion-input disabled="true" [value]="sampleData?.DueWest" placeholder="请选择" class="input-checked"></ion-input>
     </ion-item>
-    <ion-item detail-push (click)="aroundBtn(4)">
+    <ion-item detail-push (click)="aroundBtn('正北',4)">
       <ion-label>正北</ion-label>
-      <ion-input disabled="true" [value]="dueNorth" placeholder="请选择" class="input-checked"></ion-input>
-      <!-- <ion-label style="display: inline-block;width: 60% !important;">
-        <label><input name="zd" type="checkbox">居民区</label>
-        <label><input name="zd" type="checkbox">厂矿</label>
-        <label><input name="zd" type="checkbox">耕地</label>
-        <label><input name="zd" type="checkbox">林地</label>
-        <label><input name="zd" type="checkbox">草地</label>
-        <label><input name="zd" type="checkbox">水域</label>
-        <label><input name="zd" type="checkbox">其它</label>
-      </ion-label> -->
+      <ion-input disabled="true" [value]="sampleData?.DueNorth" placeholder="请选择" class="input-checked"></ion-input>
     </ion-item>
     <ion-item no-lines>
       <ion-label>周边潜在污染源信息</ion-label>

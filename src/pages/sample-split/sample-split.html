@@ -17,7 +17,11 @@
     <ion-item *ngFor="let category of categorys">
       <p>{{category.CategoryName}}</p>
       <p>{{category.text}}</p>
-      <button ion-button>全选</button>
+      <button ion-button color="gray" #dom (click)="checkedBtn(dom)">全选</button>
     </ion-item>
   </ion-list>
 </ion-content>
+<ion-footer>
+  <button ion-button full (click)="splitBtn()" style="width: 50% !important; margin: 0 0 !important;float: left; border:solid 1px #ccc;">分样</button>
+  <button ion-button full (click)="successBtn()" style="width: 50% !important; margin: 0 0 !important;float: left;">完成</button>
+</ion-footer>

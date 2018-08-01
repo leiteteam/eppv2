@@ -152,7 +152,7 @@ export class CollectionPage extends BasePage{
   }
 
   onCllect(spleTask){
-    this.navCtrl.push('CollectProcessPage', {'spleTask':spleTask});
+    this.navCtrl.push('CollectProcessPage', {'spleTask':spleTask, model: 0});
   }
 
   ionViewDidLoad() {

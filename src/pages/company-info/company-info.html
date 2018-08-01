@@ -27,7 +27,7 @@
     </ion-item>
     <ion-item no-lines detail-push>
       <ion-label>企业行业 <span style="color: red">*</span></ion-label>
-      <ion-multi-picker item-end style="color:darkgray;max-width: 63%;" [(ngModel)]="companyType" [multiPickerColumns]="companyTypes"
+      <ion-multi-picker item-end style="color:darkgray;max-width: 63%;" [(ngModel)]="newCompany.Industry" [multiPickerColumns]="companyTypes"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
     <ion-item no-lines>
@@ -48,7 +48,7 @@
     <div class="item item-ios">
       <p style="display: inline-block;width: 79%;margin-top: 15px;text-align: center;color: red;">右侧按钮可查找企业具体坐标</p>
       <div style="display: inline-block; width: 19%;">
-        <button style="border-radius: 5px;height: 32px; padding-left: 5px; padding-right: 5px;color: #fff;background-color: #8aa88f;">查企业</button>
+        <button (click)="findEntBtn()" style="border-radius: 5px;height: 32px; padding-left: 5px; padding-right: 5px;color: #fff;background-color: #8aa88f;">查企业</button>
       </div>
     </div>
     <div class="item item-ios">
