@@ -16,8 +16,19 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 export class SpleStationInfoPage {
 
   sple:any;
+  isSub:boolean = false;
+  
+  DepartmentIDs = {
+    "1":"环保",
+    "2":"国土资源",
+    "3":"农业",
+    "4":"卫生计生",
+    "5":"其他"
+  };
+  
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl:ViewController) {
     this.sple = navParams.data.sple;
+    this.isSub = navParams.data.isSub;
   }
 
   ionViewDidLoad() {

@@ -38,7 +38,7 @@ export class AppGlobal {
         uploadImage:'/api/v1/user/uploadImage',
         sampleFlow:'/api/SampleFlow/Post',
         updateFlow:'/api/FlowStatusUpdate/Post',
-        praises:'/api/v1/praises'
+        flowedList:'/api/FlowedList/Post'
     };
     static DATA:any ={
       uploadDoc:':8080/pc/data/uploadDoc',//文件上传
