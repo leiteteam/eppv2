@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ModalController, Events } from 'ionic-angular';
 import { BasePage } from '../base/base';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 import { AppServiceProvider, AppGlobal } from '../../providers/app-service/app-service';
@@ -43,8 +43,12 @@ export class CollectionPage extends BasePage{
     public toastCtrl:ToastController,
     public modalCtrl: ModalController,
     private net: TyNetworkServiceProvider,
+    public events:Events,
     public device:DeviceIntefaceServiceProvider) {
     super(navCtrl,navParams,toastCtrl);
+    events.subscribe('tabChanged',()=>{
+      this.getTodoList();
+    });
   }
 
   onCllect(spleTask){

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import { BasePage } from '../base/base';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
+import { DbServiceProvider } from '../../providers/db-service/db-service';
 
 /**
  * Generated class for the HomePage page.
@@ -27,6 +28,7 @@ export class HomePage extends BasePage {
     public device:DeviceIntefaceServiceProvider,
     public mtoast: ToastController, 
     public navCtrl: NavController, 
+    private db: DbServiceProvider,
     public navParams: NavParams) {
     super(navCtrl, navParams, mtoast);
   }
@@ -46,7 +48,8 @@ export class HomePage extends BasePage {
   }
 
   gotoLogin(appType:string){
-    AppServiceProvider.getInstance().appType = appType;
+    AppServiceProvider.getInstance().userinfo.appType = appType;
+
     this.navCtrl.setRoot("LoginPage");
   }
 

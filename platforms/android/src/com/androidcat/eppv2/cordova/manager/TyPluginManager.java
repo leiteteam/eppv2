@@ -284,6 +284,14 @@ public class TyPluginManager {
       else if("switchBle".equals(code)){
         PluginCoreWorker.switchBle(plugin,callbackContext);
       }
+      else if("getUserInfo".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.getUserInfo(plugin,commandData,callbackContext);
+      }
+      else if("updateUserInfo".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.updateUserInfo(plugin,commandData,callbackContext);
+      }
       else if("clearCache".equals(code)){
         // TODO: 2018/7/27
         callbackContext.success();

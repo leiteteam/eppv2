@@ -3,6 +3,7 @@ package com.androidcat.eppv2.persistence;
 import android.content.Context;
 
 import com.androidcat.eppv2.persistence.bean.TaskData;
+import com.androidcat.eppv2.persistence.bean.UserInfo;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.DbUtils.DaoConfig;
 import com.lidroid.xutils.db.sqlite.Selector;
@@ -237,6 +238,34 @@ public class JepayDatabase {
     } catch (DbException e) {
       e.printStackTrace();
       return 0;
+    }
+  }
+
+
+  //////////////////////////////////////////////用户信息相关//////////////////////////////////////////////////////
+
+  public UserInfo getUserInfo(String username){
+    if (mDbUtils == null){
+      return null;
+    }
+    try {
+      return mDbUtils.findById(UserInfo.class,username);
+    } catch (DbException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public boolean updateUserInfo(UserInfo userInfo){
+    if (mDbUtils == null){
+      return false;
+    }
+    try {
+      mDbUtils.replace(userInfo);
+      return true;
+    } catch (DbException e) {
+      e.printStackTrace();
+      return false;
     }
   }
 }

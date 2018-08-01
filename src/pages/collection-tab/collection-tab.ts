@@ -24,7 +24,7 @@ export class CollectionTabPage extends BasePage{
   constructor(public navCtrl: NavController,public navParams: NavParams,public events:Events) {
     super(navCtrl,navParams);
     events.subscribe('logoutNotification',()=>{
-      this.navCtrl.setRoot("LoginPage");
+      this.navCtrl.setRoot("HomePage");
     });
   }
 
@@ -34,10 +34,10 @@ export class CollectionTabPage extends BasePage{
 
   onTabChanged(){
     let previous = this.tabs.previousTab(false);
-    if (previous){
-      console.log("previous tab is -->"+previous.root);
-    }else {
-      
+    if (this.tabs.getSelected().root == "CollectionPage"){
+      if (previous.root == "DataManagerPage"){
+        this.events.publish('tabChanged');
+      }
     }
   }
 }

@@ -4,6 +4,7 @@ import { TyNetworkServiceProvider } from './../../providers/ty-network-service/t
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { BasePage } from '../base/base';
+import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 // import { Md5 } from 'ts-md5/dist/md5';
 /**
  * Generated class for the LoginPage page.
@@ -35,6 +36,7 @@ export class LoginPage extends BasePage{
     public navCtrl: NavController,
     public navParams: NavParams,
     private net: TyNetworkServiceProvider,
+    public device:DeviceIntefaceServiceProvider,
     private db: DbServiceProvider) {
       super(navCtrl,navParams,toastCtrl);
   }
@@ -58,11 +60,7 @@ export class LoginPage extends BasePage{
     this.login(username, password)
     .then( ()=>{
       console.log("then --> loginSuccess");
-
-      this.db.saveString(username, "username");
-      this.db.saveString(password, "password");
-      
-      this.setRootTab(AppServiceProvider.getInstance().appType);
+      this.setRootTab(AppServiceProvider.getInstance().userinfo.appType);
     }, (error) =>{
       console.log("then --> login "+error);
 
@@ -77,7 +75,7 @@ export class LoginPage extends BasePage{
         {
           "username": username,
           "pwd": password,
-          "appType":AppServiceProvider.getInstance().appType
+          "appType":AppServiceProvider.getInstance().userinfo.appType
           // "password":Md5.hashStr(password).toString().toLowerCase()
         },
         msg => {
@@ -85,6 +83,8 @@ export class LoginPage extends BasePage{
           AppServiceProvider.getInstance().userinfo.username = obj.username;
           AppServiceProvider.getInstance().userinfo.userid = obj.userid;
           AppServiceProvider.getInstance().userinfo.token = obj.token;
+          this.db.saveString(username, "username");
+          this.device.push("updateUserInfo",JSON.stringify(AppServiceProvider.getInstance().userinfo));
           resolve();
         },
         error => {
