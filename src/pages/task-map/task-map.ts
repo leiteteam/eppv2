@@ -359,4 +359,8 @@ export class TaskMapPage extends BasePage{
     const modal = this.modalCtrl.create("TaskSummaryDialogPage");
     modal.present();
   }
+
+  refresh(){
+    this.showTaskSummary();
+  }
 }

@@ -12,7 +12,7 @@
             <ion-icon name="ios-arrow-back"></ion-icon>
           </button>
       </ion-buttons>
-    <ion-title>详情</ion-title>
+    <ion-title>制备单位详情</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -21,34 +21,44 @@
 <ion-content no-padding no-margin>
   <ion-list>
 
-    <ion-item style="margin-top: 15px;">
+    <ion-item style="margin-top: 15px;" *ngIf="!isSub">
       <ion-icon name="home" item-start color="primary"></ion-icon>
       <ion-label>制样基地名称</ion-label>
-      <p item-end>{{sple.spleStore.name}}</p>
+      <p item-end>{{sple.UnitName}}</p>
+    </ion-item>
+    <ion-item style="margin-top: 15px;" *ngIf="isSub">
+      <ion-icon name="home" item-start color="primary"></ion-icon>
+      <ion-label>流转中心名称</ion-label>
+      <p item-end>{{sple.UnitName}}</p>
     </ion-item>
 
     <ion-item>
       <ion-icon name="bookmark" item-start color="primary"></ion-icon>
-      <ion-label>单位</ion-label>
-      <p item-end>{{sple.spleStore.unit}}</p>
+      <ion-label>组件单位</ion-label>
+      <p item-end>{{DepartmentIDs[sple.DepartmentID]}}</p>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="!isSub">
       <ion-icon name="pin" item-start color="primary"></ion-icon>
-      <ion-label>地址</ion-label>
-      <p item-end>{{sple.spleStore.addr}}</p>
+      <ion-label>制样基地地址</ion-label>
+      <p item-end>{{sple.UnitAddress}}</p>
+    </ion-item>
+    <ion-item *ngIf="isSub">
+      <ion-icon name="pin" item-start color="primary"></ion-icon>
+      <ion-label>流转中心地址</ion-label>
+      <p item-end>{{sple.UnitAddress}}</p>
     </ion-item>
 
     <ion-item>
       <ion-icon name="contact" item-start color="primary"></ion-icon>
       <ion-label>联系人</ion-label>
-      <p item-end>{{sple.spleStore.contact}}</p>
+      <p item-end>{{sple.PersonLiable}}</p>
     </ion-item>
 
     <ion-item >
       <ion-icon name="call" item-start color="primary"></ion-icon>
       <ion-label>联系电话</ion-label>
-      <p item-end>{{sple.spleStore.phone}}</p>
+      <p item-end>{{sple.Phone}}</p>
     </ion-item>
   </ion-list>
 </ion-content>

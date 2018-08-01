@@ -13,10 +13,12 @@ import com.amap.api.navi.AmapNaviParams;
 import com.amap.api.navi.AmapNaviType;
 import com.amap.api.navi.INaviInfoCallback;
 import com.amap.api.navi.model.AMapNaviLocation;
+import com.androidcat.acnet.entity.User;
 import com.androidcat.eppv2.cordova.plugin.print.DzPrinterHelper;
 import com.androidcat.eppv2.cordova.plugin.qrcode.QrCodeHelper;
 import com.androidcat.eppv2.persistence.JepayDatabase;
 import com.androidcat.eppv2.persistence.bean.TaskData;
+import com.androidcat.eppv2.persistence.bean.UserInfo;
 import com.androidcat.utilities.GsonUtil;
 import com.androidcat.utilities.SystemSettingUtil;
 import com.google.gson.Gson;
@@ -151,6 +153,26 @@ public class PluginCoreWorker {
       callbackContext.success();
     }else {
       callbackContext.error("本地数据更新失败,请重新保存");
+    }
+  }
+
+  public static void getUserInfo(CordovaPlugin plugin, String username, final CallbackContext callbackContext) {
+    JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
+    UserInfo userInfo = database.getUserInfo(username);
+    if (userInfo != null){
+      callbackContext.success(new Gson().toJson(userInfo));
+    }else {
+      callbackContext.error("");
+    }
+  }
+
+  public static void updateUserInfo(CordovaPlugin plugin, String infoStr, final CallbackContext callbackContext) {
+    JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
+    UserInfo userInfo = new Gson().fromJson(infoStr, UserInfo.class);
+    if (database.updateUserInfo(userInfo)){
+      callbackContext.success();
+    }else {
+      callbackContext.error("");
     }
   }
 

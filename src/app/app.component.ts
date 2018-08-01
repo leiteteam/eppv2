@@ -5,6 +5,7 @@ import { Platform, Nav, Keyboard, IonicApp, ToastController } from 'ionic-angula
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DeviceIntefaceServiceProvider } from '../providers/device-inteface-service/device-inteface-service';
+import { AppServiceProvider } from '../providers/app-service/app-service';
 
 export interface PageInterface {
   title: string;
@@ -58,35 +59,68 @@ export class MyApp {
         this.statusBar.backgroundColorByHexString("#8aa88f");
         this.registerBackButtonAction();
       }
+      
       //判断登录状态，并跳转
-      this.db.getString(this.HAS_SEEN_TUTORIAL, (hasSeenTutorial) => {
-        this.db.getString(this.HAS_LOGGED_IN, (hasLoggedIn) => {
-          this.platformReady(hasLoggedIn);
-          this.splashScreen.hide();
-          // this.device.push("platform.ready");
-        },()=>{
-          this.splashScreen.hide();
-          // this.device.push("platform.ready");
-          console.log("hasLoggedIn fialded");
-        });
-      },()=>{
-        this.splashScreen.hide();
-        // this.device.push("platform.ready");
-        console.log("hasSeenTutorial fialded");
-      });
-
+      this.checkLogin();
     });
   }
 
-  platformReady(hasLoggedIn) {
-    if (hasLoggedIn) {
-      this.rootPage = "HomePage";
-      //this.rootPage = "HomeTabPage";
-    } else {
+  checkLogin(){
+    this.getUsername()
+        .then(username=>{
+          return this.getUserInfo(username);
+        })
+        .then(()=>{
+          this.setRootTab(AppServiceProvider.getInstance().userinfo.appType);
+        })
+  }
+
+  getUsername(){
+    return new Promise((resolve,reject)=>{
+      this.db.getString("username",username=>{
+        if (username){
+          resolve(username);
+        }else {
+          this.setRootTab(null);
+        }
+      });
+    });
+  }
+
+  getUserInfo(username){
+    return new Promise((resolve,reject)=>{
+      this.device.push("getUserInfo",username,infoStr=>{
+        let userInfo = JSON.parse(infoStr);
+        AppServiceProvider.getInstance().userinfo = userInfo;
+        resolve();
+      },err=>{
+        this.setRootTab(null);
+      });
+    });
+  }
+
+  platformReady(appType) {
+    this.setRootTab(appType);
+  }
+
+  setRootTab(appType:string){
+    this.splashScreen.hide();
+    if (appType ==="Cy"){
+      this.rootPage = "CollectionTabPage";
+    }
+    else if (appType ==="Zb"){
+      this.rootPage = "BuildingPage";
+    }
+    else if (appType ==="Lz"){
+      this.rootPage = "BuildingPage";
+    }
+    else if (appType ==="Jc"){
+      this.rootPage = "BuildingPage";
+    }
+    else {
       this.rootPage = "HomePage";
     }
   }
-
 
   isActive(page: PageInterface): boolean {
     let childNav = this.nav.getActiveChildNavs()[0];

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ModalController, Events } from 'ionic-angular';
 import { BasePage } from '../base/base';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 import { AppServiceProvider, AppGlobal } from '../../providers/app-service/app-service';
@@ -26,129 +26,29 @@ export class CollectionPage extends BasePage{
   uploadedList:any[] = [];
   togoList:any[] = [];
 
-  mainSpleTogoList = [
-    {
-      spleNo:"roieu84593485938",
-      spleStore:{
-        name:"国家样中心",
-        unit:"军营第二单位",
-        addr:"民族大道与三环线交汇处",
-        contact:"张杰",
-        phone:"15654444333"
-      },
-      spleType:"地表样",
-    },
-    {
-      spleNo:"roieu84593485938",
-      spleStore:{
-        name:"国家样中心",
-        unit:"军营第二单位",
-        addr:"民族大道与三环线交汇处",
-        contact:"张杰",
-        phone:"15654444333"
-      },
-      spleType:"地表样",
-    },
-    {
-      spleNo:"roieu84593485938",
-      spleStore:{
-        name:"国家样中心",
-        unit:"军营第二单位",
-        addr:"民族大道与三环线交汇处",
-        contact:"张杰",
-        phone:"15654444333"
-      },
-      spleType:"地表样",
-    },
-    {
-      spleNo:"roieu84593485938",
-      spleStore:{
-        name:"国家样中心",
-        unit:"军营第二单位",
-        addr:"民族大道与三环线交汇处",
-        contact:"张杰",
-        phone:"15654444333"
-      },
-      spleType:"地表样",
-    },
-    {
-      spleNo:"roieu84593485938",
-      spleStore:{
-        name:"国家样中心",
-        unit:"军营第二单位",
-        addr:"民族大道与三环线交汇处",
-        contact:"张杰",
-        phone:"15654444333"
-      },
-      spleType:"地表样",
-    }
-  ];
+  flowedMainSpleList:any[] = [];
+  flowedSubSpleList:any[] = [];
 
-  subSpleTogoList = [
-    {
-      spleNo:"roieu84593485938",
-      spleStore:{
-        name:"国家样中心",
-        unit:"军营第二单位",
-        addr:"民族大道与三环线交汇处",
-        contact:"张杰",
-        phone:"15654444333"
-      },
-      spleType:"地表样",
-    },
-    {
-      spleNo:"roieu84593485938",
-      spleStore:{
-        name:"国家样中心",
-        unit:"军营第二单位",
-        addr:"民族大道与三环线交汇处",
-        contact:"张杰",
-        phone:"15654444333"
-      },
-      spleType:"地表样",
-    },
-    {
-      spleNo:"roieu84593485938",
-      spleStore:{
-        name:"国家样中心",
-        unit:"军营第二单位",
-        addr:"民族大道与三环线交汇处",
-        contact:"张杰",
-        phone:"15654444333"
-      },
-      spleType:"地表样",
-    },
-    {
-      spleNo:"roieu84593485938",
-      spleStore:{
-        name:"国家样中心",
-        unit:"军营第二单位",
-        addr:"民族大道与三环线交汇处",
-        contact:"张杰",
-        phone:"15654444333"
-      },
-      spleType:"地表样",
-    },
-    {
-      spleNo:"roieu84593485938",
-      spleStore:{
-        name:"国家样中心",
-        unit:"军营第二单位",
-        addr:"民族大道与三环线交汇处",
-        contact:"张杰",
-        phone:"15654444333"
-      },
-      spleType:"地表样",
-    }
-  ];
+  SampleCategorys = {
+    "1":"表层土壤",
+    "2":"深层土壤",
+    "3":"水稻",
+    "4":"小麦",
+    "5":"蔬菜及其他农产品",
+    "6":"其他"
+  };
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     public toastCtrl:ToastController,
     public modalCtrl: ModalController,
     private net: TyNetworkServiceProvider,
+    public events:Events,
     public device:DeviceIntefaceServiceProvider) {
     super(navCtrl,navParams,toastCtrl);
+    events.subscribe('tabChanged',()=>{
+      this.getTodoList();
+    });
   }
 
   onCllect(spleTask){
@@ -176,7 +76,7 @@ export class CollectionPage extends BasePage{
     }
 
     if (index == 3){
-      
+      this.getFlowedList();
     }
   }
 
@@ -225,8 +125,8 @@ export class CollectionPage extends BasePage{
     );
   }
 
-  spleDetail(sple){
-    const profileModal = this.modalCtrl.create("SpleStationInfoPage", { sple: sple }, { showBackdrop: false }, );
+  spleDetail(sple,isSub){
+    const profileModal = this.modalCtrl.create("SpleStationInfoPage", { sple: sple,isSub:isSub }, { showBackdrop: false }, );
     profileModal.present();
   }
 
@@ -279,4 +179,24 @@ export class CollectionPage extends BasePage{
         true);
     });
   }
+
+  getFlowedList(){
+    this.net.httpPost(
+      AppGlobal.API.flowedList,
+      {
+        "username": AppServiceProvider.getInstance().userinfo.username,
+        "token": AppServiceProvider.getInstance().userinfo.token
+      },
+      msg => {
+        console.log(msg);
+        let info = JSON.parse(msg);
+        this.flowedMainSpleList = info.MainSamples;
+        this.flowedSubSpleList = info.SubSamples;
+      },
+      error => {
+        this.toastShort(error);
+      },
+      true);
+  }
+
 }
