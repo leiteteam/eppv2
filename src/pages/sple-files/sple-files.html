@@ -11,10 +11,10 @@
   </ion-navbar>
   <div style="width:100%;overflow:auto" class="msearchbar">
     <form action="#">
-        <ion-searchbar cancelButtonText="取消" placeholder="搜索待办事项" col-10 float-left (keyup)="onkey($event)" [(ngModel)]="likeStr" [ngModelOptions]="{standalone: true}" >
+        <ion-searchbar style="width: 85%;" cancelButtonText="取消" placeholder="请输入样品编号、名称或样点地址" float-left (keyup)="onkey($event)" [(ngModel)]="likeStr" [ngModelOptions]="{standalone: true}" >
         </ion-searchbar>
     </form>
-    <button no-padding no-margin ion-button clear col-2 float-right (click)="search()">查询</button>
+    <button no-padding no-margin ion-button clear float-right (click)="search()" style="width: 13%;">查询</button>
   </div>
 </ion-header>
 
