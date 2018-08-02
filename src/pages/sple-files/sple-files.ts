@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { BasePage } from '../base/base';
+import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
+import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 
 /**
  * Generated class for the SpleFilesPage page.
@@ -17,41 +19,64 @@ import { BasePage } from '../base/base';
 export class SpleFilesPage extends BasePage{
   likeStr:string = "";
   total: number = 3;
-  files: Array<any> = [{title:"武汉江夏区样点1",type:"普通样",count:3},
-  {title:"武汉江夏区样点2",type:"普通样",count:13},
-  {title:"武汉江夏区样点3",type:"普通样",count:4}];
-  constructor(public navCtrl: NavController, public navParams: NavParams,public toastCtrl: ToastController) {
+  files: Array<any> = [];
+  PointCategorys:string[] = ['','表层土壤调查点位','农产品调查点位','深层土壤调查点位','复合调查点位'];
+
+  constructor(
+    public net:TyNetworkServiceProvider,
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public toastCtrl: ToastController) {
     super(navCtrl,navParams,toastCtrl);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SpleFilesPage');
+    this.getSpleFileList(null);
   }
 
   keydown(event) {
     if(event.keyCode==13){
       //返回确定按钮
       event.target.blur();
-      //this.sendQueryStockInoutRequest(1,null);
+      this.getSpleFileList(null);
       return false;
     }
   }
 
   search() {
-    //this.sendQueryStockInoutRequest(1,null);
+    this.getSpleFileList(null);
   }
 
   //net 网络请求
   doRefresh(refresher) {
     //刷新
     console.log("下拉刷新");
-    //this.sendQueryStockInoutRequest(1, refresher);
-    if (refresher != null) {
-      refresher.complete();
-    }
+    this.getSpleFileList(null);
   }
-  doInfinite(refresher) {
-    console.log("上拉加载更多");
-    //this.sendQueryStockInoutRequest(this.currentPage+1, refresher);
+
+  getSpleFileList(refresher){
+    this.net.httpPost(
+      AppGlobal.API.sampleRecordList,
+      {
+        "username": AppServiceProvider.getInstance().userinfo.username,
+        "token": AppServiceProvider.getInstance().userinfo.token,
+        "condition":this.likeStr
+      },
+      msg => {
+        console.log(msg);
+        let info = JSON.parse(msg);
+        this.files = info.list;
+        if (refresher) {
+          refresher.complete();
+        }
+      },
+      error => {
+        this.toastShort(error);
+        if (refresher) {
+          refresher.complete();
+        }
+      },
+      true);
   }
 }

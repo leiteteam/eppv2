@@ -11,7 +11,7 @@
   </ion-navbar>
   <div style="width:100%;overflow:auto" class="msearchbar">
     <form action="#">
-        <ion-searchbar style="width: 85%;" cancelButtonText="取消" placeholder="请输入样品编号、名称或样点地址" float-left (keyup)="onkey($event)" [(ngModel)]="likeStr" [ngModelOptions]="{standalone: true}" >
+        <ion-searchbar style="width: 85%;" cancelButtonText="取消" placeholder="请输入样品编号或样点地址" float-left (keyup)="onkey($event)" [(ngModel)]="likeStr" [ngModelOptions]="{standalone: true}" >
         </ion-searchbar>
     </form>
     <button no-padding no-margin ion-button clear float-right (click)="search()" style="width: 13%;">查询</button>
@@ -27,15 +27,12 @@
   <ion-list no-lines>
     <ion-card *ngFor="let file of files" >
       <ion-item no-lines detail-push>
-        <h5 style="color: rgb(114, 156, 144)">{{file.title}}</h5>
-        <p>样品类型:{{file.type}}</p>
-        <p>样品数量:{{file.count}}</p>
+        <h5 style="color: rgb(114, 156, 144)">{{file.PointName}}</h5>
+        <p>样品类型:{{PointCategorys[file.PointCategory]}}</p>
+        <p>样品数量:{{file.SampleNum}}</p>
       </ion-item>
     </ion-card>
     <ion-allitem-showed-bottom *ngIf="files.length>=total&&files.length>0"></ion-allitem-showed-bottom>
     <ion-custom-empty *ngIf="total==0"></ion-custom-empty>
   </ion-list>
-  <ion-infinite-scroll *ngIf="files.length<total" (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content loadingText="正在加载..."></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
 </ion-content>

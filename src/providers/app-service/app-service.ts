@@ -32,7 +32,7 @@ export class AppGlobal {
         notifyDownloadSuccess: '/api/StatusUpdate/Post', //编辑用户信息
         taskSummary: '/api/TaskCount/Post', //获取用户信息
         taskList: '/api/TaskList/PostTaskList', //获取任务列表列表
-        recordList: '/api/v1/recordList', //获取已上传记录列表
+        sampleRecordList:'/api/SampleRecordList/Post',
         sampleDetails:"/api/v1/sampleDetails",
         uploadSamples: '/api/Update/Post', //上传采集数据
         uploadImage:'/api/v1/user/uploadImage',
