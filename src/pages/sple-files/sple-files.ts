@@ -52,7 +52,7 @@ export class SpleFilesPage extends BasePage{
   doRefresh(refresher) {
     //刷新
     console.log("下拉刷新");
-    this.getSpleFileList(null);
+    this.getSpleFileList(refresher);
   }
 
   getSpleFileList(refresher){
