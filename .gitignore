@@ -69,11 +69,10 @@ fastlane/readme.md
 .sourcemaps/
 .vscode/
 node_modules/
-www/
+/www/
 */*/.gradle/
 */*/.idea/
 */*/.settings/
-*/*/.platform_www/
 */*/.release/
 */*/*/build/
 
