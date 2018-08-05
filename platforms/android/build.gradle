@@ -179,7 +179,8 @@ android {
   }
 
   lintOptions {
-    abortOnError false;
+    abortOnError false
+    checkReleaseBuilds false
   }
 
   compileSdkVersion 26
@@ -209,6 +210,8 @@ android {
     release {
       signingConfig signingConfigs.release
       minifyEnabled false
+      aaptOptions.cruncherEnabled = false
+      aaptOptions.useNewCruncher = false
     }
   }
 

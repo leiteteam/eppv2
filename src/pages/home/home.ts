@@ -35,21 +35,11 @@ export class HomePage extends BasePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
-
-  }
-
-  gotoNewsDetail(news){
-    this.device.push("webView",news.url,msg =>{
-      console.log("push success");
-    },err => {
-      this.toast(err);
-      console.log("push failed");
-    });
   }
 
   gotoLogin(appType:string){
     AppServiceProvider.getInstance().userinfo.appType = appType;
-
+    this.db.saveString(appType,"appType");
     this.navCtrl.setRoot("LoginPage");
   }
 

@@ -118,7 +118,7 @@ export class LoginPage extends BasePage{
       this.navCtrl.setRoot("CollectionTabPage");
     }
     else if (appType ==="Zb"){
-      this.navCtrl.setRoot("BuildingPage");
+      this.navCtrl.setRoot("PreparationPage");
     }
     else if (appType ==="Lz"){
       this.navCtrl.setRoot("BuildingPage");

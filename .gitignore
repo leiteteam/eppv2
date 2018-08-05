@@ -77,4 +77,6 @@ node_modules/
 */*/*/build/
 /ionic.config.json
 /package.json
+/package-lock.json
+/platforms/android/assets/www
 
