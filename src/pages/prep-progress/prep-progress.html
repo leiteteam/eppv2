@@ -37,8 +37,8 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher> -->
   <!-- 推荐 -->
-  <div [ngSwitch]="spleCategory">
-    <div *ngIf="spleCategory=='todo'">
+  <div [ngSwitch]="progCategory">
+    <div *ngIf="progCategory=='accept'">
       <ion-list *ngIf="todoList!=null&&todoList.length>0" no-margin>
         <ion-item *ngFor="let spleTask of todoList" (click)="goToSpleDetail(spleTask)">
           <P style="color: #949059">详查单元编码:{{spleTask.data.Point.SampleNumber}}</P>
@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <div *ngIf="spleCategory=='done'">
+    <div *ngIf="progCategory=='prepare'">
       <ion-list *ngIf="doneList!=null&&doneList.length>0" no-margin>
         <ion-item *ngFor="let spleTask of doneList" (click)="goToSpleDetail(spleTask)">
           <P style="color: #949059">详查单元编码:{{spleTask.data.Point.SampleNumber}}</P>
@@ -78,7 +78,7 @@
       </div>
     </div>
 
-    <div *ngIf="spleCategory=='uploaded'">
+    <div *ngIf="progCategory=='flow'">
       <ion-list *ngIf="uploadedList!=null&&uploadedList.length>0" no-margin>
         <ion-item *ngFor="let spleTask of uploadedList" (click)="goToSpleDetail(spleTask)">
           <P style="color: #949059">详查单元编码:{{spleTask.Point.SampleNumber}}</P>
@@ -98,7 +98,7 @@
       </div>
     </div>
 
-    <div *ngIf="spleCategory=='togo'">
+    <div *ngIf="progCategory=='flowed'">
       <div class="togoSeg">
         <ion-segment [(ngModel)]="spleType" class="togoSegBtn">
           <ion-segment-button value="main" checked="true">
