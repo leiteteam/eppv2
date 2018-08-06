@@ -14,4 +14,16 @@ page-find-ent {
     .comfirm{
         background: color($colors,primary);
    }
+
+   .positionpicker {
+        width: 0;
+        height: 0;
+        overflow: visible;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 999;
+        color:rgb(209, 72, 68); 
+        font-size: 3.9rem;
+    }
 }
