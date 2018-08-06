@@ -1,3 +1,73 @@
 page-prep-progress {
+//设置背景颜色
+ion-content{
+    background: color($colors,ty-partingline) !important;
+}
 
+    .commSegBtn{
+        background: white!important;
+        .segment-button{
+            color: black !important;
+        }
+        .segment-button.segment-activated{
+            color: color($colors,primary) !important;
+            font-weight: bold;
+            .bolder-sm{
+                border: 5px solid color($colors, primary);
+                margin: 0 auto;
+            }
+        }
+    }
+    
+    .item-button{
+        padding-left: 0.2rem !important;
+        padding-right: 0.2rem !important;
+    }
+
+    .header{
+        // position: relative;
+        width: 100%;
+        overflow: auto;
+        button{
+            height: 20px;
+            background:color($colors,primary);
+            padding: 0px 4px 0px 4px;
+            margin-left: 0px;
+        }
+        h5{
+            text-align: left;
+            margin-top: 5px;
+            margin-left: 5px;
+            margin-right:5px;
+            white-space: normal;
+        }
+        
+    } 
+    .title{
+        text-align: left;
+        margin-top: 5px;
+        margin-left: 5px;
+        margin-right:5px;
+        white-space: normal;
+        font-size: 1.6rem;
+    }
+    .date{
+        text-align: bottom;
+        //margin-left: 5px;
+        font-size: 1.3rem;
+    }
+    .empty{
+        text-align: center;
+        color: rgb(222, 222, 222)
+    }
+
+    .item-ios .item-button{
+        width: 65px;
+        height: 26px;
+    }
+
+    .card-ios{
+        text-align: center;
+        border-radius:0 !important;
+    }
 }

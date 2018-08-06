@@ -9,7 +9,7 @@
     <ion-title>进度查询</ion-title>
   </ion-navbar>
 
-  <ion-segment mode="md" class="commSegBtn" [(ngModel)]="spleCategory">
+  <ion-segment mode="md" class="commSegBtn" [(ngModel)]="progCategory">
     <ion-segment-button value="accept" (click)="segmentClick(0)">
       <!-- <p>{{item.count}}</p> -->
       待收样
@@ -39,107 +39,69 @@
   <!-- 推荐 -->
   <div [ngSwitch]="progCategory">
     <div *ngIf="progCategory=='accept'">
-      <ion-list *ngIf="todoList!=null&&todoList.length>0" no-margin>
-        <ion-item *ngFor="let spleTask of todoList" (click)="goToSpleDetail(spleTask)">
-          <P style="color: #949059">详查单元编码:{{spleTask.data.Point.SampleNumber}}</P>
-          <h5 class="title">{{spleTask.data.Point.ForecastAddress}}</h5>
-          <p class="date">{{spleTask.data.Point.PointName}}</p>
-          <p class="date">{{spleTask.data.category[spleTask.data.SampleCategory].CategoryName}}</p>
-          <ion-item no-margin no-lines class="buttonItem">
-            <button ion-button icon-start item-end (click)="onCllect(spleTask)">
-              <ion-icon name="create"></ion-icon>采样</button>
-            <button ion-button icon-start item-end (click)="navigation(spleTask)">
-              <ion-icon name="pin"></ion-icon>导航</button>
-          </ion-item>
-        </ion-item>
+      <ion-list *ngIf="acceptList!=null&&acceptList.length>0" no-margin>
+          <ion-card  *ngFor="let sple of acceptList" (click)="goToSpleDetail(sple)">
+              <ion-item  no-lines detail-push>
+                  <P style="color: #363636">待收样样品数:{{sple.SampleNum}}</P>
+                  <P class="date">{{sple.date}}</P>
+                  <p class="date">编号:{{sple.SampleNumber}}</p>
+                  <p class="date">{{SampleCategorys[sple.SampleCategory]}}</p>
+              </ion-item>
+          </ion-card>
       </ion-list>
-      <div class="empty" *ngIf="todoList == null|| todoList.length==0 ">
+      <div class="empty" *ngIf="acceptList == null|| acceptList.length==0 ">
         <p>暂无内容</p>
       </div>
     </div>
 
     <div *ngIf="progCategory=='prepare'">
-      <ion-list *ngIf="doneList!=null&&doneList.length>0" no-margin>
-        <ion-item *ngFor="let spleTask of doneList" (click)="goToSpleDetail(spleTask)">
-          <P style="color: #949059">详查单元编码:{{spleTask.data.Point.SampleNumber}}</P>
-          <h5 class="title">{{spleTask.data.Point.ForecastAddress}}</h5>
-          <p class="date">{{spleTask.data.Point.PointName}}</p>
-          <p class="date">{{spleTask.data.category[spleTask.data.SampleCategory].CategoryName}}</p>
-          <ion-item no-margin no-lines class="buttonItem">
-            <button ion-button icon-start item-end>
-              <ion-icon name="create"></ion-icon>修改</button>
-            <button ion-button icon-start item-end (click)="navigation(spleTask)">
-              <ion-icon name="pin"></ion-icon>导航</button>
-          </ion-item>
-        </ion-item>
+      <ion-list *ngIf="prepareList!=null&&prepareList.length>0" no-margin>
+        <ion-card  *ngFor="let sple of prepareList" (click)="goToSpleDetail(sple)">
+              <ion-item  no-lines detail-push>
+                  <P style="color: #363636">待制备样品数:{{sple.SampleNum}}</P>
+                  <p class="date">{{sple.date}}</p>
+                  <p class="date">编号:{{sple.SampleNumber}}</p>
+                  <p class="date">{{SampleCategorys[sple.SampleCategory]}}</p>
+              </ion-item>
+        </ion-card>
       </ion-list>
-      <div class="empty" *ngIf="doneList == null|| doneList.length==0 ">
+      <div class="empty" *ngIf="prepareList == null|| prepareList.length==0 ">
         <p>暂无内容</p>
       </div>
     </div>
 
     <div *ngIf="progCategory=='flow'">
-      <ion-list *ngIf="uploadedList!=null&&uploadedList.length>0" no-margin>
-        <ion-item *ngFor="let spleTask of uploadedList" (click)="goToSpleDetail(spleTask)">
-          <P style="color: #949059">详查单元编码:{{spleTask.Point.SampleNumber}}</P>
-          <h5 class="title">{{spleTask.Point.ForecastAddress}}</h5>
-          <p class="date">{{spleTask.Point.PointName}}</p>
-          <p class="date">{{spleTask.category[spleTask.SampleCategory].CategoryName}}</p>
-          <ion-item no-margin no-lines class="buttonItem">
-            <button ion-button icon-start item-end>
-              <ion-icon name="eye"></ion-icon>查看</button>
-            <button ion-button icon-start item-end (click)="navigation(spleTask)">
-              <ion-icon name="pin"></ion-icon>导航</button>
-          </ion-item>
-        </ion-item>
+      <ion-list *ngIf="flowList!=null&&flowList.length>0" no-margin>
+        <ion-card  *ngFor="let sple of flowList" (click)="goToSpleDetail(sple)">
+              <ion-item  no-lines detail-push>
+                  <P style="color: #363636">待流转样品数:{{sple.SampleNum}}</P>
+                  <p class="date">编号:{{sple.SampleNumber}}</p>
+                  <p class="date">流转中心:{{sple.center}}</p>
+                  <p class="date">测试项目:{{sple.test}}</p>
+                  <p class="date">是否质控:{{sple.ctrl}}</p>
+              </ion-item>
+        </ion-card>
       </ion-list>
-      <div class="empty" *ngIf="uploadedList == null|| uploadedList.length==0 ">
+      <div class="empty" *ngIf="flowList == null|| flowList.length==0 ">
         <p>暂无内容</p>
       </div>
     </div>
 
     <div *ngIf="progCategory=='flowed'">
-      <div class="togoSeg">
-        <ion-segment [(ngModel)]="spleType" class="togoSegBtn">
-          <ion-segment-button value="main" checked="true">
-            送制样基地主样
-          </ion-segment-button>
-          <ion-segment-button value="sub">
-            送流转中心子样
-          </ion-segment-button>
-        </ion-segment>
-      </div>
-      <!-- <div class="ty-line15"></div> -->
-      <div *ngIf="spleType=='main'">
-        <ion-list *ngIf="flowedMainSpleList&&flowedMainSpleList.length>0" no-margin>
-          <ion-card *ngFor="let sple of flowedMainSpleList" (click)="spleDetail(sple,false)">
-            <ion-item no-lines detail-push>
-              <p>样品编号:{{sple.SampleCode}}</p>
-              <p>样品类型:{{SampleCategorys[sple.SampleCategory]}}</p>
-              <p>流转地址:{{sple.UnitName}}</p>
-            </ion-item>
-          </ion-card>
+        <ion-list *ngIf="flowedList!=null&&flowedList.length>0" no-margin>
+            <ion-card  *ngFor="let sple of flowedList" (click)="goToSpleDetail(sple)">
+                  <ion-item  no-lines detail-push>
+                      <P style="color: #363636">待流转样品数:{{sple.SampleNum}}</P>
+                      <p class="date">编号:{{sple.SampleNumber}}</p>
+                      <p class="date">流转中心:{{sple.center}}</p>
+                      <p class="date">测试项目:{{sple.test}}</p>
+                      <p class="date">是否质控:{{sple.ctrl}}</p>
+                  </ion-item>
+            </ion-card>
         </ion-list>
-        <div class="empty" *ngIf="flowedMainSpleList == null||flowedMainSpleList.length==0 ">
+        <div class="empty" *ngIf="flowedList == null|| flowedList.length==0 ">
           <p>暂无内容</p>
         </div>
-      </div>
-
-      <div *ngIf="spleType=='sub'">
-        <ion-list *ngIf="flowedSubSpleList&&flowedSubSpleList.length>0" no-margin>
-          <ion-card *ngFor="let sple of flowedSubSpleList" (click)="spleDetail(sple,true)">
-            <ion-item no-lines detail-push>
-              <p>样品编号:{{sple.SampleCode}}</p>
-              <p>样品类型:{{SampleCategorys[sple.SampleCategory]}}</p>
-              <p>流转中心:{{sple.UnitName}}</p>
-            </ion-item>
-          </ion-card>
-        </ion-list>
-        <div class="empty" *ngIf="flowedSubSpleList == null||flowedSubSpleList.length==0 ">
-          <p>暂无内容</p>
-        </div>
-      </div>
-
     </div>
   </div>
 
