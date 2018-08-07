@@ -54,12 +54,7 @@ export class CollectionPage extends BasePage{
   onCllect(spleTask){
     this.navCtrl.push('CollectProcessPage', {'spleTask':spleTask, model: 0});
   }
-  goUpdateTask(spleTask){
-    this.navCtrl.push('CollectProcessPage', {'spleTask':spleTask, model: 1});
-  }
-  goToView(spleTask){
-    this.navCtrl.push('CollectProcessPage', {'spleTask':spleTask, model: 2});
-  }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad CollectionPage');
     this.getTodoList();

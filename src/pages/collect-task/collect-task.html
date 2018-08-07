@@ -18,10 +18,10 @@
     <button ion-button item-end (click)="goSampleCode()">制码</button>
   </ion-item>
   <ion-item no-lines>
-    <label item-start style="float: left;">实际经/纬度
+    <label item-start style="display: inline-block;">实际经/纬度
       <span style="color: red">*</span>
     </label>
-    <div item-end style="float: right;">
+    <div item-end>
       <input type="text" class="input-border" style="width: 31%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.FactLongitude" /> -
       <input type="text" class="input-border" style="width: 31%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.FactLatitude" />
       <button class="btn-get" (click)="getLatLng()">获取</button>
@@ -34,7 +34,7 @@
     <ion-textarea class="input-border" placeholder="样点变更说明" [disabled]="isFlagInput" [(ngModel)]="sampleData.ChangeReason"></ion-textarea>
   </ion-item>
   <div class="item item-ios">
-    <label item-start style="float: left;">采样深度(cm)
+    <label item-start>采样深度(cm)
       <span style="color: red">*</span>
     </label>
     <div item-end style="width: 58%;float: right;">
@@ -52,7 +52,7 @@
       cancelText="取消"></ion-multi-picker>
   </ion-item>
   <ion-item no-lines>
-    <ion-label>样品重量(g)
+    <ion-label>样品质量(g)
       <span style="color: red">*</span>
     </ion-label>
     <ion-input type="text" class="input-border" [disabled]="isFlagInput" [(ngModel)]="sampleData.Weight"></ion-input>

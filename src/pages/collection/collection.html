@@ -66,7 +66,7 @@
           <p class="date">{{spleTask.data.Point.PointName}}</p>
           <p class="date">{{spleTask.data.category[spleTask.data.SampleCategory].CategoryName}}</p>
           <ion-item no-margin no-lines class="buttonItem">
-            <button ion-button icon-start item-end (click)="goUpdateTask(spleTask)">
+            <button ion-button icon-start item-end>
               <ion-icon name="create"></ion-icon>修改</button>
             <button ion-button icon-start item-end (click)="navigation(spleTask)">
               <ion-icon name="pin"></ion-icon>导航</button>
@@ -86,7 +86,7 @@
           <p class="date">{{spleTask.Point.PointName}}</p>
           <p class="date">{{spleTask.category[spleTask.SampleCategory].CategoryName}}</p>
           <ion-item no-margin no-lines class="buttonItem">
-            <button ion-button icon-start item-end (click)="goToView(spleTask)">
+            <button ion-button icon-start item-end>
               <ion-icon name="eye"></ion-icon>查看</button>
             <button ion-button icon-start item-end (click)="navigation(spleTask)">
               <ion-icon name="pin"></ion-icon>导航</button>
