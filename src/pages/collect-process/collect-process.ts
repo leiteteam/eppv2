@@ -362,6 +362,8 @@ export class CollectProcessPage extends BasePage {
   }
   initJson() {
     this.sampleData = {
+      "TaskID": "",
+      "SampleCode": "",
       "FactAddress": "",
       "Altitude": "",
       "IrrigationMethod": 0,

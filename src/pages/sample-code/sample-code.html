@@ -17,12 +17,12 @@
 <ion-content>
   <ion-item no-lines>
     <ion-icon name="ios-hammer-outline" item-start></ion-icon>
-    <ion-input type="text" class="input-border" disabled="true" item-start></ion-input>
+    <ion-input type="text" class="input-border" [value]="taskData.MainSampleId" disabled="true" item-start></ion-input>
     <button ion-button item-end (click)="printCodes()">样品制码</button>
   </ion-item>
   <ion-list>
     <ion-item *ngFor="let subSample of subSamples">
-      <div item-start>
+      <div item-start style="width: 100% - 50px;">
           <p style="font-weight: bold;white-space: nowrap;">{{subSample.ParamNames}}</p>
           <p>样品重量：{{subSample.Weight}}g</p>
           <p>子样编码：{{subSample.SubSampleId}}</p>

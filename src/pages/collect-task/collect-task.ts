@@ -69,11 +69,65 @@ export class CollectTaskPage extends BasePage {
   }
   //保存
   save(){
+    if(!this.sampleData.FactLongitude || !this.sampleData.FactLatitude || !this.sampleData.SampleDepthFrom || !this.sampleData.SampleDepthTo ||
+     !this.sampleData.Weight || this.sampleData.SoilTexture == 0 || this.sampleData.SoilColor == 0 ){
+      this.toast("请将带*的信息输入完整！");
+      return;
+    }
+    if( this.gpsView == null || this.sampleProcess == null || this.samplePerson == null){
+      this.toast("GPS屏显、采样工作过程、采样负责人3张图片必须拍摄！");
+      return;
+    }
+    if(this.sampleData.DeviationDistance > 50 && (this.changeImg == null || !this.sampleData.ChangeReason)){
+      this.toast("偏移距离超过50米必须填写变更说明和拍摄变更照片！");
+      return;
+    }
+    let pictures:any = JSON.stringify(this.sampleData.Pictures);
+    pictures = JSON.parse(pictures);
+    for( let i=0, flag=true; i < pictures.length; flag ? i++ : i ){
+      if( pictures[i].type == "GPS屏显" || pictures[i].type == "采样工作过程" || pictures[i].type == "采样负责人" || pictures[i].type == "变更照片" ){
+        pictures.splice(i, 1);
+        flag = false;
+      }else {
+        flag = true;
+      }
+    }
+    if(this.gpsView){
+      pictures.push({ type: "GPS屏显", base64: this.gpsView });
+    }
+    if(this.sampleProcess){
+      pictures.push({ type: "采样工作过程", base64: this.sampleProcess });
+    }
+    if(this.samplePerson){
+      pictures.push({ type: "采样负责人", base64: this.samplePerson });
+    }
+    if(this.changeImg){
+      pictures.push({ type: "变更照片", base64: this.changeImg });
+    }
+    this.sampleData.Pictures = pictures;
+    this.sampleData.taskid = this.spleTask.taskid;
+    this.spleTask['samples'] = JSON.stringify(this.sampleData);
+    this.spleTask['data'] = JSON.stringify(this.taskData);
+    this.spleTask.state = 1;
+    console.log(JSON.stringify(this.spleTask));
+    this.device.push("saveSample",JSON.stringify(this.spleTask), success=> {
+      // this.device.push("stopTracing",this.spleTask.taskid,success=>{
+      //   console.log(success);
+      // }, error => {
+      //   console.log(error);
+      // });
+      this.toast("保存成功！");
+      this.navCtrl.popToRoot();
+      console.log(success);
+    }, error => {
+      console.log(error);
+      this.toast(error);
+    });
 
   }
   //跳转制码
   goSampleCode(){
-    this.navCtrl.push("SampleCodePage", {taskData: this.taskData, subSamples:this.sampleData['SubSamples']});
+    this.navCtrl.push("SampleCodePage", {taskData: this.taskData, sampleData: this.sampleData});
   }
   //拍照
   addImg(loc){
