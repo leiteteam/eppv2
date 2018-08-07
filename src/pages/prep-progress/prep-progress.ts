@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController, ModalController }
 import { BasePage } from '../base/base';
 import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
+import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 
 /**
  * Generated class for the PrepProgressPage page.
@@ -75,43 +76,30 @@ export class PrepProgressPage extends BasePage{
   }
 
   getAcceptList(){
-    // this.net.httpPost(
-    //   AppGlobal.API.flowedList,
-    //   {
-    //     "username": AppServiceProvider.getInstance().userinfo.username,
-    //     "token": AppServiceProvider.getInstance().userinfo.token
-    //   },
-    //   msg => {
-    //     console.log(msg);
-    //     let info = JSON.parse(msg);
-    //     this.flowedList = info.MainSamples;
-    //   },
-    //   error => {
-    //     this.toastShort(error);
-    //   },
-    //   true);
-    this.acceptList = [{SampleNum:3,SampleNumber:"47568939032FGDYEw434",date:"2017-09-12 13:30:00",SampleCategory:"1"},
-    {SampleNum:3,SampleNumber:"47568939032FGDYEw434",date:"2017-09-12 13:30:00",SampleCategory:"1"}];
+    this.net.httpPost(AppGlobal.API.progressList,{
+      "username": AppServiceProvider.getInstance().userinfo.username,
+      "token": AppServiceProvider.getInstance().userinfo.token,
+      "statu":6
+    },msg=>{
+      let info = JSON.parse(msg);
+      this.acceptList = info.ProgList;
+    },err=>{
+      this.toast(err);
+    },true);
   }
 
   getPrepareList(){
-    // this.net.httpPost(
-    //   AppGlobal.API.flowedList,
-    //   {
-    //     "username": AppServiceProvider.getInstance().userinfo.username,
-    //     "token": AppServiceProvider.getInstance().userinfo.token
-    //   },
-    //   msg => {
-    //     console.log(msg);
-    //     let info = JSON.parse(msg);
-    //     this.flowedList = info.MainSamples;
-    //   },
-    //   error => {
-    //     this.toastShort(error);
-    //   },
-    //   true);
-    this.prepareList = [{SampleNum:3,SampleNumber:"47568939032FGDYEw434",date:"2017-09-12 13:30:00",SampleCategory:"1"},
-    {SampleNum:3,SampleNumber:"47568939032FGDYEw434",date:"2017-09-12 13:30:00",SampleCategory:"1"}];
+    this.net.httpPost(AppGlobal.API.progressList,{
+      "username": AppServiceProvider.getInstance().userinfo.username,
+      "token": AppServiceProvider.getInstance().userinfo.token,
+      "statu":7
+    },msg=>{
+      let info = JSON.parse(msg);
+      this.prepareList = info.ProgList;
+    },err=>{
+      this.toast(err);
+    },true);
+
   }
 
   spleDetail(sple,isSub){
@@ -121,47 +109,32 @@ export class PrepProgressPage extends BasePage{
 
   getFlowList(){
     return new Promise((resolve, reject) => {
-      // this.net.httpPost(
-      //   AppGlobal.API.taskList,
-      //   {
-      //     "username": AppServiceProvider.getInstance().userinfo.username,
-      //     "token": AppServiceProvider.getInstance().userinfo.token,
-      //     "statu":4
-      //   },
-      //   msg => {
-      //     console.log(msg);
-    
-      //     let info = JSON.parse(msg);
+      this.net.httpPost(AppGlobal.API.progressList,{
+        "username": AppServiceProvider.getInstance().userinfo.username,
+        "token": AppServiceProvider.getInstance().userinfo.token,
+        "statu":8
+      },msg=>{
+        let info = JSON.parse(msg);
+        this.flowList = info.ProgList;
+      },err=>{
+        this.toast(err);
+      },true);
 
-      //     resolve();
-      //   },
-      //   error => {
-      //     this.toastShort(error);
-      //   },
-      //   true);
-      this.flowList = [{SampleNum:3,SampleNumber:"47568939032FGDYEw434",center:"大连中心07",test:"种植果园",ctrl:"是"},
-    {SampleNum:3,SampleNumber:"47568389032FGDYEw434",center:"大连中心08",test:"种植果园",ctrl:"是"}];
     });
   }
 
   getFlowedList(){
-    // this.net.httpPost(
-    //   AppGlobal.API.flowedList,
-    //   {
-    //     "username": AppServiceProvider.getInstance().userinfo.username,
-    //     "token": AppServiceProvider.getInstance().userinfo.token
-    //   },
-    //   msg => {
-    //     console.log(msg);
-    //     let info = JSON.parse(msg);
-    //     this.flowedList = info.MainSamples;
-    //   },
-    //   error => {
-    //     this.toastShort(error);
-    //   },
-    //   true);
-    this.flowedList = [{SampleNum:3,SampleNumber:"4756838939032FGDYEw434",center:"大连中心01",test:"种植果园",ctrl:"是"},
-    {SampleNum:3,SampleNumber:"4756838939032FGDYEw434",center:"大连中心01",test:"种植果园",ctrl:"是"}];
+    this.net.httpPost(AppGlobal.API.progressList,{
+      "username": AppServiceProvider.getInstance().userinfo.username,
+      "token": AppServiceProvider.getInstance().userinfo.token,
+      "statu":9
+    },msg=>{
+      let info = JSON.parse(msg);
+      this.flowedList = info.ProgList;
+    },err=>{
+      this.toast(err);
+    },true);
+
   }
 
 }

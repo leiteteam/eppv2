@@ -12,6 +12,9 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.androidcat.eppv2.persistence.JepayDatabase;
+import com.androidcat.eppv2.persistence.bean.Track;
+import com.androidcat.eppv2.utils.Utils;
 
 import org.json.JSONObject;
 
@@ -33,6 +36,10 @@ public class LocationActivity extends CheckPermissionActivity implements AMapLoc
   public static String lat = "";
   public static String lng = "";
   public static String alt = "0.00";
+
+  public static String doingTaskId = "";
+  public static String doingUserId = "";
+  public static boolean tracing = false;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -114,19 +121,44 @@ public class LocationActivity extends CheckPermissionActivity implements AMapLoc
       address = aMapLocation.getAddress();
       if (aMapLocation.getLongitude() > 75 && aMapLocation.getLongitude() < 135){
         lng = aMapLocation.getLongitude() + "";
+        if (lng.length() > 9){
+          lng = lng.substring(0,9);
+        }
       }
       if (aMapLocation.getLatitude() > 3 && aMapLocation.getLatitude() < 54){
         lat = aMapLocation.getLatitude() + "";
+        if (lat.length() > 9){
+          lat = lat.substring(0,9);
+        }
       }
       if (aMapLocation.getAltitude() > 0){
         alt = aMapLocation.getAltitude() + "";
       }
 
+      trace();
       Log.e("Amap", "onLocationChanged:"+county+address+"--lng:"+lng+"--lat:"+lat+"--alt:"+alt);
     } else {
       String errText = "定位失败," + aMapLocation.getErrorCode() + ": "
         + aMapLocation.getErrorInfo();
       Log.e("AmapErr", errText);
     }
+  }
+
+  private void trace(){
+    if (!tracing){
+      return;
+    }
+    if (Utils.isNull(doingTaskId) || Utils.isNull(doingUserId)){
+      return;
+    }
+    Track track = new Track();
+    track.taskid = doingTaskId;
+    track.userid = doingUserId;
+    track.lat = lat;
+    track.lng = lng;
+    track.time = System.currentTimeMillis();
+
+    JepayDatabase database = JepayDatabase.getInstance(this);
+    database.savePoint(track);
   }
 }

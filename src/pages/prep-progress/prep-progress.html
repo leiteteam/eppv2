@@ -42,9 +42,9 @@
       <ion-list *ngIf="acceptList!=null&&acceptList.length>0" no-margin>
           <ion-card  *ngFor="let sple of acceptList" (click)="goToSpleDetail(sple)">
               <ion-item  no-lines detail-push>
-                  <P style="color: #363636">待收样样品数:{{sple.SampleNum}}</P>
-                  <P class="date">{{sple.date}}</P>
-                  <p class="date">编号:{{sple.SampleNumber}}</p>
+                  <P style="color: #363636">待收样子样数:{{sple.SubSampleNum}}</P>
+                  <P class="date">{{sple.CompleteTime}}</P>
+                  <p class="date">编号:{{sple.SampleCode}}</p>
                   <p class="date">{{SampleCategorys[sple.SampleCategory]}}</p>
               </ion-item>
           </ion-card>

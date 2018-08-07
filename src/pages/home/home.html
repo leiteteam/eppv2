@@ -12,13 +12,13 @@
 
   <ion-slides pager="true">
     <ion-slide *ngFor="let news of newsList">
-      <img style="width:100%;height:260px;" src="{{news.imageUrl}}" (click)="gotoNewsDetail(news)">
+      <img style="width:100%;height:35%;" src="{{news.imageUrl}}">
     </ion-slide>
   </ion-slides>
 </ion-header>
 
 <ion-content #myContent no-padding no-margin>
-  <div style="margin-top: 20px;">
+  <div style="height: 60%;position: relative">
       <ion-row>
           <ion-col col-6>
             <ion-card (click)="gotoLogin('Cy');">
@@ -27,7 +27,7 @@
             </ion-card>
           </ion-col>
           <ion-col col-6>
-            <ion-card (click)="gotoLogin('Zb');">
+            <ion-card (click)="gotoLogin('Zy');">
               <ion-icon name="leaf" color="primary" item-left ios="ios-color-fill" md="ios-color-fill"></ion-icon>
               <div class="card-title">样品制备</div>
             </ion-card>

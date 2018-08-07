@@ -296,6 +296,14 @@ public class TyPluginManager {
         // TODO: 2018/7/27
         callbackContext.success();
       }
+      else if("startTracing".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.startTracing(plugin,commandData,callbackContext);
+      }
+      else if("stopTracing".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.stopTracing(plugin,commandData,callbackContext);
+      }
     } catch (JSONException e) {
       e.printStackTrace();
       callbackContext.error("解析缓存信息出错");

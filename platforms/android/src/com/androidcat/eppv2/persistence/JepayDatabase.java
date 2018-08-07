@@ -3,7 +3,10 @@ package com.androidcat.eppv2.persistence;
 import android.content.Context;
 
 import com.androidcat.eppv2.persistence.bean.TaskData;
+import com.androidcat.eppv2.persistence.bean.Track;
 import com.androidcat.eppv2.persistence.bean.UserInfo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.DbUtils.DaoConfig;
 import com.lidroid.xutils.db.sqlite.Selector;
@@ -169,6 +172,25 @@ public class JepayDatabase {
     }
   }
 
+  public boolean updateTaskDataWithTrack(String taskid){
+    if (mDbUtils == null){
+      return false;
+    }
+    try {
+      TaskData taskData = getTaskData(taskid);
+      if (taskData != null){
+        List<Track> tracks = getTrackList(taskid);
+        String track = new Gson().toJson(tracks,new TypeToken<List<Track>>(){}.getType());
+        taskData.track = track;
+        mDbUtils.replace(taskData);
+      }
+      return true;
+    } catch (DbException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
   public boolean updateTaskDataList(List<TaskData> list){
     if (mDbUtils == null){
       return false;
@@ -268,4 +290,36 @@ public class JepayDatabase {
       return false;
     }
   }
+
+
+  /////////////////////////////////////////gpsTrack///////////////////////////////////////////////////
+  public void savePoint(Track track){
+    if (mDbUtils == null){
+      return;
+    }
+    try {
+      mDbUtils.save(track);
+      return ;
+    } catch (DbException e) {
+      e.printStackTrace();
+      return ;
+    }
+  }
+
+  public List<Track> getTrackList(String taskid){
+    if (mDbUtils == null){
+      return new ArrayList<Track>();
+    }
+    try {
+      List<Track> trackList = mDbUtils.findAll(Selector.from(Track.class).where("taskid","=",taskid));
+      if(trackList == null){
+        return new ArrayList<Track>();
+      }
+      return trackList;
+    } catch (DbException e) {
+      e.printStackTrace();
+      return new ArrayList<Track>();
+    }
+  }
+
 }

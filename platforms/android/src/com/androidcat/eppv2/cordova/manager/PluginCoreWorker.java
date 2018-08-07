@@ -14,6 +14,9 @@ import com.amap.api.navi.AmapNaviType;
 import com.amap.api.navi.INaviInfoCallback;
 import com.amap.api.navi.model.AMapNaviLocation;
 import com.androidcat.acnet.entity.User;
+import com.androidcat.eppv2.CheckPermissionActivity;
+import com.androidcat.eppv2.LocationActivity;
+import com.androidcat.eppv2.R;
 import com.androidcat.eppv2.cordova.plugin.print.DzPrinterHelper;
 import com.androidcat.eppv2.cordova.plugin.qrcode.QrCodeHelper;
 import com.androidcat.eppv2.persistence.JepayDatabase;
@@ -21,6 +24,12 @@ import com.androidcat.eppv2.persistence.bean.TaskData;
 import com.androidcat.eppv2.persistence.bean.UserInfo;
 import com.androidcat.utilities.GsonUtil;
 import com.androidcat.utilities.SystemSettingUtil;
+import com.androidcat.utilities.Utils;
+import com.androidcat.utilities.permission.AndPermission;
+import com.androidcat.utilities.permission.Permission;
+import com.flyco.animation.FlipEnter.FlipVerticalSwingEnter;
+import com.flyco.dialog.listener.OnBtnClickL;
+import com.flyco.dialog.widget.NormalDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -299,5 +308,47 @@ public class PluginCoreWorker {
   public static void switchBle(CordovaPlugin plugin, final CallbackContext callbackContext){
     SystemSettingUtil.switchBle();
     callbackContext.success();
+  }
+
+  public static void startTracing(final CordovaPlugin plugin, String taskid, final CallbackContext callbackContext) {
+    if (!Utils.isGpsOpen(plugin.cordova.getActivity())){
+      final NormalDialog dialog = new NormalDialog(plugin.cordova.getActivity());
+      dialog.content("您尚未开启Gps开关，导航和记录需开启Gps。请前往开启")
+        .contentTextColor(R.color.text_black)
+        .title("")
+        .btnNum(1)
+        .btnText("好的") //
+        .style(NormalDialog.STYLE_TWO)//
+        .showAnim(new FlipVerticalSwingEnter())//
+        .show();
+      dialog.setOnBtnClickL(new OnBtnClickL() {
+        @Override
+        public void onBtnClick() {
+          Utils.openGPS(plugin.cordova.getActivity());
+          dialog.dismiss();
+        }
+      });
+      callbackContext.error("");
+      return;
+    }
+
+    JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
+    LocationActivity.doingUserId = database.getCacheData("username");
+    LocationActivity.doingTaskId = taskid;
+    LocationActivity.tracing = true;
+    callbackContext.success();
+  }
+
+  public static void stopTracing(final CordovaPlugin plugin, String taskid, final CallbackContext callbackContext) {
+
+    JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
+    LocationActivity.doingUserId = "";
+    LocationActivity.doingTaskId = "";
+    LocationActivity.tracing = false;
+    if (database.updateTaskDataWithTrack(taskid)){
+      callbackContext.success();
+    }else {
+      callbackContext.error("");
+    }
   }
 }

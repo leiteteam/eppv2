@@ -131,12 +131,14 @@ export class CollectionPage extends BasePage{
   }
 
   navigation(task){
-    if (task.data){
-      this.device.push( "navigation", {lat:task.data.Point.Latitude,lng:task.data.Point.Longitude} );
-    }
-    if (task.Point){
-      this.device.push( "navigation", {lat:task.Point.Latitude,lng:task.Point.Longitude} );
-    }
+    this.device.push("startTracing",task.taskid,success=>{
+      if (task.data){
+        this.device.push( "navigation", {lat:task.data.Point.Latitude,lng:task.data.Point.Longitude} );
+      }
+      if (task.Point){
+        this.device.push( "navigation", {lat:task.Point.Latitude,lng:task.Point.Longitude} );
+      }
+    });  
   }
 
   getUploadedList(){

@@ -108,8 +108,8 @@ export class MyApp {
     if (appType ==="Cy"){
       this.rootPage = "CollectionTabPage";
     }
-    else if (appType ==="Zb"){
-      this.rootPage = "BuildingPage";
+    else if (appType ==="Zy"){
+      this.rootPage = "PreparationPage";
     }
     else if (appType ==="Lz"){
       this.rootPage = "BuildingPage";

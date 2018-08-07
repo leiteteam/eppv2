@@ -31,6 +31,9 @@ public class TaskData implements Parcelable {
   @Column(column = "samples")
   public String samples;
 
+  @Column(column = "track")
+  public String track;
+
   //0:待采样;1:已采样未上传，可修改，2：已上传
   @Column(column = "state")
   public int state;
@@ -41,6 +44,7 @@ public class TaskData implements Parcelable {
     userid = in.readString();
     data = in.readString();
     samples = in.readString();
+    track = in.readString();
     state = in.readInt();
   }
 
@@ -67,6 +71,7 @@ public class TaskData implements Parcelable {
     dest.writeString(userid);
     dest.writeString(data);
     dest.writeString(samples);
+    dest.writeString(track);
     dest.writeInt(state);
   }
 }
