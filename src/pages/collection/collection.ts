@@ -130,15 +130,23 @@ export class CollectionPage extends BasePage{
     profileModal.present();
   }
 
+  tryToNavi(task){
+    if (this.spleCategory == 'todo'){
+      this.device.push("startTracing",task.taskid,success=>{
+        this.navigation(task);
+      });
+    }else {
+      this.navigation(task);
+    }
+  }
+
   navigation(task){
-    this.device.push("startTracing",task.taskid,success=>{
-      if (task.data){
-        this.device.push( "navigation", {lat:task.data.Point.Latitude,lng:task.data.Point.Longitude} );
-      }
-      if (task.Point){
-        this.device.push( "navigation", {lat:task.Point.Latitude,lng:task.Point.Longitude} );
-      }
-    });  
+    if (task.data){
+      this.device.push( "navigation", {lat:task.data.Point.Latitude,lng:task.data.Point.Longitude} );
+    }
+    if (task.Point){
+      this.device.push( "navigation", {lat:task.Point.Latitude,lng:task.Point.Longitude} );
+    }
   }
 
   getUploadedList(){
