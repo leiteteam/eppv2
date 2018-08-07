@@ -1,10 +1,7 @@
 {
   "name": "jepay",
-  "app_id": "",
-  "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  },  
-  "typescript": true,
-  "v2": true
+  },
+  "type": "ionic-angular"
 }
