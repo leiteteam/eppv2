@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Tabs, Events } from 'ionic-angular';
 import { BasePage } from '../base/base';
+import { AppServiceProvider } from '../../providers/app-service/app-service';
+import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 
 /**
  * Generated class for the CollectionTabPage tabs.
@@ -21,10 +23,17 @@ export class CollectionTabPage extends BasePage{
   moreRoot = 'MorePage'
 
   @ViewChild('tabs')  tabs:Tabs;
-  constructor(public navCtrl: NavController,public navParams: NavParams,public events:Events) {
+  constructor(
+    public device:DeviceIntefaceServiceProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public events:Events) {
     super(navCtrl,navParams);
     events.subscribe('logoutNotification',()=>{
-      this.navCtrl.setRoot("HomePage");
+      AppServiceProvider.getInstance().userinfo.appType = "";
+      this.device.push("updateUserInfo",JSON.stringify(AppServiceProvider.getInstance().userinfo),()=>{
+        this.navCtrl.setRoot("HomePage");
+      });
     });
   }
 

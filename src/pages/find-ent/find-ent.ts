@@ -20,7 +20,6 @@ export class FindEntPage extends BasePage{
   entLng:number = 121.814207;
   entLat:number = 39.086521;
   curLocMarker:any;
-  entMarker:any;
 
   constructor(
       public navCtrl: NavController, 
@@ -46,27 +45,12 @@ export class FindEntPage extends BasePage{
       zoom: 16,
       center: [this.entLng,this.entLat]
     });
-    AMap.plugin('AMap.ToolBar',function(){
-      var toolbar = new AMap.ToolBar();
-      map.addControl(toolbar);
+    AMap.plugin(['AMap.ToolBar','AMap.Scale'],function(){
+      map.addControl(new AMap.ToolBar());
+      map.addControl(new AMap.Scale());
    })
 
-   this.addMarker(map,new AMap.LngLat(this.entLng,this.entLat));
-    // map.setFitView();// 执行定位
-
     this.map = map;
-  }
-
-  // 实例化点标记
-  addMarker(map,lnglatXY) {
-    //console.log(lnglatXY);
-    this.entMarker = new AMap.Marker({
-      icon: "assets/imgs/ent.png",
-      draggable:true,
-      map:map,
-      position: lnglatXY
-    });
-    //this.map.setFitView();// 执行定位
   }
 
   locate(){
@@ -90,12 +74,13 @@ export class FindEntPage extends BasePage{
   }
 
   done(){
-    this.entLng = this.entMarker.getPosition().lng;
-    this.entLat = this.entMarker.getPosition().lat;
+    this.entLng = this.map.getCenter().lng;
+    this.entLat = this.map.getCenter().lat;
+    console.log("this.entLng:"+this.entLng+"----this.entLat:"+this.entLat);
+
     if (this.navParams.data.callback){
       this.navParams.data.callback({entLng:this.entLng,entLat:this.entLat});
     }
-    console.log("this.entLng:"+this.entLng+"----this.entLat:"+this.entLat);
     this.navCtrl.pop();
   }
 }
