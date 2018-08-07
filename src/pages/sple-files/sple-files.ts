@@ -34,9 +34,7 @@ export class SpleFilesPage extends BasePage{
     console.log('ionViewDidLoad SpleFilesPage');
     this.getSpleFileList(null);
   }
-  goCollectInfo(file){
-    this.navCtrl.push("CollectProcessPage", {spleTask: file, model: 2});
-  }
+
   keydown(event) {
     if(event.keyCode==13){
       //返回确定按钮

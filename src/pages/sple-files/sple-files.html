@@ -26,7 +26,7 @@
   </ion-refresher>
   <ion-list no-lines>
     <ion-card *ngFor="let file of files" >
-      <ion-item no-lines detail-push (click)="goCollectInfo(file)">
+      <ion-item no-lines detail-push>
         <h5 style="color: rgb(114, 156, 144)">{{file.PointName}}</h5>
         <p>样品类型:{{PointCategorys[file.PointCategory]}}</p>
         <p>样品数量:{{file.SampleNum}}</p>

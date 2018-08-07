@@ -16,7 +16,7 @@ public class DzPrinterHelper {
 
   // 打印参数
   private int printQuality = 1;
-  private int printDensity = 3;
+  private int printDensity = 1;
   private int printSpeed = 1;
   private int gapType = 1;
 
@@ -52,13 +52,11 @@ public class DzPrinterHelper {
     IAtBitmap api = IAtBitmap.Factory.createInstance();
 
     // 开始绘图任务，传入参数(页面宽度, 页面高度)
-    api.startJob(50 * 100, 20 * 100);
-    api.startPage();
+    api.startJob(24 * 100, 24 * 100);
+
     // 开始一个页面的绘制，绘制二维码
     // 传入参数(需要绘制的二维码的数据, 绘制的二维码左上角水平位置, 绘制的二维码左上角垂直位置, 绘制的二维码的宽度(宽高相同))
-    api.draw2DQRCode(twodBarcode, 17 * 100, 15 * 10, 15 * 100);
-
-    api.drawText(twodBarcode, 55*10, 155*10, 0, 0, 317, 0);
+    api.draw2DQRCode(twodBarcode, 3 * 100, 4 * 100, 13 * 100);
 
     // 结束绘图任务
     api.endJob();
