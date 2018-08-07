@@ -4,7 +4,6 @@ import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-
 import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 import { BasePage } from '../base/base';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
-import { resolveDefinition } from '../../../node_modules/@angular/core/src/view/util';
 
 /**
  * Generated class for the DataManagerPage page.
