@@ -20,7 +20,7 @@
 <ion-content #myContent no-padding no-margin>
     <ion-list no-margin>
         <ion-card *ngFor="let app of appList" (click)="gotoLogin(app.appType)">
-            <ion-item  no-lines detail-push style="background-color: rgb(240, 248, 246);">
+            <ion-item  no-lines detail-push style="background-color: #f2f6f5;">
                 <ion-icon name={{app.icon}} item-start color="primary"></ion-icon>
                 <ion-label>{{app.name}}</ion-label>
             </ion-item>
