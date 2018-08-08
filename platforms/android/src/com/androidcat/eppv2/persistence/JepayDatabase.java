@@ -38,7 +38,7 @@ public class JepayDatabase {
 	/**
 	 * 该常量字段
 	 */
-	private static int DATABASE_VERSION = 1;
+	private static int DATABASE_VERSION = 2;
 
 	private static JepayDatabase mInstance = null;
 	private static DbUtils mDbUtils;
@@ -72,15 +72,18 @@ public class JepayDatabase {
 		LogUtil.e(TAG, "数据库版本不一致，进入升级数据库流程");
 		LogUtil.e(TAG, "当前数据库版本：" + oldVer + "  ----需升级到：" + newVer);
 		try{
-			dbUtils.createTableIfNotExist(KeyValue.class);
 			//数据库版本为2时，因表结构发生变化，重新启用数据库升级策略
-			/*if (newVer == 2){
+			if (newVer == 2){
 				//本次数据库升级需修改表字段，需先删除就task表
-				dbUtils.dropTable(xxx.class);
-				com.androidcat.utilities.LogUtil.e(TAG, "----删除旧版xx表，新增xx关联字段----");
-			}*/
+				dbUtils.dropTable(TaskData.class);
+				com.androidcat.utilities.LogUtil.e(TAG, "----删除旧版TaskData表，新增track字段----");
+			}
+      dbUtils.createTableIfNotExist(KeyValue.class);
+      dbUtils.createTableIfNotExist(TaskData.class);
+      dbUtils.createTableIfNotExist(Track.class);
+      dbUtils.createTableIfNotExist(UserInfo.class);
 		}catch (Exception e){
-
+      LogUtil.e(TAG, e.getMessage());
 		}
 	}
 
