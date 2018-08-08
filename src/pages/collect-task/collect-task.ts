@@ -106,11 +106,23 @@ export class CollectTaskPage extends BasePage {
     }
     this.sampleData.Pictures = pictures;
     this.sampleData.taskid = this.spleTask.taskid;
-    this.spleTask['samples'] = JSON.stringify(this.sampleData);
-    this.spleTask['data'] = JSON.stringify(this.taskData);
+
+    //复制内存中当前的spleTask，用于数据保存
+    //因为在上层ts中，完整的json对象才是可用可解析的，如果直接将spleTask的字段改成了string则无法识别
+    //原始spleTask仍用于内存中使用，所以需保持同步更新字段内容
+    let savingData = this.spleTask;
+    this.spleTask['samples'] = this.sampleData;
+    this.spleTask['data'] = this.taskData;
     this.spleTask.state = 1;
-    console.log(JSON.stringify(this.spleTask));
-    this.device.push("saveSample",JSON.stringify(this.spleTask), success=> {
+
+    //这里我们复制出一个对象用于保存，将字段变换成底层接口需要的形式
+    savingData.samples = JSON.stringify(this.sampleData);
+    savingData.data = JSON.stringify(this.taskData);
+    savingData.state = 1;
+
+    let savingDataStr = JSON.stringify(savingData);
+    console.log(savingDataStr);
+    this.device.push("saveSample",savingDataStr, success=> {
       // this.device.push("stopTracing",this.spleTask.taskid,success=>{
       //   console.log(success);
       // }, error => {

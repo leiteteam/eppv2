@@ -1,6 +1,7 @@
 package com.androidcat.eppv2.persistence.bean;
 
 import com.lidroid.xutils.db.annotation.Column;
+import com.lidroid.xutils.db.annotation.Id;
 import com.lidroid.xutils.db.annotation.NotNull;
 import com.lidroid.xutils.db.annotation.Table;
 
@@ -23,6 +24,7 @@ public class Track {
   @Column(column = "lng")
   public String lng;
 
+  @Id
   @Column(column = "time")
   public long time;
 }

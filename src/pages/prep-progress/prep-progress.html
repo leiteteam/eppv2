@@ -74,11 +74,11 @@
       <ion-list *ngIf="flowList!=null&&flowList.length>0" no-margin>
         <ion-card  *ngFor="let sple of flowList" (click)="goToSpleDetail(sple)">
               <ion-item  no-lines detail-push>
-                  <P style="color: #363636">待流转样品数:{{sple.SampleNum}}</P>
-                  <p class="date">编号:{{sple.SampleNumber}}</p>
-                  <p class="date">流转中心:{{sple.center}}</p>
-                  <p class="date">测试项目:{{sple.test}}</p>
-                  <p class="date">是否质控:{{sple.ctrl}}</p>
+                  <P style="color: #363636">待流转样品数:{{sple.SubSampleNum}}</P>
+                  <p class="date">编号:{{sple.SampleCode}}</p>
+                  <p class="date">流转中心:{{sple.FlowCenter}}</p>
+                  <p class="date">测试项目:{{sple.TestItem}}</p>
+                  <p class="date">是否质控:{{sple.IsQualityControl==1?'是':'否'}}</p>
               </ion-item>
         </ion-card>
       </ion-list>
@@ -91,11 +91,11 @@
         <ion-list *ngIf="flowedList!=null&&flowedList.length>0" no-margin>
             <ion-card  *ngFor="let sple of flowedList" (click)="goToSpleDetail(sple)">
                   <ion-item  no-lines detail-push>
-                      <P style="color: #363636">待流转样品数:{{sple.SampleNum}}</P>
-                      <p class="date">编号:{{sple.SampleNumber}}</p>
-                      <p class="date">流转中心:{{sple.center}}</p>
-                      <p class="date">测试项目:{{sple.test}}</p>
-                      <p class="date">是否质控:{{sple.ctrl}}</p>
+                      <P style="color: #363636">待流转样品数:{{sple.SubSampleNum}}</P>
+                      <p class="date">编号:{{sple.SampleCode}}</p>
+                      <p class="date">流转中心:{{sple.FlowCenter}}</p>
+                      <p class="date">测试项目:{{sple.TestItem}}</p>
+                      <p class="date">是否质控:{{sple.IsQualityControl==1?'是':'否'}}</p>
                   </ion-item>
             </ion-card>
         </ion-list>
