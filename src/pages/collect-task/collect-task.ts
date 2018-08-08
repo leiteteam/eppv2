@@ -27,6 +27,7 @@ export class CollectTaskPage extends BasePage {
   samplePerson:String;
   changeImg:String;
   distance:number = 0;
+  model:number = 0;
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public device:DeviceIntefaceServiceProvider, private camera: Camera, public alertCtrl:AlertController) {
     super(navCtrl, navParams, toastCtrl);
     //this.callback = navParams.get("callback");
@@ -35,7 +36,8 @@ export class CollectTaskPage extends BasePage {
     this.sampleData = this.spleTask['samples'];
     //this.taskData = navParams.get("taskData");
     //this.sampleData = navParams.get("sampleData");
-    if (this.navParams.get("model") == 2) {
+    this.model = this.navParams.data.model;
+    if (this.model == 2) {
       this.isFlagInput = true;
     }
     let pictures = this.sampleData['Pictures'];
@@ -111,11 +113,13 @@ export class CollectTaskPage extends BasePage {
     this.spleTask.state = 1;
     console.log(JSON.stringify(this.spleTask));
     this.device.push("saveSample",JSON.stringify(this.spleTask), success=> {
-      // this.device.push("stopTracing",this.spleTask.taskid,success=>{
-      //   console.log(success);
-      // }, error => {
-      //   console.log(error);
-      // });
+      // if(this.model == 0){
+      //   this.device.push("stopTracing",this.spleTask.taskid,success=>{
+      //     console.log(success);
+      //   }, error => {
+      //     console.log(error);
+      //   });
+      // }
       this.toast("保存成功！");
       this.navCtrl.popToRoot();
       console.log(success);
@@ -235,7 +239,7 @@ export class CollectTaskPage extends BasePage {
     {
       name: '',
       options: [
-        { text: '请选择', value: 0 },
+        { text: '无', value: 0 },
         { text: '普通质控样', value: 5 },
         { text: '有机质控样', value: 2 },
         { text: '无机质控样', value: 1 },

@@ -22,8 +22,8 @@
       <span style="color: red">*</span>
     </label>
     <div item-end style="float: right;">
-      <input type="text" class="input-border" style="width: 31%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.FactLongitude" /> -
-      <input type="text" class="input-border" style="width: 31%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.FactLatitude" />
+      <input type="number" class="input-border" style="width: 31%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.FactLongitude" /> -
+      <input type="number" class="input-border" style="width: 31%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.FactLatitude" />
       <button class="btn-get" (click)="getLatLng()">获取</button>
     </div>
   </ion-item>
@@ -38,8 +38,8 @@
       <span style="color: red">*</span>
     </label>
     <div item-end style="width: 58%;float: right;">
-      <input type="text" class="input-border" style="width: 45%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.SampleDepthFrom"/> -
-      <input type="text" class="input-border" style="width: 45%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.SampleDepthTo"/>
+      <input type="number" class="input-border" style="width: 45%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.SampleDepthFrom"/> -
+      <input type="number" class="input-border" style="width: 45%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.SampleDepthTo"/>
     </div>
   </div>
   <ion-item no-lines>
@@ -55,7 +55,7 @@
     <ion-label>样品重量(g)
       <span style="color: red">*</span>
     </ion-label>
-    <ion-input type="text" class="input-border" [disabled]="isFlagInput" [(ngModel)]="sampleData.Weight"></ion-input>
+    <ion-input type="number" class="input-border" [disabled]="isFlagInput" [(ngModel)]="sampleData.Weight"></ion-input>
   </ion-item>
   <ion-item no-lines detail-push>
     <ion-label>土壤质地
