@@ -18,9 +18,24 @@ import { DbServiceProvider } from '../../providers/db-service/db-service';
   templateUrl: 'home.html',
 })
 export class HomePage extends BasePage {
+  bgImg = "assets/imgs/halo.jpg";
   newsList:any = [
     {
 			"imageUrl":"assets/imgs/blur_bg.jpg","url":"","title":""
+		}
+  ];
+  appList:any = [
+    {
+			name:"样品采集",icon:"leaf",appType:"Cy"
+    },
+    {
+			name:"样品制备",icon:"color-fill",appType:"Zy"
+    },
+    {
+			name:"样品流转",icon:"md-car",appType:"Lz"
+    },
+    {
+			name:"样品测试",icon:"flask",appType:"Cs"
 		}
   ];
 

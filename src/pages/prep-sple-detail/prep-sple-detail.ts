@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-$IMPORTSTATEMENT
+import { NavController, NavParams } from '../../../node_modules/ionic-angular/umd';
 
 /**
  * Generated class for the PrepSpleDetail page.
@@ -7,7 +7,7 @@ $IMPORTSTATEMENT
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-$IONICPAGE
+
 @Component({
   selector: 'page-prep-sple-detail',
   templateUrl: 'prep-sple-detail.html',
