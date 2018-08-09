@@ -6,4 +6,15 @@ page-prep-sple-check {
     .item > ion-icon, .item-inner > ion-icon{
         font-size: 2.0rem !important;
     }
+
+    .text{
+        padding-top: 10px;
+        padding-bottom: 15px;
+    }
+    .cancel{
+        background: white; 
+    }
+     .comfirm{
+         background: color($colors,primary);
+    }
 }

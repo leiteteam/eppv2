@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Events, Tabs } from 'ionic-angular';
+import { BasePage } from '../base/base';
+import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 
 /**
  * Generated class for the PreparationPage tabs.
@@ -13,7 +15,7 @@ import { IonicPage, NavController } from 'ionic-angular';
   selector: 'page-preparation',
   templateUrl: 'preparation.html'
 })
-export class PreparationPage {
+export class PreparationPage  extends BasePage{
 
   prepProgressRoot = 'PrepProgressPage'
   prepSpleAcceptRoot = 'PrepSpleAcceptPage'
@@ -21,7 +23,25 @@ export class PreparationPage {
   prepFlowRoot = 'PrepFlowPage'
   prepMoreRoot = 'PrepMorePage'
 
+  @ViewChild('tabs')  tabs:Tabs;
+  constructor(
+    public device:DeviceIntefaceServiceProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public events:Events) {
+    super(navCtrl,navParams);
+  }
 
-  constructor(public navCtrl: NavController) {}
+  ionViewDidEnter(){
 
+  }
+
+  onTabChanged(){
+    let previous = this.tabs.previousTab(false);
+    if (this.tabs.getSelected().root == "CollectionPage"){
+      if (previous.root == "DataManagerPage"){
+        this.events.publish('tabChanged');
+      }
+    }
+  }
 }

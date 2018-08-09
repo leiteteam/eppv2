@@ -58,13 +58,7 @@ export class PrepSpleCheckPage extends BasePage{
       super(navCtrl,navParams,toastCtrl);
       if (navParams.data.spleId){
         this.spleId = navParams.data.spleId;
-        if(this.spleId.indexOf('&') != -1){
-          this.spleIdTxt = this.spleId.split('&')[0];
-          this.isSub = this.spleId.split('&')[1] == 'sub';
-          if (this.isSub){
-            this.title = "样品信息";
-          }
-        }
+        this.spleIdTxt = navParams.data.spleId;
       }
   }
 
@@ -90,6 +84,7 @@ export class PrepSpleCheckPage extends BasePage{
       },
       error => {
         this.toast(error);
+        this.navCtrl.pop();
       },
       true);
   }
@@ -122,10 +117,10 @@ export class PrepSpleCheckPage extends BasePage{
       msg => {
         console.log(msg);
         //this.toastShort("成功");
+        this.navCtrl.pop();
         if (this.navParams.data.callback){
           this.navParams.data.callback.callback(this.info);
         }
-        this.navCtrl.pop();
       },
       error => {
         this.toast(error);

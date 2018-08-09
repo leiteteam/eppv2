@@ -59,9 +59,21 @@ export class MyApp {
         this.statusBar.backgroundColorByHexString("#8aa88f");
         this.registerBackButtonAction();
       }
-      
+      this.eventsregisterTokenErrEvent();
       //判断登录状态，并跳转
       this.checkLogin();
+    });
+  }
+
+  eventsregisterTokenErrEvent(){
+    this.events.subscribe('tokenError150',()=>{
+      this.toastCtrl.create({
+        message: '该帐号已在其他设备登录，请重新登录',
+        duration: 1500,
+        position: 'bottom',
+        cssClass: 'text-align: center'
+      }).present();
+      this.nav.setRoot("LoginPage");
     });
   }
 

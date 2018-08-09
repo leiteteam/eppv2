@@ -1,6 +1,6 @@
 import { AppServiceProvider, AppGlobal } from './../app-service/app-service';
 import { Injectable, NgZone } from '@angular/core';
-import { LoadingController } from 'ionic-angular';
+import { LoadingController, Events } from 'ionic-angular';
 import { Http } from '@angular/http';
 declare var cordova;
 /*
@@ -12,7 +12,7 @@ declare var cordova;
 @Injectable()
 export class TyNetworkServiceProvider {
 
-  constructor(public loadingCtrl: LoadingController,public zone?:NgZone,public http?:Http,) {
+  constructor(public loadingCtrl: LoadingController,public zone?:NgZone,public http?:Http,public events?: Events) {
 
   }
   encode(params) {
@@ -94,7 +94,7 @@ export class TyNetworkServiceProvider {
           loading.dismiss();
         }
         if ("tokenError150" == error){
-          
+          this.events.publish("tokenError150");
         }
         else {
           failed(error);

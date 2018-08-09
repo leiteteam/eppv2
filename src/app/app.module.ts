@@ -3,7 +3,7 @@ import { MultiPickerModule } from 'ion-multi-picker';
 import { Http, HttpModule } from '@angular/http';
 import { NgModule, ErrorHandler, NgZone } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicModule, IonicErrorHandler, Platform, LoadingController } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler, Platform, LoadingController, Events } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -21,11 +21,11 @@ import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 import { TaskServiceProvider } from '../providers/task-service/task-service';
 
 
-export function netFactory(platform:Platform,loadingCtrl:LoadingController,http:Http,zone:NgZone) {
+export function netFactory(platform:Platform,loadingCtrl:LoadingController,http:Http,zone:NgZone, events?: Events) {
   if (platform.is("mobileweb") /*||platform.is("mobile")*/) {
     return new WebTyNetworkServiceProvider(http,loadingCtrl);
   }else if(platform.is("mobile")){
-    return new TyNetworkServiceProvider(loadingCtrl,zone,http);
+    return new TyNetworkServiceProvider(loadingCtrl,zone,http,events);
   }else{
     return new WebTyNetworkServiceProvider(http,loadingCtrl);
   }
@@ -68,7 +68,7 @@ export function dbFactory(platform:Platform,zone:NgZone) {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AppServiceProvider,
     {provide:TyNetworkServiceProvider,useFactory:netFactory,
-      deps:[Platform,LoadingController,Http,NgZone]
+      deps:[Platform,LoadingController,Http,NgZone,Events]
     },
     {provide: DbServiceProvider,useFactory:dbFactory,
       deps:[Platform,NgZone]

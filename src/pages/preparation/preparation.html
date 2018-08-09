@@ -1,4 +1,4 @@
-<ion-tabs>
+<ion-tabs #tabs (ionChange)="onTabChanged()">
     <ion-tab [root]="prepProgressRoot"  tabsHideOnSubPages="true"  tabTitle="进度查询" tabIcon="timer"></ion-tab>
     <ion-tab [root]="prepSpleAcceptRoot"  tabsHideOnSubPages="true"  tabTitle="样品接收" tabIcon="md-archive"></ion-tab>
     <ion-tab [root]="prepPrpareRoot"  tabsHideOnSubPages="true"  tabTitle="样品制备" tabIcon="color-fill"></ion-tab>
