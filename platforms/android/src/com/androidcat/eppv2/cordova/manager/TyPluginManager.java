@@ -236,7 +236,8 @@ public class TyPluginManager {
         PluginCoreWorker.openOfflineMap(plugin,callbackContext);
       }
       else if("qrCodeScan".equals(code)){
-        PluginCoreWorker.qrcode(plugin,callbackContext);
+        String title = jsonObject.optString("commandData");
+        PluginCoreWorker.qrcode(plugin, title,callbackContext);
       }
       else if("downloadTask".equals(code)){
         String commandData = jsonObject.optString("commandData");

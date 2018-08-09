@@ -89,9 +89,9 @@ public class PluginCoreWorker {
    * @param plugin          连接此接口的插件
    * @param callbackContext 回调函数句柄；向js返回数据靠此
    */
-  public static void qrcode(CordovaPlugin plugin, final CallbackContext callbackContext) {
+  public static void qrcode(CordovaPlugin plugin, String title, final CallbackContext callbackContext) {
     QrCodeHelper qrCodeHelper = QrCodeHelper.getQrCodeHelper(plugin, callbackContext);
-    qrCodeHelper.gotoQrCapture();
+    qrCodeHelper.gotoQrCapture(title);
   }
 
   public static void downloadTask(CordovaPlugin plugin, String tasksJson, final CallbackContext callbackContext) {

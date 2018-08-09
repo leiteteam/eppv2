@@ -31,7 +31,7 @@
         </ion-col>
 
         <ion-col col-3>
-            <div class="gridItemBg">
+            <div class="gridItemBg" (click)="gotoSampleList()">
                 <p style="color: #c4b173;margin: 5px;">{{doing}}</p>
                 <p style="margin: 5px;">待采样</p>
                 <ion-icon name="create" style="font-size: 3.5rem;color: #c4b173"></ion-icon>
@@ -39,7 +39,7 @@
         </ion-col>
 
         <ion-col col-3>
-            <div class="gridItemBg">
+            <div class="gridItemBg" (click)="gotoDataManager()">
                 <p style="color: #8aa88f;margin: 5px;">{{undown}}</p>
                 <p style="margin: 5px;">待下载</p>
                 <ion-icon name="cloud-download" style="font-size: 3.5rem;color: #8aa88f"></ion-icon>

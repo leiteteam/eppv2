@@ -16,7 +16,7 @@ public class DzPrinterHelper {
 
   // 打印参数
   private int printQuality = 1;
-  private int printDensity = 3;
+  private int printDensity = 6;
   private int printSpeed = 1;
   private int gapType = 1;
 

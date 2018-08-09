@@ -12,7 +12,10 @@ import android.os.Vibrator;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.androidcat.eppv2.R;
 import com.androidcat.eppv2.ui.BaseActivity;
@@ -33,7 +36,7 @@ import java.util.Vector;
  * @author xuxiang
  * @date 2014-09-23
  */
-public class CaptureActivity extends BaseActivity implements Callback {
+public class CaptureActivity extends BaseActivity implements Callback,View.OnClickListener {
 	private static final long VIBRATE_DURATION = 200L;
 
 	private CaptureActivityHandler handler;
@@ -46,6 +49,9 @@ public class CaptureActivity extends BaseActivity implements Callback {
 	private boolean playBeep;
 	private static final float BEEP_VOLUME = 0.10f;
 	private boolean vibrate;
+	private Button goBack;
+	private String titleName;
+	private TextView titleText;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,12 +60,23 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
 		setContentView(R.layout.activity_capture);
 		CameraManager.init(getApplication());
-
+		titleName = getIntent().getStringExtra("title_name");
 		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
+		titleText = findViewById(R.id.app_title_text);
+		titleText.setText(titleName);
+		goBack = findViewById(R.id.goBack);
+		goBack.setOnClickListener(this);
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
 	}
-
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()){
+			case R.id.goBack:
+                this.finish();
+				break;
+		}
+	}
 	@Override
 	protected void onResume() {
 		super.onResume();

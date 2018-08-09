@@ -10,6 +10,7 @@ import { ProductStatusPipe } from './product-status/product-status';
 import { StockNamePipe } from './stock-name/stock-name';
 import { PointTypePipe } from './point-type/point-type';
 import { InvestigationTypePipe } from './investigation-type/investigation-type';
+import { QualityTypePipe } from './quality-type/quality-type';
 @NgModule({
 	declarations: [
         PayStatusPipe,
@@ -22,7 +23,8 @@ import { InvestigationTypePipe } from './investigation-type/investigation-type';
         ProductStatusPipe,
         StockNamePipe,
         PointTypePipe,
-    InvestigationTypePipe
+    InvestigationTypePipe,
+    QualityTypePipe
     ],
 	imports: [],
 	exports: [
@@ -36,7 +38,8 @@ import { InvestigationTypePipe } from './investigation-type/investigation-type';
         ProductStatusPipe,
         StockNamePipe,
         PointTypePipe,
-    InvestigationTypePipe
+    InvestigationTypePipe,
+    QualityTypePipe
     ]
 })
 export class PipesModule {}

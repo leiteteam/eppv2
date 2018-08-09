@@ -48,8 +48,7 @@
   </ion-item>
   <ion-item no-lines detail-push>
     <ion-label style="opacity:1 !important;">是否质控样品</ion-label>
-    <ion-multi-picker item-end style="color:darkgray" disabled=true [(ngModel)]="taskData.QualityType" [multiPickerColumns]="controlSamples" doneText="确定"
-      cancelText="取消"></ion-multi-picker>
+    <ion-input type="number" class="input-border" disabled="true" [value]="taskData.QualityType | qualityType"></ion-input>
   </ion-item>
   <ion-item no-lines>
     <ion-label>样品重量(g)

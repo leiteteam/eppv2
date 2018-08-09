@@ -37,6 +37,12 @@ export class TaskSummaryDialogPage extends BasePage{
       this.requestTaskSummary();
   }
 
+  gotoSampleList(){
+    
+  }
+  gotoDataManager(){
+
+  }
   
   requestTaskSummary(){
     return new Promise((resolve, reject) => {
