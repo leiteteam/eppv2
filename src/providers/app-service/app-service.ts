@@ -40,7 +40,9 @@ export class AppGlobal {
         updateFlow:'/api/FlowStatusUpdate/Post',
         flowedList:'/api/FlowedList/Post',
         progressList:'/api/ProgressList/Post',
-        prepSpleDetail:'/api/ProgressSample/Post'
+        prepSpleDetail:'/api/ProgressSample/Post',
+        prepSpleAccSearch:'/api/AcceptSampleSearch/Post',
+        prepSpleAcc:'/api/AcceptSample/Post',
     };
     static DATA:any ={
       uploadDoc:':8080/pc/data/uploadDoc',//文件上传

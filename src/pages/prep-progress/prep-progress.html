@@ -43,6 +43,7 @@
           <ion-card  *ngFor="let sple of acceptList" (click)="goToSpleDetail(sple)">
               <ion-item  no-lines detail-push>
                   <P style="color: #363636">待收样子样数:{{sple.SubSampleNum}}</P>
+                  <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
                   <P class="date">{{sple.CompleteTime}}</P>
                   <p class="date">编号:{{sple.SampleCode}}</p>
                   <p class="date">{{SampleCategorys[sple.SampleCategory]}}</p>
@@ -59,6 +60,7 @@
         <ion-card  *ngFor="let sple of prepareList" (click)="goToSpleDetail(sple)">
               <ion-item  no-lines detail-push>
                   <P style="color: #363636">待制备样品数:{{sple.SampleNum}}</P>
+                  <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
                   <p class="date">{{sple.date}}</p>
                   <p class="date">编号:{{sple.SampleNumber}}</p>
                   <p class="date">{{SampleCategorys[sple.SampleCategory]}}</p>
@@ -75,6 +77,7 @@
         <ion-card  *ngFor="let sple of flowList" (click)="goToSpleDetail(sple)">
               <ion-item  no-lines detail-push>
                   <P style="color: #363636">待流转样品数:{{sple.SubSampleNum}}</P>
+                  <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
                   <p class="date">编号:{{sple.SampleCode}}</p>
                   <p class="date">流转中心:{{sple.FlowCenter}}</p>
                   <p class="date">测试项目:{{sple.TestItem}}</p>
@@ -92,6 +95,7 @@
             <ion-card  *ngFor="let sple of flowedList" (click)="goToSpleDetail(sple)">
                   <ion-item  no-lines detail-push>
                       <P style="color: #363636">待流转样品数:{{sple.SubSampleNum}}</P>
+                      <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
                       <p class="date">编号:{{sple.SampleCode}}</p>
                       <p class="date">流转中心:{{sple.FlowCenter}}</p>
                       <p class="date">测试项目:{{sple.TestItem}}</p>

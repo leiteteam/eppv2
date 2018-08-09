@@ -78,6 +78,8 @@ public class TyPluginManager {
           BaseResponse baseResponse = new Gson().fromJson(response,BaseResponse.class);
           if (baseResponse.ret == 200){
             callbackContext.success(response);
+          }else if(baseResponse.ret == 150){
+            callbackContext.error("tokenError150");
           }else {
             callbackContext.error(baseResponse.desc);
           }

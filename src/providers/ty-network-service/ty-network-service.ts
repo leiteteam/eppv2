@@ -71,8 +71,6 @@ export class TyNetworkServiceProvider {
     let mParams = {
     };
     if(AppServiceProvider.getInstance().userinfo!=null){
-      params.userid = AppServiceProvider.getInstance().userinfo.userid;
-      params.token = AppServiceProvider.getInstance().userinfo.token;
       mParams = {
         "postData":JSON.stringify(params),
         "url":(AppGlobal.domain+api+"")
@@ -95,7 +93,12 @@ export class TyNetworkServiceProvider {
         if (loader) {
           loading.dismiss();
         }
-        failed(error);
+        if ("tokenError150" == error){
+          
+        }
+        else {
+          failed(error);
+        }
       });
     });
   }

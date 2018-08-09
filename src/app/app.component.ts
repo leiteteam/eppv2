@@ -37,7 +37,7 @@ export class MyApp {
   hasLoggedIn:boolean = false;
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
-  rootPages:Array<string> = ["HomePage","LoginPage","RegistPage","CollectionTabPage"];
+  rootPages:Array<string> = ["HomePage","LoginPage","RegistPage","CollectionTabPage","PreparationPage","FlowingPage","TestingPage"];
 
   constructor(
     public db:DbServiceProvider,
@@ -112,10 +112,10 @@ export class MyApp {
       this.rootPage = "PreparationPage";
     }
     else if (appType ==="Lz"){
-      this.rootPage = "BuildingPage";
+      this.rootPage = "FlowingPage";
     }
     else if (appType ==="Jc"){
-      this.rootPage = "BuildingPage";
+      this.rootPage = "TestingPage";
     }
     else {
       this.rootPage = "HomePage";

@@ -57,12 +57,12 @@
     <allow-intent href="geo:*" />
     <allow-intent href="market:*" />
     <name>土壤采集</name>
-    <icon density="ldpi" src="resources/android/icon/drawable-xxhdpi-icon.jpg" />
-    <icon density="mdpi" src="resources/android/icon/drawable-xxhdpi-icon.jpg" />
-    <icon density="hdpi" src="resources/android/icon/drawable-xxhdpi-icon.jpg" />
-    <icon density="xhdpi" src="resources/android/icon/drawable-xxhdpi-icon.jpg" />
-    <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.jpg" />
-    <icon density="xxxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.jpg" />
+    <icon density="ldpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
+    <icon density="mdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
+    <icon density="hdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
+    <icon density="xhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
+    <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
+    <icon density="xxxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
     <splash density="port-xxhdpi" src="resources/android/splash/splash.jpg" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="ShowSplashScreenSpinner" value="false" />

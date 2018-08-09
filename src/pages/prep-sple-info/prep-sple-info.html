@@ -53,7 +53,7 @@
   <ion-item style="margin-top: 0px;">
     <ion-icon name="pricetag" item-start color="primary"></ion-icon>
     <ion-label>样品编号</ion-label>
-    <p item-end>{{sple.SubSampleCode}}</p>
+    <p item-end>{{sple.SampleCode}}01</p>
   </ion-item>
   <ion-item style="margin-top: 0px;">
     <ion-icon name="speedometer" item-start color="primary"></ion-icon>
@@ -77,7 +77,31 @@
   <ion-item style="margin-top: 0px;">
     <ion-icon name="pricetag" item-start color="primary"></ion-icon>
     <ion-label>样品编号</ion-label>
-    <p item-end>{{sple.SubSampleCode+1}}</p>
+    <p item-end>{{sple.SampleCode}}02</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="speedometer" item-start color="primary"></ion-icon>
+    <ion-label>样品重量(g)</ion-label>
+    <p item-end>{{sple.Weight}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="grid" item-start color="primary"></ion-icon>
+    <ion-label>过筛孔径(mm)</ion-label>
+    <p item-end>{{size}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="paper" item-start color="primary"></ion-icon>
+    <ion-label>制样要求</ion-label>
+    <p item-end style="width: 70%;">{{require}}</p>
+  </ion-item>
+
+  <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(255, 255, 255)">
+    <p item-start style="font-size: 1.3rem;color: rgb(172, 137, 118)">留存样</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="pricetag" item-start color="primary"></ion-icon>
+    <ion-label>样品编号</ion-label>
+    <p item-end>{{sple.SampleCode}}03</p>
   </ion-item>
   <ion-item style="margin-top: 0px;">
     <ion-icon name="speedometer" item-start color="primary"></ion-icon>
