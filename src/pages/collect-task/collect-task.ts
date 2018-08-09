@@ -125,11 +125,13 @@ export class CollectTaskPage extends BasePage {
     let savingDataStr = JSON.stringify(savingData);
     console.log(savingDataStr);
     this.device.push("saveSample",savingDataStr, success=> {
-      // this.device.push("stopTracing",this.spleTask.taskid,success=>{
-      //   console.log(success);
-      // }, error => {
-      //   console.log(error);
-      // });
+      if(this.model == 0){
+        this.device.push("stopTracing",this.spleTask.taskid,success=>{
+          console.log(success);
+        }, error => {
+          console.log(error);
+        });
+      }
       this.toast("保存成功！");
       this.navCtrl.popToRoot();
       console.log(success);

@@ -10,6 +10,7 @@ import { ProductStatusPipe } from './product-status/product-status';
 import { StockNamePipe } from './stock-name/stock-name';
 import { PointTypePipe } from './point-type/point-type';
 import { InvestigationTypePipe } from './investigation-type/investigation-type';
+import { QualityTypePipe } from './quality-type/quality-type';
 import { SpleCodePipe } from './sple-code/sple-code';
 @NgModule({
 	declarations: [
@@ -24,6 +25,7 @@ import { SpleCodePipe } from './sple-code/sple-code';
         StockNamePipe,
         PointTypePipe,
     InvestigationTypePipe,
+    QualityTypePipe,
     SpleCodePipe
     ],
 	imports: [],
@@ -39,6 +41,7 @@ import { SpleCodePipe } from './sple-code/sple-code';
         StockNamePipe,
         PointTypePipe,
     InvestigationTypePipe,
+    QualityTypePipe,
     SpleCodePipe
     ]
 })

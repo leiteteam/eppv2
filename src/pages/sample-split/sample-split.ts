@@ -143,12 +143,12 @@ export class SampleSplitPage extends BasePage {
       this.CommonValue = str + this.num;
     }
     
-    let sub = new SubSample( this.subId + this.num++, 1, weight, false, this.CommonValue, this.ParamCatetoryIDs.join(","), this.ParamNames.join(","));
+    let sub = new SubSample( this.subId + this.num++, 1, weight, 4, this.CommonValue, this.ParamCatetoryIDs.join(","), this.ParamNames.join(","));
     this.subSamples.push(sub.toJson());
     if( this.taskData.QualityType == 2 || this.taskData.QualityType == 3 ){
-      sub = new SubSample( this.subId + this.num++ , 1, weight, false, this.CommonValue, this.ParamCatetoryIDs.join(","), this.ParamNames.join(","));
+      sub = new SubSample( this.subId + this.num++ , 1, weight, 5, this.CommonValue, this.ParamCatetoryIDs.join(","), this.ParamNames.join(","));
       this.subSamples.push(sub.toJson());
-      sub = new SubSample( this.subId + this.num++ , 1, weight, false, this.CommonValue, this.ParamCatetoryIDs.join(","), this.ParamNames.join(","));
+      sub = new SubSample( this.subId + this.num++ , 1, weight, 5, this.CommonValue, this.ParamCatetoryIDs.join(","), this.ParamNames.join(","));
       this.subSamples.push(sub.toJson());
     }
   }
@@ -174,21 +174,21 @@ export class SubSample {
   Weight?:number;
   ParamCatetoryIDs?:String;
   ParamNames?:String;
-  IsQuality:boolean;
-  CommonValue:String;
-  constructor(SubSampleId,ProjectType,Weight,IsQuality,CommonValue,ParamCatetoryIDs,ParamNames,SubSampleType?){
+  QualityType:number;
+  RelationSampleId:String;
+  constructor(SubSampleId,ProjectType,Weight,QualityType,RelationSampleId,ParamCatetoryIDs,ParamNames,SubSampleType?){
     this.SubSampleId = SubSampleId;
     this.SubSampleType = SubSampleType;
     this.ProjectType = ProjectType;
     this.Weight = Weight;
     this.ParamCatetoryIDs = ParamCatetoryIDs;
     this.ParamNames = ParamNames;
-    this.IsQuality = IsQuality;
-    this.CommonValue = CommonValue;
+    this.QualityType = QualityType;
+    this.RelationSampleId = RelationSampleId;
   }
   toJson(){
     return {SubSampleId: this.SubSampleId, SubSampleType: this.SubSampleType, TwoSampleId: this.TwoSampleId, LaboratorySampleId: this.LaboratorySampleId,
       ProjectType: this.ProjectType, Weight: this.Weight, ParamCatetoryIDs: this.ParamCatetoryIDs, ParamNames: this.ParamNames,
-      IsQuality: this.IsQuality, CommonValue: this.CommonValue};
+      QualityType: this.QualityType, RelationSampleId: this.RelationSampleId};
   }
 }

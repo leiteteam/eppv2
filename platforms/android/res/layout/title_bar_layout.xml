@@ -3,7 +3,7 @@
     android:id="@+id/main_layout"
     android:layout_width="fill_parent"
     android:layout_height="52dp"
-    android:background="@color/white_color"
+    android:background="@color/title_bar_background_color"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -17,7 +17,16 @@
         android:orientation="horizontal"
         android:visibility="gone" >
     </LinearLayout>
-
+    <Button
+        android:id="@+id/goBack"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:textColor="@color/white_color"
+        android:layout_marginLeft="5dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:drawableLeft="@drawable/title_back"
+        android:text="返回"
+        />
     <TextView
         android:id="@+id/app_title_text"
         android:layout_width="wrap_content"
@@ -28,7 +37,7 @@
         android:layout_marginRight="5dp"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="@string/app_name"
+        android:text="@string/title_name"
         android:textColor="@color/white"
         android:textSize="22sp" >
     </TextView>

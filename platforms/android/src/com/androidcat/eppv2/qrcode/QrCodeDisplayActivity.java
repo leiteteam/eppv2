@@ -2,6 +2,8 @@ package com.androidcat.eppv2.qrcode;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.zxing.core.QrUtil;
@@ -29,4 +31,5 @@ public class QrCodeDisplayActivity extends BaseActivity{
             showToast("generate qrcode failed！");
         }
     }
+
 }

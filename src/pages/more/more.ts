@@ -56,7 +56,7 @@ export class MorePage extends BasePage{
 
   gotoDelivery(){
     //this.navCtrl.push("SpleInfoPage");
-    this.device.push("qrCodeScan",'',(spleNo)=>{
+    this.device.push("qrCodeScan",'样品流转',(spleNo)=>{
       console.log("spleNo:"+spleNo);
       this.navCtrl.push("SpleInfoPage",{spleId:spleNo});
     },(err)=>{

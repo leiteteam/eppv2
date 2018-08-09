@@ -43,8 +43,9 @@ public class QrCodeHelper {
     return qrCodeHelper;
   }
 
-  public void gotoQrCapture(){
+  public void gotoQrCapture(String title){
     Intent intent = new Intent(plugin.cordova.getActivity(), CaptureActivity.class);
+    intent.putExtra("title_name", title );
     plugin.cordova.startActivityForResult(plugin,intent, TyPluginRequestCode.REQUEST_QRCODE_SCAN);
   }
 

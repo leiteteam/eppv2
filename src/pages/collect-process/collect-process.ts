@@ -31,6 +31,7 @@ export class CollectProcessPage extends BasePage {
     //初始化json
     this.initJson();
     this.spleTask = navParams.get('spleTask');
+    console.log(this.spleTask);
     this.taskData = this.spleTask['data'];
     if(this.model == 2){
       this.isFlagInput = true;

@@ -40,7 +40,7 @@
   <div [ngSwitch]="spleCategory">
     <div *ngIf="spleCategory=='todo'">
       <ion-list *ngIf="todoList!=null&&todoList.length>0" no-margin>
-        <ion-item *ngFor="let spleTask of todoList" (click)="goToSpleDetail(spleTask)">
+        <ion-item *ngFor="let spleTask of todoList">
           <P style="color: #949059">详查单元编码:{{spleTask.data.Point.SampleNumber}}</P>
           <h5 class="title">{{spleTask.data.Point.ForecastAddress}}</h5>
           <p class="date">{{spleTask.data.Point.PointName}}</p>
@@ -60,7 +60,7 @@
 
     <div *ngIf="spleCategory=='done'">
       <ion-list *ngIf="doneList!=null&&doneList.length>0" no-margin>
-        <ion-item *ngFor="let spleTask of doneList" (click)="goToSpleDetail(spleTask)">
+        <ion-item *ngFor="let spleTask of doneList">
           <P style="color: #949059">详查单元编码:{{spleTask.data.Point.SampleNumber}}</P>
           <h5 class="title">{{spleTask.data.Point.ForecastAddress}}</h5>
           <p class="date">{{spleTask.data.Point.PointName}}</p>
@@ -80,7 +80,7 @@
 
     <div *ngIf="spleCategory=='uploaded'">
       <ion-list *ngIf="uploadedList!=null&&uploadedList.length>0" no-margin>
-        <ion-item *ngFor="let spleTask of uploadedList" (click)="goToSpleDetail(spleTask)">
+        <ion-item *ngFor="let spleTask of uploadedList">
           <P style="color: #949059">详查单元编码:{{spleTask.Point.SampleNumber}}</P>
           <h5 class="title">{{spleTask.Point.ForecastAddress}}</h5>
           <p class="date">{{spleTask.Point.PointName}}</p>
