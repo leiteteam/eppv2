@@ -1,0 +1,97 @@
+<!--
+  Generated template for the PrepSpleDetail page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>样品信息</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding>
+  <ion-item no-lines style="min-height:3.5rem;background-color:rgb(236, 234, 234)">
+    <p item-start>主样品信息</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="pricetag" item-start color="primary"></ion-icon>
+    <ion-label>主样编号</ion-label>
+    <p item-end>{{sple.SampleCode}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="contrast" item-start color="primary"></ion-icon>
+    <ion-label>样品类型</ion-label>
+    <p item-end>{{SampleCategorys[sple.SampleCategory]}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="thermometer" item-start color="primary"></ion-icon>
+    <ion-label>采样深度(cm)</ion-label>
+    <p item-end>{{sple.SampleDepth}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="speedometer" item-start color="primary"></ion-icon>
+    <ion-label>样品重量(g)</ion-label>
+    <p item-end>{{sple.Weight}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="time" item-start color="primary"></ion-icon>
+    <ion-label>采样时间</ion-label>
+    <p item-end>{{sple.SampleDate}}</p>
+  </ion-item>
+
+  <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(236, 234, 234)">
+    <p item-start>子样品信息</p>
+  </ion-item>
+  <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(255, 255, 255)">
+    <p item-start style="font-size: 1.3rem;color: rgb(172, 137, 118)">国家级入库样</p>
+  </ion-item>
+
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="pricetag" item-start color="primary"></ion-icon>
+    <ion-label>样品编号</ion-label>
+    <p item-end>{{sple.SubSampleCode}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="speedometer" item-start color="primary"></ion-icon>
+    <ion-label>样品重量(g)</ion-label>
+    <p item-end>{{sple.Weight}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="grid" item-start color="primary"></ion-icon>
+    <ion-label>过筛孔径(mm)</ion-label>
+    <p item-end>{{size}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="paper" item-start color="primary"></ion-icon>
+    <ion-label>制样要求</ion-label>
+    <p item-end style="width: 70%;">{{require}}</p>
+  </ion-item>
+
+  <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(255, 255, 255)">
+    <p item-start style="font-size: 1.3rem;color: rgb(172, 137, 118)">省级级入库样</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="pricetag" item-start color="primary"></ion-icon>
+    <ion-label>样品编号</ion-label>
+    <p item-end>{{sple.SubSampleCode+1}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="speedometer" item-start color="primary"></ion-icon>
+    <ion-label>样品重量(g)</ion-label>
+    <p item-end>{{sple.Weight}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="grid" item-start color="primary"></ion-icon>
+    <ion-label>过筛孔径(mm)</ion-label>
+    <p item-end>{{size}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="paper" item-start color="primary"></ion-icon>
+    <ion-label>制样要求</ion-label>
+    <p item-end style="width: 70%;">{{require}}</p>
+  </ion-item>
+</ion-content>

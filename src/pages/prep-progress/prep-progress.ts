@@ -137,4 +137,8 @@ export class PrepProgressPage extends BasePage{
 
   }
 
+  goToSpleDetail(sple){
+    this.navCtrl.push("PrepSpleInfoPage",{taskid:sple.TaskID});
+  }
+
 }

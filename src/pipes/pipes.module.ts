@@ -11,6 +11,7 @@ import { StockNamePipe } from './stock-name/stock-name';
 import { PointTypePipe } from './point-type/point-type';
 import { InvestigationTypePipe } from './investigation-type/investigation-type';
 import { QualityTypePipe } from './quality-type/quality-type';
+import { SpleCodePipe } from './sple-code/sple-code';
 @NgModule({
 	declarations: [
         PayStatusPipe,
@@ -24,7 +25,8 @@ import { QualityTypePipe } from './quality-type/quality-type';
         StockNamePipe,
         PointTypePipe,
     InvestigationTypePipe,
-    QualityTypePipe
+    QualityTypePipe,
+    SpleCodePipe
     ],
 	imports: [],
 	exports: [
@@ -39,7 +41,8 @@ import { QualityTypePipe } from './quality-type/quality-type';
         StockNamePipe,
         PointTypePipe,
     InvestigationTypePipe,
-    QualityTypePipe
+    QualityTypePipe,
+    SpleCodePipe
     ]
 })
 export class PipesModule {}
