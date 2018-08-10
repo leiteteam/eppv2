@@ -1,5 +1,6 @@
+import { Events } from 'ionic-angular/util/events';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 import { BasePage } from '../base/base';
@@ -29,9 +30,11 @@ export class DataManagerPage extends BasePage{
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
+    public alertCtrl:AlertController,
     private net: TyNetworkServiceProvider,
     private device: DeviceIntefaceServiceProvider,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,
+    public events:Events) {
     super(navCtrl,navParams,toastCtrl);
   }
 
@@ -40,18 +43,38 @@ export class DataManagerPage extends BasePage{
     this.tobeDownloadedNum = AppServiceProvider.getInstance().undownTaskList.length;
     this.countTask();
   }
-
+  gotoSampleList(){
+    this.events.publish("triggerTab", {index: 2, type: 0});
+  }
+  gotoUploadList(){
+    this.events.publish("triggerTab", {index: 2, type: 1});
+  }
   download(){
-    this.requestUndoneTasks()
-    .then(()=>{
-      return this.updateUndoneTask();
-    })
-    .then(()=>{
-      return this.notifyDownloadSuccess()
-    })
-    .then(()=>{
-      this.countTask();
+    let alert = this.alertCtrl.create({
+      title: '警告提示',
+      message: '你确定要下载任务吗？',
+      buttons: [
+        {
+          text: '取消'
+        },
+        {
+          text: '确定',
+          handler: () => {
+            this.requestUndoneTasks()
+            .then(()=>{
+              return this.updateUndoneTask();
+            })
+            .then(()=>{
+              return this.notifyDownloadSuccess()
+            })
+            .then(()=>{
+              this.countTask();
+            });
+          }
+        }
+      ]
     });
+    alert.present();
   }
 
   requestUndoneTasks(){

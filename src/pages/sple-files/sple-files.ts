@@ -35,7 +35,19 @@ export class SpleFilesPage extends BasePage{
     this.getSpleFileList(null);
   }
   goCollectInfo(file){
-    this.navCtrl.push("CollectProcessPage", {spleTask: file, model: 2});
+    this.net.httpPost(
+      AppGlobal.API.sampleRecordInfo,
+      {
+        "PointId":file.SPoint_ID
+      },
+      msg => {
+        console.log(msg);
+        this.navCtrl.push("CollectProcessPage", {spleTask: file, model: 2});
+      },
+      error => {
+        this.toastShort(error);
+      },
+      true);
   }
   keydown(event) {
     if(event.keyCode==13){

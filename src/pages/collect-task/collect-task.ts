@@ -112,6 +112,8 @@ export class CollectTaskPage extends BasePage {
     //复制内存中当前的spleTask，用于数据保存
     //因为在上层ts中，完整的json对象才是可用可解析的，如果直接将spleTask的字段改成了string则无法识别
     //原始spleTask仍用于内存中使用，所以需保持同步更新字段内容
+    let date = new Date();
+    this.spleTask.SamplingTime =  date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     let savingData = JSON.parse(JSON.stringify(this.spleTask));
     this.spleTask['samples'] = this.sampleData;
     this.spleTask['data'] = this.taskData;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ToastController, Events } from 'ionic-angular';
 import { AppServiceProvider, AppGlobal } from '../../providers/app-service/app-service';
 import { BasePage } from '../base/base';
 import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
@@ -17,7 +17,6 @@ import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-
   templateUrl: 'task-summary-dialog.html',
 })
 export class TaskSummaryDialogPage extends BasePage{
-  
   spleTeam:string = "";
   teamMember:string = "";
   uploaded:number = 0;
@@ -25,7 +24,12 @@ export class TaskSummaryDialogPage extends BasePage{
   undown:number = 0;
   returned:number = 0;
 
-  constructor(public net:TyNetworkServiceProvider,public toastCtrl:ToastController,public navCtrl: NavController, public navParams: NavParams,public viewCtrl:ViewController) {
+  constructor(public net:TyNetworkServiceProvider,
+    public toastCtrl:ToastController,
+    public navCtrl: NavController,
+     public navParams: NavParams,
+     public viewCtrl:ViewController,
+     public events: Events) {
     super(navCtrl,navParams,toastCtrl);
   }
 
@@ -38,7 +42,8 @@ export class TaskSummaryDialogPage extends BasePage{
   }
 
   gotoSampleList(){
-    
+    this.events.publish("triggerTab", {index: 2, type: 0});
+    this.viewCtrl.dismiss();
   }
   gotoDataManager(){
 

@@ -46,8 +46,11 @@ export class CollectionPage extends BasePage{
     public events:Events,
     public device:DeviceIntefaceServiceProvider) {
     super(navCtrl,navParams,toastCtrl);
-    events.subscribe('tabChanged',()=>{
+    events.subscribe('tabChanged',(data)=>{
       this.getTodoList();
+      if(data != null){
+        this.segmentClick(data.type);
+      }
     });
   }
 

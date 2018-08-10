@@ -35,6 +35,13 @@ export class CollectionTabPage extends BasePage{
         this.navCtrl.setRoot("HomePage");
       });
     });
+    events.subscribe("triggerTab", (data => {
+      this.tabs.select(data.index);
+      setTimeout(()=>{
+        this.events.publish('tabChanged', data);
+      }, 500);
+      
+    }));
   }
 
   ionViewDidEnter(){
@@ -45,7 +52,7 @@ export class CollectionTabPage extends BasePage{
     let previous = this.tabs.previousTab(false);
     if (this.tabs.getSelected().root == "CollectionPage"){
       if (previous.root == "DataManagerPage"){
-        this.events.publish('tabChanged');
+        this.events.publish('tabChanged', null);
       }
     }
   }

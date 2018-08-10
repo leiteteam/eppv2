@@ -33,6 +33,7 @@ export class AppGlobal {
         taskSummary: '/api/TaskCount/Post', //获取用户信息
         taskList: '/api/TaskList/PostTaskList', //获取任务列表列表
         sampleRecordList:'/api/SampleRecordList/Post',
+        sampleRecordInfo:'/api/SampleRecordInfo/Post',
         sampleDetails:"/api/v1/sampleDetails",
         uploadSamples: '/api/Update/Post', //上传采集数据
         uploadImage:'/api/v1/user/uploadImage',
