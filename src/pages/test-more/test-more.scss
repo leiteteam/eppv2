@@ -1,3 +1,13 @@
 page-test-more {
+    .item-ios{
+        height: 55px;
+    }
 
+    .list-ios > .item-block:first-child{
+        border-top:0px !important;
+    }
+
+    .content{
+        background-color: color($colors,ty-partingline);
+    }
 }
