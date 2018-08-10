@@ -69,7 +69,7 @@ export class MyApp {
     this.events.subscribe('tokenError150',()=>{
       this.toastCtrl.create({
         message: '该帐号已在其他设备登录，请重新登录',
-        duration: 1500,
+        duration: 2000,
         position: 'bottom',
         cssClass: 'text-align: center'
       }).present();

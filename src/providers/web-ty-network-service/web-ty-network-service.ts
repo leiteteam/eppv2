@@ -1,6 +1,6 @@
 // import { AppGlobal } from './../app-service/app-service';
 // import { TyNetworkServiceProvider } from './../ty-network-service/ty-network-service';
-import { LoadingController } from 'ionic-angular';
+import { LoadingController, Events } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
@@ -15,7 +15,7 @@ import { AppGlobal } from '../app-service/app-service';
 @Injectable()
 export class WebTyNetworkServiceProvider {
     
-      constructor(public http:Http,public loadingCtrl: LoadingController) {
+      constructor(public http:Http,public loadingCtrl: LoadingController, public events?: Events) {
       
       }
       
@@ -88,12 +88,21 @@ export class WebTyNetworkServiceProvider {
                 
                 let m =  res.text();
                 console.log("response:"+m);
-                success(m);
+                let info = JSON.parse(m);
+                if (info.ret == 200){
+                  success(m);
+                }else {
+                  if (150 == info.ret){
+                    this.events.publish("tokenError150");
+                  }
+                  else {
+                    failed(info.desc);
+                  }
+                }
               }, 1000);
 
             })
             .catch(error => {
-
               setTimeout(() => {
                 if (loader) {
                   loading.dismiss();

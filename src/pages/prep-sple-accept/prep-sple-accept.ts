@@ -26,6 +26,7 @@ export class PrepSpleAcceptPage  extends BasePage{
     "6":"其他"
   };
 
+  spleNo:string = "";
   acceptList:any = [];
 
   constructor(
@@ -40,9 +41,23 @@ export class PrepSpleAcceptPage  extends BasePage{
     console.log('ionViewDidLoad PrepSpleAcceptPage');
   }
 
+  /**
+   * 监听键盘enter键
+   * @param event 
+   */
+  onkey(event) {
+    if(event.keyCode==13){
+      //返回确定按钮
+      event.target.blur();
+      this.navCtrl.push("PrepSpleCheckPage",{spleId:this.spleNo,callback:this.callback});
+      return false;
+    }
+  }
+
   accept(){
     this.device.push("qrCodeScan",'',(spleNo)=>{
       console.log("spleNo:"+spleNo);
+      this.spleNo = spleNo;
       this.navCtrl.push("PrepSpleCheckPage",{spleId:spleNo,callback:this.callback});
     },(err)=>{
       this.toastShort(err);
@@ -51,6 +66,7 @@ export class PrepSpleAcceptPage  extends BasePage{
 
   //选择条件回调
   callback = (sple) => {
+    console.log("callback success-->add sple");
     this.acceptList.push(sple);
   }
 }

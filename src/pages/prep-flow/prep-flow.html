@@ -11,10 +11,10 @@
   </ion-navbar>
   <div style="width:100%;overflow:auto" class="msearchbar">
       <form action="#">
-          <ion-searchbar style="width: 90%;" cancelButtonText="取消" placeholder="扫描二维码或输入编号完成流转" float-left (keyup)="onkey($event)" [(ngModel)]="likeStr" [ngModelOptions]="{standalone: true}">
+          <ion-searchbar style="width: 90%;" cancelButtonText="取消" placeholder="扫描二维码或输入编号完成流转" float-left (keyup)="onkey($event)" [(ngModel)]="spleNo" [ngModelOptions]="{standalone: true}">
           </ion-searchbar>
       </form>
-      <button no-padding no-margin ion-button clear float-right (click)="flow()" style="width: 10%;">
+      <button no-padding no-margin ion-button clear float-right (click)="scan()" style="width: 10%;">
           <ion-icon name="qr-scanner" style="font-size: 2.6rem;"></ion-icon>
       </button>
     </div>
@@ -22,12 +22,12 @@
 
 <ion-content no-padding no-margin>
     <ion-list *ngIf="flowList!=null&&flowList.length>0" no-margin>
-        <ion-card  *ngFor="let sple of flowList" (click)="goToSpleDetail(sple)">
-            <ion-item  no-lines detail-push>
-                <P style="color: #363636">待收样样品数:{{sple.SampleNum}}</P>
-                <P class="date">{{sple.date}}</P>
-                <p class="date">编号:{{sple.SampleNumber}}</p>
-                <p class="date">{{SampleCategorys[sple.SampleCategory]}}</p>
+        <ion-card  *ngFor="let sple of flowList">
+            <ion-item  no-lines>
+                <P style="color: #363636">样品编号:{{sple.SubSampleId}}</P>
+                <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
+                <p class="date">流转中心:{{sple.FlowCenter}}</p>
+                <P class="date">测试项目:{{sple.ParamCatetoryNames}}</P>
             </ion-item>
         </ion-card>
     </ion-list>

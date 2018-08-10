@@ -1,0 +1,13 @@
+page-prep-sple-prepare {
+    .label-ios{
+        font-size:1.5rem !important;
+    }
+
+    .item > ion-icon, .item-inner > ion-icon{
+        font-size: 2.0rem !important;
+    }
+
+    .comfirm{
+        background: color($colors,primary);
+   }
+}

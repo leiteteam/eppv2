@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 import { BasePage } from '../base/base';
+import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
+import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 
 /**
  * Generated class for the PrepFlowPage page.
@@ -17,20 +19,11 @@ import { BasePage } from '../base/base';
 })
 export class PrepFlowPage extends BasePage{
 
-  SampleCategorys = {
-    "1":"表层土壤",
-    "2":"深层土壤",
-    "3":"水稻",
-    "4":"小麦",
-    "5":"蔬菜及其他农产品",
-    "6":"其他"
-  };
-
-  flowList = [
-    {SampleNum:3,SampleNumber:"47568939032FGDYEw434",date:"2017-09-12 13:30:00",SampleCategory:"4"},
-    {SampleNum:3,SampleNumber:"47568939032FGDYEw434",date:"2017-09-12 13:30:00",SampleCategory:"5"}];
+  spleNo:string = "";
+  flowList = [];
 
   constructor(
+    public net:TyNetworkServiceProvider,
     public device:DeviceIntefaceServiceProvider,
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -42,22 +35,45 @@ export class PrepFlowPage extends BasePage{
     console.log('ionViewDidLoad PrepPrparePage');
   }
 
-  flow(){
+  /**
+   * 监听键盘enter键
+   * @param event 
+   */
+  onkey(event) {
+    if(event.keyCode==13){
+      //返回确定按钮
+      event.target.blur();
+      this.flow(this.spleNo);
+      return false;
+    }
+  }
+
+  scan(){
     this.device.push("qrCodeScan",'',(spleNo)=>{
       console.log("spleNo:"+spleNo);
-      this.navCtrl.push("PrepSpleInfoPage",{spleId:spleNo,callback:this.callback});
+      this.spleNo = spleNo;
+      this.flow(spleNo);
     },(err)=>{
       this.toastShort(err);
     });
   }
 
-  //选择条件回调
-  callback = () => {
-    //this.smartRefresh();
-  }
-
-  goToSpleDetail(sple){
-
+  flow(spleNo){
+    this.net.httpPost(
+      AppGlobal.API.prepSpleFlow,
+      {
+        "username": AppServiceProvider.getInstance().userinfo.username,
+        "token": AppServiceProvider.getInstance().userinfo.token,
+        'sampleCode':spleNo
+      },
+      msg => {
+        console.log(msg);
+        this.flowList.push(JSON.parse(msg));
+      },
+      error => {
+        this.toast(error);
+      },
+      true);
   }
 
 }

@@ -71,7 +71,7 @@ export class PrepSpleCheckPage extends BasePage{
 
   querySampleInfo(){
     this.net.httpPost(
-      AppGlobal.API.sampleFlow,
+      AppGlobal.API.prepSpleAccSearch,
       {
         "username": AppServiceProvider.getInstance().userinfo.username,
         "token": AppServiceProvider.getInstance().userinfo.token,
@@ -79,8 +79,7 @@ export class PrepSpleCheckPage extends BasePage{
       },
       msg => {
         console.log(msg);
-        let resp = JSON.parse(msg);
-        this.info = resp.info;
+        this.info = JSON.parse(msg);
       },
       error => {
         this.toast(error);
@@ -106,7 +105,7 @@ export class PrepSpleCheckPage extends BasePage{
       storagecheck:this.storagecheck?'1':'0',
     };
     this.net.httpPost(
-      AppGlobal.API.updateFlow,
+      AppGlobal.API.prepSpleAcc,
       {
         "username": AppServiceProvider.getInstance().userinfo.username,
         "token": AppServiceProvider.getInstance().userinfo.token,
@@ -119,7 +118,7 @@ export class PrepSpleCheckPage extends BasePage{
         //this.toastShort("成功");
         this.navCtrl.pop();
         if (this.navParams.data.callback){
-          this.navParams.data.callback.callback(this.info);
+          this.navParams.data.callback(this.info);
         }
       },
       error => {

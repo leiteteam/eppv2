@@ -11,7 +11,7 @@
   </ion-navbar>
   <div style="width:100%;overflow:auto" class="msearchbar">
       <form action="#">
-          <ion-searchbar style="width: 90%;" cancelButtonText="取消" placeholder="扫描二维码或输入编号完成制备" float-left (keyup)="onkey($event)" [(ngModel)]="likeStr" [ngModelOptions]="{standalone: true}">
+          <ion-searchbar style="width: 90%;" cancelButtonText="取消" placeholder="扫描二维码或输入编号完成制备" float-left (keyup)="onkey($event)" [(ngModel)]="spleNo" [ngModelOptions]="{standalone: true}">
           </ion-searchbar>
       </form>
       <button no-padding no-margin ion-button clear float-right (click)="prepare()" style="width: 10%;">
