@@ -26,9 +26,8 @@ export class PrepPrparePage extends BasePage{
     "6":"其他"
   };
 
-  prepareList = [
-    {SampleNum:3,SampleNumber:"47568939032FGDYEw434",date:"2017-09-12 13:30:00",SampleCategory:"1"},
-    {SampleNum:3,SampleNumber:"47568939032FGDYEw434",date:"2017-09-12 13:30:00",SampleCategory:"1"}];
+  spleNo:string = "";
+  prepareList = [];
 
   constructor(
     public device:DeviceIntefaceServiceProvider,
@@ -42,18 +41,31 @@ export class PrepPrparePage extends BasePage{
     console.log('ionViewDidLoad PrepPrparePage');
   }
 
+  /**
+   * 监听键盘enter键
+   * @param event 
+   */
+  onkey(event) {
+    if(event.keyCode==13){
+      //返回确定按钮
+      event.target.blur();
+      this.navCtrl.push("PrepSplePreparePage",{spleId:this.spleNo,callback:this.callback});
+      return false;
+    }
+  }
+
   prepare(){
     this.device.push("qrCodeScan",'',(spleNo)=>{
       console.log("spleNo:"+spleNo);
-      this.navCtrl.push("PrepSpleInfoPage",{spleId:spleNo,callback:this.callback});
+      this.navCtrl.push("PrepSplePreparePage",{spleId:spleNo,callback:this.callback});
     },(err)=>{
       this.toastShort(err);
     });
   }
 
   //选择条件回调
-  callback = () => {
-    //this.smartRefresh();
+  callback = (sple) => {
+    this.prepareList.push(sple);
   }
 
   goToSpleDetail(sple){

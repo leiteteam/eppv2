@@ -27,7 +27,7 @@ export function netFactory(platform:Platform,loadingCtrl:LoadingController,http:
   }else if(platform.is("mobile")){
     return new TyNetworkServiceProvider(loadingCtrl,zone,http,events);
   }else{
-    return new WebTyNetworkServiceProvider(http,loadingCtrl);
+    return new WebTyNetworkServiceProvider(http,loadingCtrl,events);
   }
 }
 export function dbFactory(platform:Platform,zone:NgZone) {
