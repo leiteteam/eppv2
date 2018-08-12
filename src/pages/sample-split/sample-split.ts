@@ -136,13 +136,9 @@ export class SampleSplitPage extends BasePage {
       return;
     }
     if( this.subId == null || this.subId == '' ){
-      let date = new Date();
-      let str = "" + date.getFullYear() + ((date.getMonth()+1) < 10 ? "0" + (date.getMonth()+1) : (date.getMonth()+1));
-      str += this.randomNum(4) + this.randomNum(6) + this.randomNum(2);
-      this.subId = str;
-      this.CommonValue = str + this.num;
+      this.subId = this.navParams.data.sampleCode;
+      this.CommonValue = this.subId + this.num;
     }
-    
     let sub = new SubSample( this.subId + this.num++, 1, weight, 4, this.CommonValue, this.ParamCatetoryIDs.join(","), this.ParamNames.join(","));
     this.subSamples.push(sub.toJson());
     if( this.taskData.QualityType == 2 || this.taskData.QualityType == 3 ){
@@ -151,13 +147,6 @@ export class SampleSplitPage extends BasePage {
       sub = new SubSample( this.subId + this.num++ , 1, weight, 5, this.CommonValue, this.ParamCatetoryIDs.join(","), this.ParamNames.join(","));
       this.subSamples.push(sub.toJson());
     }
-  }
-  randomNum(num){
-    let str = "";
-    for(let i = 0; i < num; i++) { 
-      str += Math.floor(Math.random()*10); 
-    }
-    return str;
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SampleSplitPage');

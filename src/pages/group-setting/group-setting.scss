@@ -10,4 +10,7 @@ page-group-setting {
     .content{
         background-color: color($colors,ty-partingline);
     }
+    .input-checked input{
+        text-align:right;
+    }
 }

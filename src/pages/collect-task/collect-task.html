@@ -46,7 +46,7 @@
     <ion-label>采样深度备注</ion-label>
     <ion-textarea class="input-border" [disabled]="isFlagInput" [(ngModel)]="sampleData.SampleDepthRemark"></ion-textarea>
   </ion-item>
-  <ion-item no-lines detail-push>
+  <ion-item no-lines>
     <ion-label style="opacity:1 !important;">是否质控样品</ion-label>
     <ion-input type="number" class="input-border" disabled="true" [value]="taskData.QualityType | qualityType"></ion-input>
   </ion-item>
