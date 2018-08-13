@@ -205,7 +205,7 @@ export class CollectProcessPage extends BasePage {
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      let base64Image = imageData;
       switch (loc) {
         case 1:
           this.eastImg = base64Image;

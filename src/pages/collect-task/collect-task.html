@@ -46,7 +46,7 @@
     <ion-label>采样深度备注</ion-label>
     <ion-textarea class="input-border" [disabled]="isFlagInput" [(ngModel)]="sampleData.SampleDepthRemark"></ion-textarea>
   </ion-item>
-  <ion-item no-lines detail-push>
+  <ion-item no-lines>
     <ion-label style="opacity:1 !important;">是否质控样品</ion-label>
     <ion-input type="number" class="input-border" disabled="true" [value]="taskData.QualityType | qualityType"></ion-input>
   </ion-item>
@@ -75,21 +75,21 @@
   </ion-item>
   <div class="item item-ios" style="height:200px;">
       <div (click)="addImg(1)" (press)='delImg(1)' style="white-space: nowrap;display: inline-block;height: 60%; width:30%; margin-top: 5%; text-align: center;">
-        <img src="{{gpsView != null ? gpsView : 'assets/imgs/addphoto.png'}}"  style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        <img src="{{gpsView != null ? 'data:image/jpeg;base64,' + gpsView : 'assets/imgs/addphoto.png'}}"  style="margin: 0 auto;display:block; padding: 3px 3px;"/>
         GPS屏显
       </div>
       <div (click)="addImg(2)" (press)='delImg(2)' style="white-space: nowrap;display: inline-block;height: 60%; width:30%; margin-top: 5%;; text-align: center;">
-        <img src="{{sampleProcess != null ? sampleProcess : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        <img src="{{sampleProcess != null ? 'data:image/jpeg;base64,' + sampleProcess : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
         采样工作过程
       </div>
       <div (click)="addImg(3)" (press)='delImg(3)' style="white-space: nowrap;display: inline-block;height: 60%; width:30%; margin-top: 5%;; text-align: center;">
-        <img src="{{samplePerson != null ? samplePerson : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        <img src="{{samplePerson != null ? 'data:image/jpeg;base64,' + samplePerson : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
         采样负责人
       </div>
     </div>
     <div class="item item-ios" style="height:200px;width: 100%;padding: 0;">
         <div (click)="addImg(4)" (press)='delImg(4)' style="white-space: nowrap;height: 60%; width:30%; margin: 0 auto; text-align: center;">
-          <img src="{{changeImg != null ? changeImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+          <img src="{{changeImg != null ? 'data:image/jpeg;base64,' + changeImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
           变更照片
         </div>
       </div>

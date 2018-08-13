@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import { BasePage } from '../base/base';
 import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
@@ -54,16 +54,26 @@ export class SpleInfoPage extends BasePage{
     public navCtrl: NavController, 
     public navParams: NavParams,
     public device:DeviceIntefaceServiceProvider,
-    public toastCtrl:ToastController,) {
+    public toastCtrl:ToastController,
+    public alertCtrl:AlertController) {
       super(navCtrl,navParams,toastCtrl);
       if (navParams.data.spleId){
         this.spleId = navParams.data.spleId;
+        console.log(this.spleId);
         if(this.spleId.indexOf('&') != -1){
           this.spleIdTxt = this.spleId.split('&')[0];
           this.isSub = this.spleId.split('&')[1] == 'sub';
           if (this.isSub){
             this.title = "子样品信息";
           }
+        } else {
+          let alert = this.alertCtrl.create({
+            title: '警告信息',
+            message: '请扫描正确的二维码！',
+            buttons: ['确定']
+          });
+          alert.present();
+          this.navCtrl.pop();
         }
       }
   }
@@ -83,8 +93,18 @@ export class SpleInfoPage extends BasePage{
       },
       msg => {
         console.log(msg);
-        let resp = JSON.parse(msg);
-        this.info = resp.info;
+        if(msg.ret == 200){
+          let resp = JSON.parse(msg);
+          this.info = resp.info;
+        }else{
+          let alert = this.alertCtrl.create({
+            title: '警告信息',
+            message: '该扫描的二维码数据不存在，请核对后再扫！',
+            buttons: ['确定']
+          });
+          alert.present();
+          this.navCtrl.pop();
+        }
       },
       error => {
         this.toast(error);
