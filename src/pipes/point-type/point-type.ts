@@ -23,6 +23,6 @@ export class PointTypePipe implements PipeTransform {
       case 4:
         return "复合调查点位";
     }
-    return "类型不存在";
+    return "无";
   }
 }

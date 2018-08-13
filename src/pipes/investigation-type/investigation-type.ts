@@ -21,6 +21,6 @@ export class InvestigationTypePipe implements PipeTransform {
       case 3:
       return "其他类型";
     }
-    return "类型不存在";
+    return "无";
   }
 }

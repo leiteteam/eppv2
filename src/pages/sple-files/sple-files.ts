@@ -42,6 +42,13 @@ export class SpleFilesPage extends BasePage{
       },
       msg => {
         console.log(msg);
+        let spleTasks:any = {};
+        let sampleData:any = msg.record.samples;
+        let point:any = msg.record.point;
+        sampleData['company'] = msg.record.company;
+        point['company'] = msg.record.company;
+        spleTasks['samples'] = sampleData;
+        spleTasks['data'] = point;
         this.navCtrl.push("CollectProcessPage", {spleTask: file, model: 2});
       },
       error => {
