@@ -6,6 +6,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.view.View;
 
+import com.amap.api.maps.MapsInitializer;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Poi;
 import com.amap.api.navi.AmapNaviPage;
@@ -40,6 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +80,9 @@ public class PluginCoreWorker {
 
   public static void openOfflineMap(final CordovaPlugin plugin, final CallbackContext callbackContext) {
     //在Activity页面调用startActvity启动离线地图组件
-    plugin.cordova.getActivity().startActivity(new Intent(plugin.cordova.getActivity(),
+    // 设置应用单独的地图存储目录
+    //MapsInitializer.sdcardDir = plugin.cordova.getActivity().getFilesDir().getAbsolutePath()+ File.pathSeparator+"aMap";
+    plugin.cordova.getActivity().startActivity(new Intent(plugin.cordova.getActivity().getApplicationContext(),
       com.amap.api.maps.offlinemap.OfflineMapActivity.class));
     callbackContext.success();
   }

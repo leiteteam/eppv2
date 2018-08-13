@@ -19,11 +19,10 @@ import { AppServiceProvider } from '../../providers/app-service/app-service';
 export class FlowingPage extends BasePage{
 
   flowProgressRoot = 'FlowProgressPage'
-  flowAcceptRoot = 'FlowAcceptPage'
+  flowAcceptRoot = 'FlowSpleAcceptPage'
   flowPackManagerRoot = 'FlowPackManagerPage'
-  flowFlowingRoot = 'FlowFlowingPage'
+  flowFlowingRoot = 'FlowPackFlowPage'
   flowMoreRoot = 'FlowMorePage'
-
 
   constructor(
     public device:DeviceIntefaceServiceProvider,

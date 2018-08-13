@@ -71,7 +71,7 @@ export class FlowSpleCheckPage extends BasePage{
 
   querySampleInfo(){
     this.net.httpPost(
-      AppGlobal.API.prepSpleAccSearch,
+      AppGlobal.API.flowSpleAccSearch,
       {
         "username": AppServiceProvider.getInstance().userinfo.username,
         "token": AppServiceProvider.getInstance().userinfo.token,
@@ -105,12 +105,12 @@ export class FlowSpleCheckPage extends BasePage{
       storagecheck:this.storagecheck?'1':'0',
     };
     this.net.httpPost(
-      AppGlobal.API.prepSpleAcc,
+      AppGlobal.API.flowSpleAcc,
       {
         "username": AppServiceProvider.getInstance().userinfo.username,
         "token": AppServiceProvider.getInstance().userinfo.token,
         'sampleCode':this.info.SubSampleId?this.info.SubSampleId : this.info.MainSampleId,
-        "LzCheck":JSON.stringify(sampleCheck),
+        "ZbCheck":JSON.stringify(sampleCheck),
         "IsAccept":isAccept
       },
       msg => {

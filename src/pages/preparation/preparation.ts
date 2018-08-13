@@ -35,6 +35,8 @@ export class PreparationPage  extends BasePage{
       AppServiceProvider.getInstance().userinfo.appType = "";
       this.device.push("updateUserInfo",JSON.stringify(AppServiceProvider.getInstance().userinfo),()=>{
         this.navCtrl.setRoot("HomePage");
+      },()=>{
+        this.navCtrl.setRoot("HomePage");
       });
     });
   }

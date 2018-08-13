@@ -24,11 +24,11 @@
     <ion-list *ngIf="acceptList!=null&&acceptList.length>0" no-margin>
         <ion-card  *ngFor="let sple of acceptList">
             <ion-item  no-lines>
-                <P style="color: #363636">样品名称:{{sple.SampleName}}</P>
+                <P style="color: #363636">样品编号:{{sple.SubSampleId}}</P>
                 <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
-                <p class="date">样品编号:{{sple.SampleCode}}</p>
-                <p class="date">送达单位:{{sple.UnitName}}</p>
-                <P class="date">{{sple.SamplePurpose}}</P>
+                <p class="date">实验室:{{sple.UnitName}}</p>
+                <p class="date">测试项目:{{sple.ParamCatetoryNames}}</p>
+                <p class="date">是否质控样:{{sple.IsQuality?'是':'否'}}</p>
             </ion-item>
         </ion-card>
     </ion-list>

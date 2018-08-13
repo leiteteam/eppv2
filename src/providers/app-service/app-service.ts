@@ -47,6 +47,14 @@ export class AppGlobal {
         prepSpleMake:'/api/MadeSampleSearch/Post',
         prepSpleFlow:'/api/MadeSampleFlow/Post',
         unitInfo:'/api/UnitInfo/Post',
+        flowProgress:'/api/FlowProgress/Post',
+        flowSpleDetail:'/api/FlowSampleSearch/Post',
+        flowPackList:'/api/PackageList/Post',
+        flowLabList:'/api/Laboratory/Post',
+        flowPackNew:'/api/CreatePackage/Post',
+        flowSpleAccSearch:'/api/AcceptSubSample/Post',
+        flowSpleAcc:'/api/AcceptSub/Post',
+        flowPackFlow:'/api/AcceptSub/Post',
     };
     static DATA:any ={
       uploadDoc:':8080/pc/data/uploadDoc',//文件上传

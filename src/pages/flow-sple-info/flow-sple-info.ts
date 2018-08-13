@@ -48,7 +48,7 @@ export class FlowSpleInfoPage extends BasePage{
   }
 
   getSpleDetail(){
-    this.net.httpPost(AppGlobal.API.prepSpleDetail,{
+    this.net.httpPost(AppGlobal.API.flowSpleDetail,{
       "SubSampleId":this.spleId
     },msg=>{
       let info = JSON.parse(msg);

@@ -7,12 +7,35 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>flow-pack-manager</ion-title>
+    <ion-title>样包管理</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="newPack()" > 
+        <ion-icon name="add" style="margin-right: 10px;"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
-
-<ion-content padding>
-
+<ion-content no-padding no-margin>
+  <ion-list *ngIf="packList!=null&&packList.length>0" no-margin>
+      <ion-card  *ngFor="let pack of packList">
+          <ion-item>
+            <h5 item-start>样包编号:{{pack.PackageCode}}</h5>
+            <button item-end ion-button (click)="print(pack)">打印包码</button>
+          </ion-item>
+          <div class="ty-line1" ></div>
+          <ion-item detail-push>
+              <p class="date">实验室名称:{{pack.UnitName}}</p>
+              <P class="date">样包类型:{{packCates[pack.PackageType]}}/{{spleCates[pack.PackageYpType]}}</P>
+              <P class="date">{{testItems[pack.CheckParam]}}</P>
+              <div class="item-right">
+                <P><span style="margin-right: 15px;">{{pack.CreateTime}}</span><span style="color: rgb(211, 106, 106)">{{status[pack.Status]}}</span></P>
+              </div>
+          </ion-item>  
+      </ion-card>
+  </ion-list>
+  <div class="empty" *ngIf="packList == null || packList.length==0 ">
+    <p>暂无内容</p>
+  </div>
 </ion-content>

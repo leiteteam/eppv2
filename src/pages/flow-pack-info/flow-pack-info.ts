@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { BasePage } from '../base/base';
-import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 
 /**
- * Generated class for the FlowPackManagerPage page.
+ * Generated class for the FlowPackInfoPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -14,10 +13,10 @@ import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-s
 
 @IonicPage()
 @Component({
-  selector: 'page-flow-pack-manager',
-  templateUrl: 'flow-pack-manager.html',
+  selector: 'page-flow-pack-info',
+  templateUrl: 'flow-pack-info.html',
 })
-export class FlowPackManagerPage extends BasePage{
+export class FlowPackInfoPage extends BasePage{
 
   spleNo:string = "";
   packList:any = [];
@@ -39,7 +38,7 @@ export class FlowPackManagerPage extends BasePage{
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad FlowPackManagerPage');
+    console.log('ionViewDidLoad FlowPackInfoPage');
     
     this.flowPackList();
   }
@@ -67,5 +66,4 @@ export class FlowPackManagerPage extends BasePage{
     this.packList = [];
     this.packList = packList;
   }
-
 }

@@ -84,6 +84,7 @@ export class LoginPage extends BasePage{
           AppServiceProvider.getInstance().userinfo.userid = obj.userid;
           AppServiceProvider.getInstance().userinfo.token = obj.token;
           this.db.saveString(username, "username");
+          this.db.saveString(password, "password");
           this.device.push("updateUserInfo",JSON.stringify(AppServiceProvider.getInstance().userinfo));
           resolve();
         },

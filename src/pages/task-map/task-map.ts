@@ -55,9 +55,11 @@ export class TaskMapPage extends BasePage{
       zoom: 12,
       center: [116.39, 39.9]
     });
-    AMap.plugin('AMap.ToolBar',function(){
+    AMap.plugin(['AMap.ToolBar','AMap.MapType'],function(){
       var toolbar = new AMap.ToolBar();
       map.addControl(toolbar);
+      var mapType = new AMap.MapType();
+      map.addControl(mapType);
    })
 
     // this.markers.forEach(element => {
@@ -140,7 +142,7 @@ export class TaskMapPage extends BasePage{
     AppServiceProvider.getInstance().undownTaskList.forEach(element => {
       let lnglat = new AMap.LngLat(element.Point.Longitude,element.Point.Latitude);
       let marker = new AMap.Marker({
-        icon: "assets/imgs/marker.png",
+        icon: "assets/imgs/marker_download.png",
         position: lnglat
       });
       this.allMarkers.push(marker);
@@ -160,7 +162,7 @@ export class TaskMapPage extends BasePage{
     AppServiceProvider.getInstance().uploadedTaskList.forEach(element => {
       let lnglat = new AMap.LngLat(element.Point.Longitude,element.Point.Latitude);
       let marker = new AMap.Marker({
-        icon: "assets/imgs/marker.png",
+        icon: "assets/imgs/marker_done.png",
         position: lnglat
       });
       this.allMarkers.push(marker);
@@ -170,7 +172,7 @@ export class TaskMapPage extends BasePage{
     AppServiceProvider.getInstance().returnedTaskList.forEach(element => {
       let lnglat = new AMap.LngLat(element.Point.Longitude,element.Point.Latitude);
       let marker = new AMap.Marker({
-        icon: "assets/imgs/marker.png",
+        icon: "assets/imgs/marker_return.png",
         position: lnglat
       });
       this.allMarkers.push(marker);
