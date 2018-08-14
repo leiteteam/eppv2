@@ -1,6 +1,7 @@
 package typluginnative;
 
 import android.content.Intent;
+import android.os.Looper;
 import android.util.Log;
 
 import com.androidcat.eppv2.cordova.manager.TyPluginManager;
@@ -93,7 +94,9 @@ public class TYNative extends CordovaPlugin implements ITyPlugin {
     cordova.getThreadPool().execute(new Runnable() {
       @Override
       public void run() {
+        Looper.prepare();
         TyPluginManager.push(TYNative.this, message, callbackContext,webView);
+        Looper.loop();
       }
     });
   }
