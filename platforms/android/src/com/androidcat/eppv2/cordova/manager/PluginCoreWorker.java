@@ -17,6 +17,7 @@ import com.androidcat.acnet.entity.User;
 import com.androidcat.eppv2.CheckPermissionActivity;
 import com.androidcat.eppv2.LocationActivity;
 import com.androidcat.eppv2.R;
+import com.androidcat.eppv2.cordova.plugin.map.MapNaviUtil;
 import com.androidcat.eppv2.cordova.plugin.print.DzPrinterHelper;
 import com.androidcat.eppv2.cordova.plugin.qrcode.QrCodeHelper;
 import com.androidcat.eppv2.persistence.JepayDatabase;
@@ -188,11 +189,19 @@ public class PluginCoreWorker {
   public static void navigation(CordovaPlugin plugin,String commData, final CallbackContext callbackContext){
     try {
       JSONObject data = new JSONObject(commData);
-      double lat = Double.parseDouble(data.optString("lat"));
-      double lng = Double.parseDouble(data.optString("lng"));
+      String dlat = data.optString("lat");
+      String dlon = data.optString("lng");
+      if (Utils.isApplicationInstalled(plugin.cordova.getActivity(),"com.autonavi.minimap")){
+        MapNaviUtil.openGaoDeMap(plugin.cordova.getActivity(),"","","",dlat,dlon,"");
+        callbackContext.success();
+        return;
+      }
+
+      double lat = Double.parseDouble(dlat);
+      double lng = Double.parseDouble(dlon);
       LatLng dst = new LatLng(lat,lng);
       //Poi start = new Poi("三元桥", new LatLng(39.96087,116.45798), "");
-      /**终点传入的是北京站坐标,但是POI的ID "B000A83M61"对应的是北京西站，所以实际算路以北京西站作为终点**/
+
       Poi end = new Poi("目的地", dst, "");
       AmapNaviPage.getInstance().showRouteActivity(plugin.cordova.getActivity(), new AmapNaviParams(null, null, end, AmapNaviType.DRIVER), new INaviInfoCallback() {
         @Override

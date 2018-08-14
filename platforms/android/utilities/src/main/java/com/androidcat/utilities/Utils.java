@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -22,6 +23,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +64,30 @@ import java.util.regex.Pattern;
  * *****************************************************************************<br>
  */
 public class Utils {
+
+  /**
+   * 获取当前应用名称
+   *
+   * @param context
+   * @return
+   */
+  public static String getAppName(Context context) {
+    String appName = null;
+    PackageManager packageManager = context.getPackageManager();
+    try {
+      ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+      //CharSequence这两者效果是一样的.
+      //appName = packageManager.getApplicationLabel(applicationInfo).toString();
+      appName = (String) packageManager.getApplicationLabel(applicationInfo);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      Log.d("GsonUtils", "Exception=" + e.toString());
+      return null;
+    }
+    return appName;
+  }
+
     private static double EARTH_RADIUS = 6378.137;
 
     /**
