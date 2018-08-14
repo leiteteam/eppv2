@@ -35,7 +35,26 @@ export class SpleFilesPage extends BasePage{
     this.getSpleFileList(null);
   }
   goCollectInfo(file){
-    this.navCtrl.push("CollectProcessPage", {spleTask: file, model: 2});
+    this.net.httpPost(
+      AppGlobal.API.sampleRecordInfo,
+      {
+        "PointId":file.SPoint_ID
+      },
+      msg => {
+        console.log(msg);
+        let spleTasks:any = {};
+        let sampleData:any = msg.record.samples;
+        let point:any = msg.record.point;
+        sampleData['company'] = msg.record.company;
+        point['company'] = msg.record.company;
+        spleTasks['samples'] = sampleData;
+        spleTasks['data'] = point;
+        this.navCtrl.push("CollectProcessPage", {spleTask: file, model: 2});
+      },
+      error => {
+        this.toastShort(error);
+      },
+      true);
   }
   keydown(event) {
     if(event.keyCode==13){

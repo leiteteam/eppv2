@@ -23,90 +23,90 @@
     <button ion-item detail-push (click)="companyInfoBtn()" *ngIf="taskData?.Point?.IsYXQ">
       企业信息核查
     </button>
-    <!-- <button ion-item detail-push (click)="collcetTaskBtn()">
+    <button ion-item detail-push (click)="collcetTaskBtn()">
       样品采集
-    </button> -->
+    </button>
 
-    <ion-item no-lines>
-      <ion-label>实际采样地点</ion-label>
-      <ion-textarea class="input-border" name="FactAddress" [disabled]="isFlagInput"  [(ngModel)]="sampleData.FactAddress"></ion-textarea>
+    <ion-item>
+      <ion-label>实际采样地点:</ion-label>
+      <ion-textarea class="input-border"  placeholder="请输入文本" name="FactAddress" [disabled]="isFlagInput"  [(ngModel)]="sampleData.FactAddress"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>海拔高度(m):</ion-label>
+      <ion-input type="number"  placeholder="请输入数字" class="input-border" [disabled]="isFlagInput" [(ngModel)]="sampleData.Altitude"></ion-input>
     </ion-item>
 
     <ion-item no-lines>
-      <ion-label>海拔高度(m)</ion-label>
-      <ion-input type="number" class="input-border" [disabled]="isFlagInput" [(ngModel)]="sampleData.Altitude"></ion-input>
-    </ion-item>
-
-    <ion-item no-lines>
-      <ion-label>土壤发生分类</ion-label>
+      <ion-label>土壤发生分类:</ion-label>
       <ion-input type="text" class="input-border" disabled="true" [value]="taskData?.Point?.SoilFsType"></ion-input>
     </ion-item>
     <ion-item no-lines>
-      <ion-label>土壤系统分类</ion-label>
+      <ion-label>土壤系统分类:</ion-label>
       <ion-input type="text" class="input-border" disabled="true" [value]="taskData?.Point?.SoilXtType"></ion-input>
     </ion-item>
-    <ion-item no-lines detail-push>
-      <ion-label>灌溉方式</ion-label>
-      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.IrrigationMethod" [multiPickerColumns]="irrigateWays"
+    <ion-item detail-push>
+      <ion-label>灌溉方式:</ion-label>
+      <ion-multi-picker item-end class="input-redio" [disabled]="isFlagInput" [(ngModel)]="sampleData.IrrigationMethod" [multiPickerColumns]="irrigateWays"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
-    <ion-item no-lines detail-push>
-      <ion-label>灌溉水类型</ion-label>
-      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.IrrigationType" [multiPickerColumns]="irrigateTypes"
+    <ion-item detail-push>
+      <ion-label>灌溉水类型:</ion-label>
+      <ion-multi-picker item-end class="input-redio" [disabled]="isFlagInput" [(ngModel)]="sampleData.IrrigationType" [multiPickerColumns]="irrigateTypes"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
-    <ion-item no-lines detail-push>
-      <ion-label>地形类型</ion-label>
-      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.TerrainType" [multiPickerColumns]="terrainTypes"
+    <ion-item detail-push>
+      <ion-label>地形类型:</ion-label>
+      <ion-multi-picker item-end class="input-redio" [disabled]="isFlagInput" [(ngModel)]="sampleData.TerrainType" [multiPickerColumns]="terrainTypes"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
-    <ion-item no-lines detail-push>
-      <ion-label>天气</ion-label>
-      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.Weather" [multiPickerColumns]="weatherSettings"
+    <ion-item detail-push>
+      <ion-label>天气:</ion-label>
+      <ion-multi-picker class="input-redio" item-end [disabled]="isFlagInput" [(ngModel)]="sampleData.Weather" [multiPickerColumns]="weatherSettings"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
     <ion-item detail-push (click)="aroundBtn('正东',1)">
-      <ion-label>正东</ion-label>
+      <ion-label>正东:</ion-label>
       <ion-input disabled="true" [value]="sampleData?.DueEast" placeholder="请选择" class="input-checked"></ion-input>
     </ion-item>
     <ion-item detail-push (click)="aroundBtn('正南',2)">
-      <ion-label>正南</ion-label>
+      <ion-label>正南:</ion-label>
       <ion-input disabled="true" [value]="sampleData?.DueSouth" placeholder="请选择" class="input-checked"></ion-input>
     </ion-item>
     <ion-item detail-push (click)="aroundBtn('正西',3)">
-      <ion-label>正西</ion-label>
+      <ion-label>正西:</ion-label>
       <ion-input disabled="true" [value]="sampleData?.DueWest" placeholder="请选择" class="input-checked"></ion-input>
     </ion-item>
     <ion-item detail-push (click)="aroundBtn('正北',4)">
-      <ion-label>正北</ion-label>
+      <ion-label>正北:</ion-label>
       <ion-input disabled="true" [value]="sampleData?.DueNorth" placeholder="请选择" class="input-checked"></ion-input>
     </ion-item>
-    <ion-item no-lines>
-      <ion-label>周边潜在污染源信息</ion-label>
-      <ion-input type="text" [disabled]="isFlagInput" [(ngModel)]="sampleData.PollutantRemark" class="input-border"></ion-input>
+    <ion-item>
+      <ion-label>周边潜在污染源信息:</ion-label>
+      <ion-input type="text"  placeholder="请输入文本" [disabled]="isFlagInput" [(ngModel)]="sampleData.PollutantRemark" class="input-border"></ion-input>
     </ion-item>
     <div class="item item-ios" style="height:200px;">
       <div (click)="getImg(1)" (press)='delImg(1)' style="display: inline-block;height: 45%; width:23%; margin-top: 45px; text-align: center;">
-        <img src="{{eastImg != null ? eastImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        <img src="{{eastImg != null ? 'data:image/jpeg;base64,' + eastImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
         正东
       </div>
       <div style="display: inline-block;height: 45%; width:23%; margin-top: 45px; text-align: center;">
-        <img (click)="getImg(2)" (press)='delImg(2)' src="{{southImg != null ? southImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        <img (click)="getImg(2)" (press)='delImg(2)' src="{{southImg != null ? 'data:image/jpeg;base64,' + southImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
         正南
       </div>
       <div style="display: inline-block;height: 45%; width:23%; margin-top: 45px; text-align: center;">
-        <img (click)="getImg(3)" (press)='delImg(3)' src="{{westImg != null ? westImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        <img (click)="getImg(3)" (press)='delImg(3)' src="{{westImg != null ? 'data:image/jpeg;base64,' + westImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
         正西
       </div>
       <div style="display: inline-block;height: 45%; width:23%; margin-top: 45px; text-align: center;">
-        <img (click)="getImg(4)" (press)='delImg(4)' src="{{northImg != null ? northImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        <img (click)="getImg(4)" (press)='delImg(4)' src="{{northImg != null ? 'data:image/jpeg;base64,' + northImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
         正北
       </div>
     </div>
   </ion-list>
   <div style="margin-top:30px;margin-left:20px;margin-right:20px">
     <button ion-button block color="primary" [disabled]="isFlagInput" (click)="sampleProcessBtn()">
-      下一步
+      保存&下一步
     </button>
   </div>
 </ion-content>

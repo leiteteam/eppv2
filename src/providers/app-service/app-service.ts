@@ -33,6 +33,7 @@ export class AppGlobal {
         taskSummary: '/api/TaskCount/Post', //获取用户信息
         taskList: '/api/TaskList/PostTaskList', //获取任务列表列表
         sampleRecordList:'/api/SampleRecordList/Post',
+        sampleRecordInfo:'/api/SampleRecordInfo/Post',
         sampleDetails:"/api/v1/sampleDetails",
         uploadSamples: '/api/Update/Post', //上传采集数据
         uploadImage:'/api/v1/user/uploadImage',
@@ -46,6 +47,14 @@ export class AppGlobal {
         prepSpleMake:'/api/MadeSampleSearch/Post',
         prepSpleFlow:'/api/MadeSampleFlow/Post',
         unitInfo:'/api/UnitInfo/Post',
+        flowProgress:'/api/FlowProgress/Post',
+        flowSpleDetail:'/api/FlowSampleSearch/Post',
+        flowPackList:'/api/PackageList/Post',
+        flowLabList:'/api/Laboratory/Post',
+        flowPackNew:'/api/CreatePackage/Post',
+        flowSpleAccSearch:'/api/AcceptSubSample/Post',
+        flowSpleAcc:'/api/AcceptSub/Post',
+        flowPackFlow:'/api/AcceptSub/Post',
     };
     static DATA:any ={
       uploadDoc:':8080/pc/data/uploadDoc',//文件上传

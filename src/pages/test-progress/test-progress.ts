@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
+import { BasePage } from '../base/base';
+import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
+import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
+import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 
 /**
  * Generated class for the TestProgressPage page.
@@ -13,13 +17,127 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-test-progress',
   templateUrl: 'test-progress.html',
 })
-export class TestProgressPage {
+export class TestProgressPage extends BasePage{
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  progCategory: any = "accept";
+  spleType = "main";
+  tabList = [{name:"accept",count:4},{name:"test",count:0},{name:"tested",count:0},{name:"reported",count:0}];
+  acceptList:any[] = [];
+  testList:any[] = [];
+  testedList:any[] = [];
+  reportedList:any[] = [];
+
+  SampleCategorys = {
+    "1":"表层土壤",
+    "2":"深层土壤",
+    "3":"水稻",
+    "4":"小麦",
+    "5":"蔬菜及其他农产品",
+    "6":"其他"
+  };
+
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,
+    public toastCtrl:ToastController,
+    public modalCtrl: ModalController,
+    private net: TyNetworkServiceProvider,
+    public device:DeviceIntefaceServiceProvider) {
+    super(navCtrl,navParams,toastCtrl);
+
+  }
+
+  onCllect(spleTask){
+    this.navCtrl.push('CollectProcessPage', {'spleTask':spleTask, model: 0});
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TestProgressPage');
+    this.getAcceptList();
   }
 
+  segmentClick(index:number) {
+    //alert(this.dictCode[item]);
+    this.progCategory = this.tabList[index].name;
+    if (index == 0){
+      this.getAcceptList();
+    }
+
+    if (index == 1){
+      this.getTestList();
+    }
+
+    if (index == 2){
+      this.getTestedList();
+    }
+
+    if (index == 3){
+      this.getReportedList();
+    }
+  }
+
+  getAcceptList(){
+    this.net.httpPost(AppGlobal.API.progressList,{
+      "username": AppServiceProvider.getInstance().userinfo.username,
+      "token": AppServiceProvider.getInstance().userinfo.token,
+      "statu":6
+    },msg=>{
+      let info = JSON.parse(msg);
+      this.acceptList = info.ProgList;
+    },err=>{
+      this.toast(err);
+    },true);
+  }
+
+  getTestList(){
+    this.net.httpPost(AppGlobal.API.progressList,{
+      "username": AppServiceProvider.getInstance().userinfo.username,
+      "token": AppServiceProvider.getInstance().userinfo.token,
+      "statu":7
+    },msg=>{
+      let info = JSON.parse(msg);
+      this.testList = info.ProgList;
+    },err=>{
+      this.toast(err);
+    },true);
+
+  }
+
+  spleDetail(sple,isSub){
+    const profileModal = this.modalCtrl.create("SpleStationInfoPage", { sple: sple,isSub:isSub }, { showBackdrop: false }, );
+    profileModal.present();
+  }
+
+  getTestedList(){
+    return new Promise((resolve, reject) => {
+      this.net.httpPost(AppGlobal.API.progressList,{
+        "username": AppServiceProvider.getInstance().userinfo.username,
+        "token": AppServiceProvider.getInstance().userinfo.token,
+        "statu":8
+      },msg=>{
+        let info = JSON.parse(msg);
+        this.testedList = info.ProgList;
+      },err=>{
+        this.toast(err);
+      },true);
+
+    });
+  }
+
+  getReportedList(){
+    this.net.httpPost(AppGlobal.API.progressList,{
+      "username": AppServiceProvider.getInstance().userinfo.username,
+      "token": AppServiceProvider.getInstance().userinfo.token,
+      "statu":9
+    },msg=>{
+      let info = JSON.parse(msg);
+      this.reportedList = info.ProgList;
+    },err=>{
+      this.toast(err);
+    },true);
+
+  }
+
+  goToSpleDetail(sple){
+    this.navCtrl.push("PrepSpleInfoPage",{taskid:sple.TaskID});
+  }
 }

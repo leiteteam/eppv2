@@ -71,7 +71,8 @@ export class CollectTaskPage extends BasePage {
   }
   //保存
   save(){
-    if(!this.sampleData.FactLongitude || !this.sampleData.FactLatitude || !this.sampleData.SampleDepthFrom || !this.sampleData.SampleDepthTo ||
+    if(!this.sampleData.FactLongitude || !this.sampleData.FactLatitude || this.sampleData.SampleDepthFrom == null || 
+      this.sampleData.SampleDepthFrom == '' || this.sampleData.SampleDepthTo == null || this.sampleData.SampleDepthTo == '' ||
      !this.sampleData.Weight || this.sampleData.SoilTexture == 0 || this.sampleData.SoilColor == 0 ){
       this.toast("请将带*的信息输入完整！");
       return;
@@ -107,11 +108,13 @@ export class CollectTaskPage extends BasePage {
       pictures.push({ type: "变更照片", base64: this.changeImg });
     }
     this.sampleData.Pictures = pictures;
-    this.sampleData.taskid = this.spleTask.taskid;
+    this.sampleData.TaskID = this.spleTask.taskid;
 
     //复制内存中当前的spleTask，用于数据保存
     //因为在上层ts中，完整的json对象才是可用可解析的，如果直接将spleTask的字段改成了string则无法识别
     //原始spleTask仍用于内存中使用，所以需保持同步更新字段内容
+    let date = new Date();
+    this.spleTask.SamplingTime =  date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     let savingData = JSON.parse(JSON.stringify(this.spleTask));
     this.spleTask['samples'] = this.sampleData;
     this.spleTask['data'] = this.taskData;
@@ -187,7 +190,7 @@ export class CollectTaskPage extends BasePage {
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      let base64Image = imageData;
       switch(loc){
         case 1:
           this.gpsView = base64Image;

@@ -31,29 +31,25 @@
       <!-- <ion-icon item-end name="arrow-down" style="color:rgb(201, 201, 201)"></ion-icon>> -->
     </ion-item>
 
-    <ion-item detail-push>
+    <ion-item detail-push (click)="toolBtn(1)" >
       <ion-icon name="pricetag" item-start style="color:rgba(255, 255, 255, 0)"></ion-icon>
       <ion-label style="font-size: 1.5rem;">有机样品采样工具</ion-label>
-      <ion-multi-picker item-end style="color:darkgray" [(ngModel)]="organicSplTool" [multiPickerColumns]="organicSplTools" doneText="确定"
-        cancelText="取消"></ion-multi-picker>
+      <ion-input disabled="true" [value]="organicSplTool" placeholder="请选择" class="input-checked"></ion-input>
     </ion-item>
-    <ion-item detail-push>
+    <ion-item detail-push (click)="containerBtn(1)" >
       <ion-icon name="pricetag" item-start style="color:rgba(255, 255, 255, 0)"></ion-icon>
       <ion-label style="font-size: 1.5rem;">有机样品采样容器</ion-label>
-      <ion-multi-picker item-end style="color:darkgray" [(ngModel)]="organicSplContainer" [multiPickerColumns]="organicSplContainers"
-        doneText="确定" cancelText="取消"></ion-multi-picker>
+      <ion-input disabled="true" [value]="organicSplContainer" placeholder="请选择" class="input-checked"></ion-input>
     </ion-item>
-    <ion-item detail-push>
+    <ion-item detail-push (click)="toolBtn(2)" >
       <ion-icon name="pricetag" item-start style="color:rgba(255, 255, 255, 0)"></ion-icon>
       <ion-label style="font-size: 1.5rem;">无机样品采样工具</ion-label>
-      <ion-multi-picker item-end style="color:darkgray" [(ngModel)]="abioSplTool" [multiPickerColumns]="abioSplTools" doneText="确定"
-        cancelText="取消"></ion-multi-picker>
+      <ion-input disabled="true" [value]="abioSplTool" placeholder="请选择" class="input-checked"></ion-input>
     </ion-item>
-    <ion-item detail-push>
+    <ion-item detail-push (click)="containerBtn(2)" >
       <ion-icon name="pricetag" item-start style="color:rgba(255, 255, 255, 0)"></ion-icon>
-      <ion-label style="font-size: 1.5rem;">无机样品采样工具</ion-label>
-      <ion-multi-picker item-end style="color:darkgray" [(ngModel)]="abioSplContainer" [multiPickerColumns]="abioSplContainers"
-        doneText="确定" cancelText="取消"></ion-multi-picker>
+      <ion-label style="font-size: 1.5rem;">无机样品采样容器</ion-label>
+      <ion-input disabled="true" [value]="abioSplContainer" placeholder="请选择" class="input-checked"></ion-input>
     </ion-item>
 
     <!-- <div class="ty-line15"></div>

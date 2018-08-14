@@ -25,17 +25,17 @@ export class SampleCodePage extends BasePage {
     this.taskData = navParams.get("taskData");
     this.sampleData = navParams.data.sampleData;
     this.subSamples = this.sampleData['SubSamples'];
-  }
-  printCodes(){
     if(this.sampleData.SampleCode == null || this.sampleData.SampleCode == ''){
       let date = new Date();
       let str = "" + date.getFullYear() + ((date.getMonth()+1) < 10 ? "0" + (date.getMonth()+1) : (date.getMonth()+1));
-      str += this.randomNum(4) + this.randomNum(6) + this.randomNum(4);
-      this.sampleData.SampleId = str;
+      str += this.randomNum(4) + this.randomNum(6) + this.randomNum(2);
+      this.sampleData.SampleCode = str;
     }
+  }
+  printCodes(){
     this.device.push("printInit","",msg =>{
       console.log("连接成功，正在打印...");
-      this.device.push("print", this.sampleData.SampleId ,msg =>{
+      this.device.push("print", this.sampleData.SampleCode + "&main" ,msg =>{
         console.log("打印成功");
       },err => {
         this.toast(err);
@@ -53,7 +53,7 @@ export class SampleCodePage extends BasePage {
   printCode(SubSampleId){
     this.device.push("printInit","hello print!",msg =>{
       console.log("连接成功，正在打印...");
-      this.device.push("print", SubSampleId ,msg =>{
+      this.device.push("print", SubSampleId + "&sub" ,msg =>{
         console.log("打印成功");
       },err => {
         this.toast(err);
@@ -81,7 +81,7 @@ export class SampleCodePage extends BasePage {
       return;
     }
     this.navCtrl.push("SampleSplitPage", {callback: this.sampleSplit, num: this.num, 
-      taskData: this.taskData, subSamples: this.subSamples});
+      taskData: this.taskData, subSamples: this.subSamples, sampleCode: this.sampleData.SampleCode});
   }
   randomNum(num){
     let str = "";

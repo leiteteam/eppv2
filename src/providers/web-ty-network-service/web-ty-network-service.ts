@@ -93,7 +93,8 @@ export class WebTyNetworkServiceProvider {
                   success(m);
                 }else {
                   if (150 == info.ret){
-                    this.events.publish("tokenError150");
+                    //this.events.publish("tokenError150");
+                    failed(info.desc);
                   }
                   else {
                     failed(info.desc);
