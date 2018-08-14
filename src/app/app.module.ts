@@ -23,7 +23,7 @@ import { TaskServiceProvider } from '../providers/task-service/task-service';
 
 export function netFactory(platform:Platform,loadingCtrl:LoadingController,http:Http,zone:NgZone, events?: Events) {
   if (platform.is("mobileweb") /*||platform.is("mobile")*/) {
-    return new WebTyNetworkServiceProvider(http,loadingCtrl);
+    return new WebTyNetworkServiceProvider(http,loadingCtrl,events);
   }else if(platform.is("mobile")){
     return new TyNetworkServiceProvider(loadingCtrl,zone,http,events);
   }else{

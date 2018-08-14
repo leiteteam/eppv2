@@ -60,7 +60,7 @@ export class FlowPackFlowPage extends BasePage{
 
   flow(spleNo){
     this.net.httpPost(
-      AppGlobal.API.prepSpleFlow,
+      AppGlobal.API.flowPackFlow,
       {
         "username": AppServiceProvider.getInstance().userinfo.username,
         "token": AppServiceProvider.getInstance().userinfo.token,

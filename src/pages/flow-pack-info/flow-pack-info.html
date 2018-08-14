@@ -1,0 +1,59 @@
+<!--
+  Generated template for the FlowPackInfoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+      <ion-title>样包详情</ion-title>
+    </ion-navbar>
+    <div style="width:100%;overflow:auto" class="msearchbar">
+        <form action="#">
+            <ion-searchbar style="width: 90%;" cancelButtonText="取消" placeholder="扫描二维码或输入编号添加样品" float-left (keyup)="onkey($event)" [(ngModel)]="spleNo" [ngModelOptions]="{standalone: true}">
+            </ion-searchbar>
+        </form>
+        <button no-padding no-margin ion-button clear float-right (click)="scan()" style="width: 10%;">
+            <ion-icon name="qr-scanner" style="font-size: 2.6rem;"></ion-icon>
+        </button>
+      </div>
+      <ion-item >
+          <p class="date">样包编码:{{pack.PackageCode}}</p>
+          <p class="date">实验室名称:{{pack.UnitName}}</p>
+          <P class="date">样包类型:{{packCates[pack.PackageType]}}/{{spleCates[pack.PackageYpType]}}</P>
+          <P class="date">{{testItems[pack.CheckParam]}}</P>
+          <p class="date">包内样品数:{{spleList.length}}</p>
+      </ion-item>
+      <div class="btnDiv">
+          <button *ngIf="pack.Status == 1" ion-button icon-start (click)="packing();">
+              封包
+              <ion-icon name="cube"></ion-icon>
+          </button>
+
+          <button *ngIf="pack.Status == 2" ion-button icon-start (click)="unpack();">
+              解包
+              <ion-icon name="logo-dropbox"></ion-icon>
+          </button>
+          
+            <button *ngIf="pack.Status == 1 || pack.Status == 2" ion-button icon-start (click)="delPack();">
+              删除
+              <ion-icon name="trash"></ion-icon>
+            </button>
+      </div>
+  </ion-header>
+
+<ion-content no-padding>
+    <ion-list *ngIf="spleList!=null&&spleList.length>0" no-margin>
+        <ion-card  *ngFor="let sple of spleList">
+            <ion-item>
+              <h5 item-start>样包编码:{{pack.PackageCode}}</h5>
+              <button item-end ion-button (click)="print(sple)">制码</button>
+            </ion-item>
+            <ion-item>
+                <h5 item-start>样包编号:{{pack.PackageNo}}</h5>
+                <button item-end ion-button (click)="delSple(sple)">删除</button>
+            </ion-item>
+        </ion-card>
+    </ion-list>
+</ion-content>

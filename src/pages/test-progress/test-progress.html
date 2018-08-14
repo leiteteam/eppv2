@@ -1,18 +1,112 @@
 <!--
-  Generated template for the TestProgressPage page.
+  Generated template for the CollectionPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>test-progress</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-
-</ion-content>
+    <ion-navbar>
+      <ion-title>进度查询</ion-title>
+    </ion-navbar>
+  
+    <ion-segment mode="md" class="commSegBtn" [(ngModel)]="progCategory">
+      <ion-segment-button value="accept" (click)="segmentClick(0)">
+        <!-- <p>{{item.count}}</p> -->
+        待收样
+        <div class="bolder-sm"></div>
+      </ion-segment-button>
+      <ion-segment-button value="test" (click)="segmentClick(1)">
+        待测试
+        <div class="bolder-sm"></div>
+      </ion-segment-button>
+      <ion-segment-button value="tested" (click)="segmentClick(2)">
+        已测试
+        <div class="bolder-sm"></div>
+      </ion-segment-button>
+      <ion-segment-button value="reported" (click)="segmentClick(3)">
+        已上报
+        <div class="bolder-sm"></div>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-header>
+  
+  
+  <ion-content no-padding no-margin>
+    <div class="ty-line15"></div>
+    <!-- <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher> -->
+    <!-- 推荐 -->
+    <div [ngSwitch]="progCategory">
+      <div *ngIf="progCategory=='accept'">
+        <ion-list *ngIf="acceptList!=null&&acceptList.length>0" no-margin>
+            <ion-card  *ngFor="let sple of acceptList" (click)="goToSpleDetail(sple)">
+                <ion-item  no-lines detail-push>
+                    <P style="color: #363636">待收样子样数:{{sple.SubSampleNum}}</P>
+                    <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
+                    <P class="date">{{sple.CompleteTime}}</P>
+                    <p class="date">编号:{{sple.SampleCode}}</p>
+                    <p class="date">{{SampleCategorys[sple.SampleCategory]}}</p>
+                </ion-item>
+            </ion-card>
+        </ion-list>
+        <div class="empty" *ngIf="acceptList == null|| acceptList.length==0 ">
+          <p>暂无内容</p>
+        </div>
+      </div>
+  
+      <div *ngIf="progCategory=='prepare'">
+        <ion-list *ngIf="prepareList!=null&&prepareList.length>0" no-margin>
+          <ion-card  *ngFor="let sple of prepareList" (click)="goToSpleDetail(sple)">
+                <ion-item  no-lines detail-push>
+                    <P style="color: #363636">待制备样品数:{{sple.SampleNum}}</P>
+                    <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
+                    <p class="date">{{sple.date}}</p>
+                    <p class="date">编号:{{sple.SampleNumber}}</p>
+                    <p class="date">{{SampleCategorys[sple.SampleCategory]}}</p>
+                </ion-item>
+          </ion-card>
+        </ion-list>
+        <div class="empty" *ngIf="prepareList == null|| prepareList.length==0 ">
+          <p>暂无内容</p>
+        </div>
+      </div>
+  
+      <div *ngIf="progCategory=='flow'">
+        <ion-list *ngIf="flowList!=null&&flowList.length>0" no-margin>
+          <ion-card  *ngFor="let sple of flowList" (click)="goToSpleDetail(sple)">
+                <ion-item  no-lines detail-push>
+                    <P style="color: #363636">待流转样品数:{{sple.SubSampleNum}}</P>
+                    <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
+                    <p class="date">编号:{{sple.SampleCode}}</p>
+                    <p class="date">流转中心:{{sple.FlowCenter}}</p>
+                    <p class="date">测试项目:{{sple.TestItem}}</p>
+                    <p class="date">是否质控:{{sple.IsQualityControl==1?'是':'否'}}</p>
+                </ion-item>
+          </ion-card>
+        </ion-list>
+        <div class="empty" *ngIf="flowList == null|| flowList.length==0 ">
+          <p>暂无内容</p>
+        </div>
+      </div>
+  
+      <div *ngIf="progCategory=='flowed'">
+          <ion-list *ngIf="flowedList!=null&&flowedList.length>0" no-margin>
+              <ion-card  *ngFor="let sple of flowedList" (click)="goToSpleDetail(sple)">
+                    <ion-item  no-lines detail-push>
+                        <P style="color: #363636">待流转样品数:{{sple.SubSampleNum}}</P>
+                        <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
+                        <p class="date">编号:{{sple.SampleCode}}</p>
+                        <p class="date">流转中心:{{sple.FlowCenter}}</p>
+                        <p class="date">测试项目:{{sple.TestItem}}</p>
+                        <p class="date">是否质控:{{sple.IsQualityControl==1?'是':'否'}}</p>
+                    </ion-item>
+              </ion-card>
+          </ion-list>
+          <div class="empty" *ngIf="flowedList == null|| flowedList.length==0 ">
+            <p>暂无内容</p>
+          </div>
+      </div>
+    </div>
+  
+  </ion-content>

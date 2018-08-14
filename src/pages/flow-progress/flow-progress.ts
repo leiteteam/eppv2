@@ -58,26 +58,26 @@ export class FlowProgressPage extends BasePage{
   }
 
   getAcceptList(){
-    this.net.httpPost(AppGlobal.API.progressList,{
+    this.net.httpPost(AppGlobal.API.flowProgress,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token,
-      "statu":6
+      "statu":8
     },msg=>{
       let info = JSON.parse(msg);
-      this.acceptList = info.ProgList;
+      this.acceptList = info.subList;
     },err=>{
       this.toast(err);
     },true);
   }
 
   getAcceptedList(){
-    this.net.httpPost(AppGlobal.API.progressList,{
+    this.net.httpPost(AppGlobal.API.flowProgress,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token,
-      "statu":7
+      "statu":9
     },msg=>{
       let info = JSON.parse(msg);
-      this.acceptedList = info.ProgList;
+      this.acceptedList = info.subList;
     },err=>{
       this.toast(err);
     },true);
@@ -85,13 +85,13 @@ export class FlowProgressPage extends BasePage{
   }
 
   getFlowedList(){
-    this.net.httpPost(AppGlobal.API.progressList,{
+    this.net.httpPost(AppGlobal.API.flowProgress,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token,
-      "statu":9
+      "statu":11
     },msg=>{
       let info = JSON.parse(msg);
-      this.flowedList = info.ProgList;
+      this.flowedList = info.subList;
     },err=>{
       this.toast(err);
     },true);

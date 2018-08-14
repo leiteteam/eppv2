@@ -6,6 +6,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.view.View;
 
+import com.amap.api.maps.MapsInitializer;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Poi;
 import com.amap.api.navi.AmapNaviPage;
@@ -17,6 +18,7 @@ import com.androidcat.acnet.entity.User;
 import com.androidcat.eppv2.CheckPermissionActivity;
 import com.androidcat.eppv2.LocationActivity;
 import com.androidcat.eppv2.R;
+import com.androidcat.eppv2.cordova.plugin.map.MapNaviUtil;
 import com.androidcat.eppv2.cordova.plugin.print.DzPrinterHelper;
 import com.androidcat.eppv2.cordova.plugin.qrcode.QrCodeHelper;
 import com.androidcat.eppv2.persistence.JepayDatabase;
@@ -40,6 +42,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +81,9 @@ public class PluginCoreWorker {
 
   public static void openOfflineMap(final CordovaPlugin plugin, final CallbackContext callbackContext) {
     //在Activity页面调用startActvity启动离线地图组件
-    plugin.cordova.getActivity().startActivity(new Intent(plugin.cordova.getActivity(),
+    // 设置应用单独的地图存储目录
+    //MapsInitializer.sdcardDir = plugin.cordova.getActivity().getFilesDir().getAbsolutePath()+ File.pathSeparator+"aMap";
+    plugin.cordova.getActivity().startActivity(new Intent(plugin.cordova.getActivity().getApplicationContext(),
       com.amap.api.maps.offlinemap.OfflineMapActivity.class));
     callbackContext.success();
   }
@@ -188,11 +193,19 @@ public class PluginCoreWorker {
   public static void navigation(CordovaPlugin plugin,String commData, final CallbackContext callbackContext){
     try {
       JSONObject data = new JSONObject(commData);
-      double lat = Double.parseDouble(data.optString("lat"));
-      double lng = Double.parseDouble(data.optString("lng"));
+      String dlat = data.optString("lat");
+      String dlon = data.optString("lng");
+      if (Utils.isApplicationInstalled(plugin.cordova.getActivity(),"com.autonavi.minimap")){
+        MapNaviUtil.openGaoDeMap(plugin.cordova.getActivity(),"","","",dlat,dlon,"");
+        callbackContext.success();
+        return;
+      }
+
+      double lat = Double.parseDouble(dlat);
+      double lng = Double.parseDouble(dlon);
       LatLng dst = new LatLng(lat,lng);
       //Poi start = new Poi("三元桥", new LatLng(39.96087,116.45798), "");
-      /**终点传入的是北京站坐标,但是POI的ID "B000A83M61"对应的是北京西站，所以实际算路以北京西站作为终点**/
+
       Poi end = new Poi("目的地", dst, "");
       AmapNaviPage.getInstance().showRouteActivity(plugin.cordova.getActivity(), new AmapNaviParams(null, null, end, AmapNaviType.DRIVER), new INaviInfoCallback() {
         @Override
