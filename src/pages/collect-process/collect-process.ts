@@ -1,3 +1,4 @@
+import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface-service/device-inteface-service';
 import { BasePage } from './../base/base';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Component } from '@angular/core';
@@ -15,7 +16,7 @@ import { IonicPage, NavController, NavParams, AlertController, ToastController }
   templateUrl: 'collect-process.html',
 })
 export class CollectProcessPage extends BasePage {
-  newCompany:any;
+  newCompany: any;
   taskData: any;
   sampleData: any;
   eastImg: String;
@@ -24,37 +25,41 @@ export class CollectProcessPage extends BasePage {
   northImg: String;
   spleTask: any;
   isFlagInput: boolean = false;
-  model:number = 0;
+  model: number = 0;
+  isCompany: boolean = true;
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
-    private camera: Camera, private alertCtrl: AlertController) {
+    private camera: Camera, private alertCtrl: AlertController, public device: DeviceIntefaceServiceProvider) {
     super(navCtrl, navParams, toastCtrl);
     //初始化json
     this.initJson();
     this.spleTask = navParams.get('spleTask');
     console.log(this.spleTask);
     this.taskData = this.spleTask['data'];
-    if(this.model == 2){
+    if (this.taskData.Point.IsYXQ) {
+      this.isCompany = false;
+    }
+    if (this.model == 2) {
       this.isFlagInput = true;
     }
     if (this.spleTask['samples'] != null && !this.isEmptyObject(this.spleTask['samples'])) {
       this.sampleData = this.spleTask['samples'];
       let pictures = this.sampleData['Pictures'];
-    for(let index in pictures){
-      switch(pictures[index].type){
-        case "正东":
-          this.eastImg = pictures[index].base64;
-          break;
-        case "正南":
-          this.southImg = pictures[index].base64;
-          break;
-        case "正西":
-          this.westImg = pictures[index].base64;
-          break;
-        case "正北":
-          this.northImg = pictures[index].base64;
-          break;
+      for (let index in pictures) {
+        switch (pictures[index].type) {
+          case "正东":
+            this.eastImg = pictures[index].base64;
+            break;
+          case "正南":
+            this.southImg = pictures[index].base64;
+            break;
+          case "正西":
+            this.westImg = pictures[index].base64;
+            break;
+          case "正北":
+            this.northImg = pictures[index].base64;
+            break;
+        }
       }
-    }
     }
   }
   isEmptyObject(obj: any) {
@@ -67,39 +72,44 @@ export class CollectProcessPage extends BasePage {
   }
   //保存
   sampleProcessBtn() {
-    let pictures:any = JSON.stringify(this.sampleData.Pictures);
+    let pictures: any = JSON.stringify(this.sampleData.Pictures);
     pictures = JSON.parse(pictures);
-    for( let i=0, flag=true; i < pictures.length; flag ? i++ : i ){
-      if( pictures[i].type == "正东" || pictures[i].type == "正南" || pictures[i].type == "正西" || pictures[i].type == "正北" ){
+    for (let i = 0, flag = true; i < pictures.length; flag ? i++ : i) {
+      if (pictures[i].type == "正东" || pictures[i].type == "正南" || pictures[i].type == "正西" || pictures[i].type == "正北") {
         pictures.splice(i, 1);
         flag = false;
-      }else {
+      } else {
         flag = true;
       }
     }
-    if(this.eastImg){
+    if (this.eastImg) {
       pictures.push({ type: "正东", base64: this.eastImg });
     }
-    if(this.southImg){
+    if (this.southImg) {
       pictures.push({ type: "正南", base64: this.southImg });
     }
-    if(this.westImg){
+    if (this.westImg) {
       pictures.push({ type: "正西", base64: this.westImg });
     }
-    if(this.northImg){
+    if (this.northImg) {
       pictures.push({ type: "正北", base64: this.northImg });
     }
     this.sampleData.Pictures = pictures;
     this.spleTask['samples'] = this.sampleData;
-    this.navCtrl.push("CollectTaskPage",{model: this.model, spleTask: this.spleTask});
+    //分段信息保存
+    this.saveSample();
+    if(!this.isCompany){
+      this.toast("企业信息没有填写！");
+    }
+    this.navCtrl.push("CollectTaskPage", { model: this.model, spleTask: this.spleTask, isCompany: this.isCompany });
   }
   //选择四周建筑物
-  aroundBtn(name,num) {
+  aroundBtn(name, num) {
     if (this.isFlagInput) {
       return;
     }
     let alert = this.alertCtrl.create();
-    alert.setTitle( name + '-多选框' );
+    alert.setTitle(name + '-多选框');
 
     alert.addInput({
       type: 'checkbox',
@@ -198,9 +208,9 @@ export class CollectProcessPage extends BasePage {
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation:true,
-      targetHeight:520,
-      targetWidth:360
+      correctOrientation: true,
+      targetHeight: 520,
+      targetWidth: 360
     }
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
@@ -312,13 +322,13 @@ export class CollectProcessPage extends BasePage {
     }
   ];
   collectTask = (sampleData) => {
-    return new Promise((resolve, reject) =>{
+    return new Promise((resolve, reject) => {
       console.log(sampleData);
       resolve();
     })
   }
   collcetTaskBtn() {
-    this.navCtrl.push("CollectTaskPage",{callback: this.collectTask, model: this.model, taskData: this.taskData, sampleData: this.sampleData});
+    this.navCtrl.push("CollectTaskPage", { callback: this.collectTask, model: this.model, taskData: this.taskData, sampleData: this.sampleData });
   }
   sampleInfoBtn() {
     this.navCtrl.push('SampleInfoPage', { taskData: this.taskData });
@@ -326,6 +336,9 @@ export class CollectProcessPage extends BasePage {
   companyInfo = (company) => {
     return new Promise((resolve, reject) => {
       this.sampleData['company'] = company;
+      this.spleTask['samples'] = this.sampleData;
+      this.isCompany = true;
+      this.saveSample();
       resolve();
     });
   }
@@ -350,6 +363,19 @@ export class CollectProcessPage extends BasePage {
       buttons: [{ text: '关闭' }]
     });
     alert.present();
+  }
+  //分段保存
+  saveSample(){
+    let savingData = JSON.parse(JSON.stringify(this.spleTask));
+    savingData.samples = JSON.stringify(this.sampleData);
+    savingData.data = JSON.stringify(this.taskData);
+    let savingDataStr = JSON.stringify(savingData);
+    this.device.push("saveSample", savingDataStr, success => {
+      this.toast("保存成功！");
+    }, error => {
+      console.log(error);
+      this.toast(error);
+    });
   }
 
   //当退出页面的时候

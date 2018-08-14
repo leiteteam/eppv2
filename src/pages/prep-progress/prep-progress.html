@@ -59,10 +59,10 @@
       <ion-list *ngIf="prepareList!=null&&prepareList.length>0" no-margin>
         <ion-card  *ngFor="let sple of prepareList" (click)="goToSpleDetail(sple)">
               <ion-item  no-lines detail-push>
-                  <P style="color: #363636">待制备样品数:{{sple.SampleNum}}</P>
+                  <P style="color: #363636">待制备样品数:{{sple.SubSampleNum}}</P>
                   <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
-                  <p class="date">{{sple.date}}</p>
-                  <p class="date">编号:{{sple.SampleNumber}}</p>
+                  <p class="date">{{sple.CompleteTime}}</p>
+                  <p class="date">编号:{{sple.SampleCode}}</p>
                   <p class="date">{{SampleCategorys[sple.SampleCategory]}}</p>
               </ion-item>
         </ion-card>
