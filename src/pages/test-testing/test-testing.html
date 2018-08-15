@@ -1,5 +1,5 @@
 <!--
-  Generated template for the TestTestingPage page.
+  Generated template for the PrepPrparePage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,12 +7,32 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>test-testing</ion-title>
+    <ion-title>样品测试</ion-title>
   </ion-navbar>
-
+  <div style="width:100%;overflow:auto" class="msearchbar">
+      <form action="#">
+          <ion-searchbar style="width: 90%;" cancelButtonText="取消" placeholder="扫描二维码或输入编号完成制备" float-left (keyup)="onkey($event)" [(ngModel)]="spleNo" [ngModelOptions]="{standalone: true}">
+          </ion-searchbar>
+      </form>
+      <button no-padding no-margin ion-button clear float-right (click)="prepare()" style="width: 10%;">
+          <ion-icon name="qr-scanner" style="font-size: 2.6rem;"></ion-icon>
+      </button>
+    </div>
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content no-padding no-margin>
+    <ion-list *ngIf="testList!=null&&testList.length>0" no-margin>
+        <ion-card  *ngFor="let pack of testList" (click)="goToSpleDetail(pack)">
+            <ion-item  no-lines detail-push>
+                <P style="color: #363636">样包编号:{{pack.PackageCode}}</P>
+                <P class="date">二次编码:{{pack.TwoSampleId}}</P>
+                <p class="date">实验室:{{pack.UnitName}}</p>
+                <p class="date">测试名称:{{pack.ParamCatetoryNames}}</p>
+            </ion-item>
+        </ion-card>
+    </ion-list>
+    <div class="empty" *ngIf="testList == null || testList.length==0 ">
+      <p>暂无内容</p>
+    </div>
 </ion-content>

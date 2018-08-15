@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Events, Tabs } from 'ionic-angular';
 import { BasePage } from '../base/base';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
@@ -24,6 +24,7 @@ export class FlowingPage extends BasePage{
   flowFlowingRoot = 'FlowPackFlowPage'
   flowMoreRoot = 'FlowMorePage'
 
+  @ViewChild('tabs')  tabs:Tabs;
   constructor(
     public device:DeviceIntefaceServiceProvider,
     public navCtrl: NavController,
@@ -38,4 +39,7 @@ export class FlowingPage extends BasePage{
     });
   }
 
+  onTabChanged(){
+
+  }
 }
