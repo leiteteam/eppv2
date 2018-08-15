@@ -55,7 +55,19 @@ export class AppGlobal {
         flowPackNew:'/api/CreatePackage/Post',
         flowSpleAccSearch:'/api/AcceptSubSample/Post',
         flowSpleAcc:'/api/AcceptSub/Post',
-        flowPackFlow:'/api/AcceptSub/Post',
+        flowPackFlow:'/api/PackageFlow/Post',
+        flowPackInfo:'/api/PackageContent/Post',
+        flowPackAddSple:'/api/AddPackageItem/Post',
+        flowPacking:'/api/UpdatePackageStatu/Post',
+        flowPackDel:'/api/PackageDelete/Post',
+        flowPackDelSple:'/api/SubSampleDelete/Post',
+        testProgressAcc:'/api/TestWaitAccept/Post',
+        testPackAccInfo:'/api/TestWaitPackageItem/Post',
+        testPackAccSearch:'/api/AcceptTestSample/Post',
+        testPackAcc:'/api/UpdateAcceptStatus/Post',
+        testProgress:'/api/WaitTestSamples/Post',
+        testPackInfo:'/api/TestSampleSearch/Post',
+        testFinish:'/api/TestFinish/Post'
     };
     static DATA:any ={
       uploadDoc:':8080/pc/data/uploadDoc',//文件上传

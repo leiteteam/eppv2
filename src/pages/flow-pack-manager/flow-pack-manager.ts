@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { BasePage } from '../base/base';
-import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 
@@ -45,7 +44,7 @@ export class FlowPackManagerPage extends BasePage{
   }
 
   flowPackList(){
-    this.net.httpPost(AppGlobal.API.flowPackNew,{
+    this.net.httpPost(AppGlobal.API.flowPackList,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token
     },(msg)=>{
@@ -57,15 +56,23 @@ export class FlowPackManagerPage extends BasePage{
     },true);
   }
 
+  gotoPackInfo(pack){
+    this.navCtrl.push("FlowPackInfoPage",{packNo:pack.PackageCode,callback:this.callback});
+  }
+
   newPack(){
     this.navCtrl.push("FlowPackNewPage",{callback:this.callback});
   }
 
   //选择条件回调
   callback = (packList) => {
-    console.log("callback success-->new pack");
-    this.packList = [];
-    this.packList = packList;
+    if (packList){
+      console.log("callback success-->new pack");
+      this.packList = [];
+      this.packList = packList;
+    }else {
+      this.flowPackList();
+    }
   }
 
 }

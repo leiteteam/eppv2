@@ -11,7 +11,7 @@
   </ion-navbar>
   <div style="width:100%;overflow:auto" class="msearchbar">
       <form action="#">
-          <ion-searchbar style="width: 90%;" cancelButtonText="取消" placeholder="扫描二维码或输入编号完成流转" float-left (keyup)="onkey($event)" [(ngModel)]="spleNo" [ngModelOptions]="{standalone: true}">
+          <ion-searchbar style="width: 90%;" cancelButtonText="取消" placeholder="扫描二维码或输入编号完成流转" float-left (keyup)="onkey($event)" [(ngModel)]="packNo" [ngModelOptions]="{standalone: true}">
           </ion-searchbar>
       </form>
       <button no-padding no-margin ion-button clear float-right (click)="scan()" style="width: 10%;">
@@ -21,14 +21,23 @@
 </ion-header>
 
 <ion-content no-padding no-margin>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingText="下拉清空列表"></ion-refresher-content>
+    </ion-refresher>
     <ion-list *ngIf="flowList!=null&&flowList.length>0" no-margin>
-        <ion-card  *ngFor="let sple of flowList">
-            <ion-item  no-lines>
-                <P style="color: #363636">样包编号:{{sple.SubSampleId}}</P>
-                <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
-                <p class="date">实验室名称:{{sple.FlowCenter}}</p>
-                <P class="date">样包类型:{{sple.ParamCatetoryNames}}</P>
+        <ion-card  *ngFor="let pack of flowList">
+            <ion-item>
+              <h5 item-start>样包编号:{{pack.PackageCode}}</h5>
             </ion-item>
+            <div class="ty-line1" ></div>
+            <ion-item detail-push>
+                <p class="date">实验室名称:{{pack.UnitName}}</p>
+                <P class="date">样包类型:{{packCates[pack.PackageType]}}/{{spleCates[pack.PackageYpType]}}</P>
+                <P class="date">{{testItems[pack.CheckParam]}}</P>
+                <div class="item-right">
+                  <P><span style="margin-right: 15px;">{{pack.CreateTime}}</span><span style="color: rgb(211, 106, 106)">{{status[pack.Status]}}</span></P>
+                </div>
+            </ion-item>  
         </ion-card>
     </ion-list>
     <div class="empty" *ngIf="flowList == null || flowList.length==0 ">

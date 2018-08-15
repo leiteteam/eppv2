@@ -1,15 +1,17 @@
 page-flow-pack-info {
-    .btnDiv{
-        margin:auto;
-        width:  100%;
-        text-align: center;
-    }
 
-    .button-ios{
-        margin:0.4rem 2rem 0.4rem 2rem !important;
+    //设置背景颜色
+    ion-content{
+        background: color($colors,ty-partingline) !important;
+    }
+    
+    .searchbar-ios .searchbar-input{
+        font-size: 1.3rem !important;
+        padding: 0;
     }
 
     [icon-left] ion-icon, [icon-start] ion-icon{
         margin-left: 10px !important;
     }
+
 }

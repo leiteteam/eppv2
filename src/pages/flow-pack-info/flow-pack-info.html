@@ -23,36 +23,35 @@
           <p class="date">实验室名称:{{pack.UnitName}}</p>
           <P class="date">样包类型:{{packCates[pack.PackageType]}}/{{spleCates[pack.PackageYpType]}}</P>
           <P class="date">{{testItems[pack.CheckParam]}}</P>
-          <p class="date">包内样品数:{{spleList.length}}</p>
+          <p class="date">包内样品数:{{subSpleList.length}}</p>
       </ion-item>
-      <div class="btnDiv">
-          <button *ngIf="pack.Status == 1" ion-button icon-start (click)="packing();">
-              封包
-              <ion-icon name="cube"></ion-icon>
-          </button>
+      <ion-item no-lines>
+        <button style="width: 130px;height: 40px;font-size: 1.7rem;" *ngIf="pack.Status == 1" item-start ion-button icon-start (click)="packing(false);">
+            封包
+            <ion-icon name="cube"></ion-icon>
+        </button>
+        <button style="width: 130px;height: 40px;font-size: 1.7rem;" *ngIf="pack.Status == 2" item-start ion-button icon-start (click)="packing(true);">
+            解包
+            <ion-icon name="logo-dropbox"></ion-icon>
+        </button>
 
-          <button *ngIf="pack.Status == 2" ion-button icon-start (click)="unpack();">
-              解包
-              <ion-icon name="logo-dropbox"></ion-icon>
+        <button style="width: 130px;height: 40px;font-size: 1.7rem;" *ngIf="pack.Status == 1 || pack.Status == 2" item-end ion-button icon-start (click)="delPack();">
+            删除
+            <ion-icon name="trash"></ion-icon>
           </button>
-          
-            <button *ngIf="pack.Status == 1 || pack.Status == 2" ion-button icon-start (click)="delPack();">
-              删除
-              <ion-icon name="trash"></ion-icon>
-            </button>
-      </div>
+      </ion-item>
   </ion-header>
 
-<ion-content no-padding>
-    <ion-list *ngIf="spleList!=null&&spleList.length>0" no-margin>
-        <ion-card  *ngFor="let sple of spleList">
+<ion-content no-padding style="margin-top: 25px;">
+    <ion-list *ngIf="subSpleList!=null&&subSpleList.length>0" no-margin>
+        <ion-card  *ngFor="let sple of subSpleList">
             <ion-item>
-              <h5 item-start>样包编码:{{pack.PackageCode}}</h5>
+              <h5 item-start>样包编码:{{sple.TwoSampleId}}</h5>
               <button item-end ion-button (click)="print(sple)">制码</button>
             </ion-item>
             <ion-item>
-                <h5 item-start>样包编号:{{pack.PackageNo}}</h5>
-                <button item-end ion-button (click)="delSple(sple)">删除</button>
+                <h5 item-start>样包编号:{{sple.SubSampleId}}</h5>
+                <button *ngIf="pack.Status == 1" item-end ion-button (click)="delSple(sple)">删除</button>
             </ion-item>
         </ion-card>
     </ion-list>
