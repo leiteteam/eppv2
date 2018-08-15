@@ -46,22 +46,22 @@
       <ion-input type="text" class="input-border" disabled="true" [value]="taskData?.Point?.SoilXtType"></ion-input>
     </ion-item>
     <ion-item detail-push>
-      <ion-label>灌溉方式:</ion-label>
+      <ion-label style="opacity: 1 !important;">灌溉方式:</ion-label>
       <ion-multi-picker item-end class="input-redio" [disabled]="isFlagInput" [(ngModel)]="sampleData.IrrigationMethod" [multiPickerColumns]="irrigateWays"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
     <ion-item detail-push>
-      <ion-label>灌溉水类型:</ion-label>
+      <ion-label style="opacity: 1 !important;">灌溉水类型:</ion-label>
       <ion-multi-picker item-end class="input-redio" [disabled]="isFlagInput" [(ngModel)]="sampleData.IrrigationType" [multiPickerColumns]="irrigateTypes"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
     <ion-item detail-push>
-      <ion-label>地形类型:</ion-label>
+      <ion-label style="opacity: 1 !important;">地形类型:</ion-label>
       <ion-multi-picker item-end class="input-redio" [disabled]="isFlagInput" [(ngModel)]="sampleData.TerrainType" [multiPickerColumns]="terrainTypes"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
     <ion-item detail-push>
-      <ion-label>天气:</ion-label>
+      <ion-label style="opacity: 1 !important;">天气:</ion-label>
       <ion-multi-picker class="input-redio" item-end [disabled]="isFlagInput" [(ngModel)]="sampleData.Weather" [multiPickerColumns]="weatherSettings"
         doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
@@ -105,8 +105,8 @@
     </div>
   </ion-list>
   <div style="margin-top:30px;margin-left:20px;margin-right:20px">
-    <button ion-button block color="primary" [disabled]="isFlagInput" (click)="sampleProcessBtn()">
-      保存&下一步
+    <button ion-button block color="primary" (click)="sampleProcessBtn()">
+      {{isFlagInput ? "下一步" : "保存&下一步"}}
     </button>
   </div>
 </ion-content>

@@ -49,33 +49,36 @@
   <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(236, 234, 234)">
     <p item-start>子样品信息</p>
   </ion-item>
-  <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(255, 255, 255)">
-    <p item-start style="font-size: 1.3rem;color: rgb(172, 137, 118)">国家级入库样</p>
-    <button ion-button item-end (click)="spleCoding()" color="primary">子样编码</button>
-  </ion-item>
+  <div *ngFor="let sub of subSamples" >
+    <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(255, 255, 255)">
+      <p item-start style="font-size: 1.3rem;color: rgb(172, 137, 118);width: 60%;white-space: nowrap;text-overflow: ellipsis;">{{sub.ParamCatetoryNames}}</p>
+      <button ion-button item-end (click)="spleCoding(sub.SubSampleId)" color="primary">子样编码</button>
+    </ion-item>
+  
+    <ion-item style="margin-top: 0px;">
+      <ion-icon name="pricetag" item-start color="primary"></ion-icon>
+      <ion-label>样品编号</ion-label>
+      <p item-end>{{sub.SubSampleId}}</p>
+    </ion-item>
+    <ion-item style="margin-top: 0px;">
+      <ion-icon name="speedometer" item-start color="primary"></ion-icon>
+      <ion-label>样品重量(g)</ion-label>
+      <p item-end>{{sub.Weight}}</p>
+    </ion-item>
+    <ion-item style="margin-top: 0px;">
+      <ion-icon name="grid" item-start color="primary"></ion-icon>
+      <ion-label>过筛孔径(mm)</ion-label>
+      <p item-end>{{sub.holeSize}}</p>
+    </ion-item>
+    <ion-item style="margin-top: 0px;">
+      <ion-icon name="paper" item-start color="primary"></ion-icon>
+      <ion-label>制样要求</ion-label>
+      <p item-end style="width: 70%;">{{require}}</p>
+    </ion-item>
+  </div>
+  
 
-  <ion-item style="margin-top: 0px;">
-    <ion-icon name="pricetag" item-start color="primary"></ion-icon>
-    <ion-label>样品编号</ion-label>
-    <p item-end>{{sple.SampleCode}}01</p>
-  </ion-item>
-  <ion-item style="margin-top: 0px;">
-    <ion-icon name="speedometer" item-start color="primary"></ion-icon>
-    <ion-label>样品重量(g)</ion-label>
-    <p item-end>{{sple.Weight}}</p>
-  </ion-item>
-  <ion-item style="margin-top: 0px;">
-    <ion-icon name="grid" item-start color="primary"></ion-icon>
-    <ion-label>过筛孔径(mm)</ion-label>
-    <p item-end>{{size}}</p>
-  </ion-item>
-  <ion-item style="margin-top: 0px;">
-    <ion-icon name="paper" item-start color="primary"></ion-icon>
-    <ion-label>制样要求</ion-label>
-    <p item-end style="width: 70%;">{{require}}</p>
-  </ion-item>
-
-  <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(255, 255, 255)">
+  <!-- <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(255, 255, 255)">
     <p item-start style="font-size: 1.3rem;color: rgb(172, 137, 118)">省级级入库样</p>
     <button ion-button item-end (click)="spleCoding()" color="primary">子样编码</button>
   </ion-item>
@@ -123,7 +126,7 @@
     <ion-icon name="paper" item-start color="primary"></ion-icon>
     <ion-label>制样要求</ion-label>
     <p item-end style="width: 70%;">{{require}}</p>
-  </ion-item>
+  </ion-item> -->
 
   <div text-center style="width:100%;overflow:auto;">
     <div class="comfirm" float-left col-12 (click)="done()">

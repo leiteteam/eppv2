@@ -24,9 +24,9 @@ export class CollectProcessPage extends BasePage {
   westImg: String;
   northImg: String;
   spleTask: any;
+  tipContent:string = "!";
   isFlagInput: boolean = false;
   model: number = 0;
-  isCompany: boolean = true;
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
     private camera: Camera, private alertCtrl: AlertController, public device: DeviceIntefaceServiceProvider) {
     super(navCtrl, navParams, toastCtrl);
@@ -35,8 +35,13 @@ export class CollectProcessPage extends BasePage {
     this.spleTask = navParams.get('spleTask');
     console.log(this.spleTask);
     this.taskData = this.spleTask['data'];
-    if (this.taskData.Point.IsYXQ) {
-      this.isCompany = false;
+    this.model = navParams.data.model;
+    if(this.spleTask.isCompany == null){
+      if (this.taskData.Point.IsYXQ) {
+        this.spleTask.isCompany = false;
+      } else {
+        this.spleTask.isCompany = true;
+      }
     }
     if (this.model == 2) {
       this.isFlagInput = true;
@@ -72,6 +77,10 @@ export class CollectProcessPage extends BasePage {
   }
   //保存
   sampleProcessBtn() {
+    if(this.isFlagInput){
+      this.navCtrl.push("CollectTaskPage", { model: this.model, spleTask: this.spleTask});
+      return;
+    }
     let pictures: any = JSON.stringify(this.sampleData.Pictures);
     pictures = JSON.parse(pictures);
     for (let i = 0, flag = true; i < pictures.length; flag ? i++ : i) {
@@ -98,10 +107,10 @@ export class CollectProcessPage extends BasePage {
     this.spleTask['samples'] = this.sampleData;
     //分段信息保存
     this.saveSample();
-    if(!this.isCompany){
-      this.toast("企业信息没有填写！");
+    if(!this.spleTask.isCompany){
+      this.tipContent = ",但企业信息没有填写！";
     }
-    this.navCtrl.push("CollectTaskPage", { model: this.model, spleTask: this.spleTask, isCompany: this.isCompany });
+    this.navCtrl.push("CollectTaskPage", { model: this.model, spleTask: this.spleTask});
   }
   //选择四周建筑物
   aroundBtn(name, num) {
@@ -335,9 +344,12 @@ export class CollectProcessPage extends BasePage {
   }
   companyInfo = (company) => {
     return new Promise((resolve, reject) => {
+      if(this.isFlagInput){
+        return;
+      }
       this.sampleData['company'] = company;
       this.spleTask['samples'] = this.sampleData;
-      this.isCompany = true;
+      this.spleTask.isCompany = true;
       this.saveSample();
       resolve();
     });
@@ -371,7 +383,7 @@ export class CollectProcessPage extends BasePage {
     savingData.data = JSON.stringify(this.taskData);
     let savingDataStr = JSON.stringify(savingData);
     this.device.push("saveSample", savingDataStr, success => {
-      this.toast("保存成功！");
+      this.toast("保存成功" + this.tipContent);
     }, error => {
       console.log(error);
       this.toast(error);

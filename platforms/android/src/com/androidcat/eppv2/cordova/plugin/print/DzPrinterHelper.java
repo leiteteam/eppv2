@@ -56,9 +56,10 @@ public class DzPrinterHelper {
     api.startPage();
     // 开始一个页面的绘制，绘制二维码
     // 传入参数(需要绘制的二维码的数据, 绘制的二维码左上角水平位置, 绘制的二维码左上角垂直位置, 绘制的二维码的宽度(宽高相同))
-    api.draw2DQRCode(twodBarcode, 17 * 100, 15 * 10, 15 * 100);
+    String qrCode = twodBarcode.substring(twodBarcode.indexOf(":") + 1);
+    api.draw2DQRCode(qrCode, 17 * 100, 15 * 10, 15 * 100);
 
-    api.drawText(twodBarcode, 55*10, 155*10, 0, 0, 317, 0);
+    api.drawText(twodBarcode, 40*10, 155*10, 0, 0, 317, 0);
 
     // 结束绘图任务
     api.endJob();

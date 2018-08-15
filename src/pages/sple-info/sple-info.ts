@@ -59,30 +59,22 @@ export class SpleInfoPage extends BasePage{
       super(navCtrl,navParams,toastCtrl);
       if (navParams.data.spleId){
         this.spleId = navParams.data.spleId;
-        console.log(this.spleId);
-        if(this.spleId.indexOf('&') != -1){
-          this.spleIdTxt = this.spleId.split('&')[0];
-          this.isSub = this.spleId.split('&')[1] == 'sub';
-          if (this.isSub){
-            this.title = "子样品信息";
-          }
-        } else {
-          let alert = this.alertCtrl.create({
-            title: '警告信息',
-            message: '请扫描正确的二维码！',
-            buttons: ['确定']
-          });
-          alert.present();
-          this.navCtrl.pop();
-        }
       }
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SpleInfoPage');
-    if (this.spleIdTxt){
-      this.querySampleInfo();
+    if( this.spleId.length > 25 ){
+      let alert = this.alertCtrl.create({
+        title: '警告信息',
+        message: '请扫描正确的二维码！',
+        buttons: ['确定']
+      });
+      alert.present();
+      this.navCtrl.pop();
+      return;
     }
+    this.querySampleInfo();
   }
 
   querySampleInfo(){
@@ -108,6 +100,7 @@ export class SpleInfoPage extends BasePage{
       },
       error => {
         this.toast(error);
+        this.navCtrl.pop();
       },
       true);
   }
@@ -125,7 +118,7 @@ export class SpleInfoPage extends BasePage{
       {
         "username": AppServiceProvider.getInstance().userinfo.username,
         "token": AppServiceProvider.getInstance().userinfo.token,
-        'sampleCode':this.info.SubSampleId?this.info.SubSampleId+'&sub' : this.info.MainSampleId+'&main',
+        'sampleCode':this.info.SubSampleId?this.info.SubSampleId : this.info.MainSampleId,
         "sampleCheck":JSON.stringify(sampleCheck)
       },
       msg => {

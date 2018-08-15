@@ -94,8 +94,8 @@
         </div>
       </div>
       <div style="margin-top:30px;margin-left:20px;margin-right:20px">
-          <button ion-button block color="primary" [disabled]="isFlagInput" (click)="save()">
-            保存
+          <button ion-button block color="primary" (click)="save()">
+            {{isFlagInput ? "退出" : "保存"}}
           </button>
         </div>
 </ion-content>

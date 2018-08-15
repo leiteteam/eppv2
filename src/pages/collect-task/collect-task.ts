@@ -28,6 +28,7 @@ export class CollectTaskPage extends BasePage {
   changeImg:String;
   distance:number = 0;
   model:number = 0;
+  tipContent:string = "状态更改成功！";
   isStateFlag:boolean = true;
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, 
     public device:DeviceIntefaceServiceProvider, private camera: Camera, public alertCtrl:AlertController) {
@@ -61,6 +62,10 @@ export class CollectTaskPage extends BasePage {
     }
   }
   getLatLng(){
+    if(this.isFlagInput){
+      this.toast("查看模式，禁止编辑！");
+      return;
+    }
     this.device.push("location","",(location)=>{
       location = JSON.parse(location);
       this.sampleData.FactLongitude = location.lng;
@@ -73,6 +78,10 @@ export class CollectTaskPage extends BasePage {
   }
   //保存
   save(){
+    if(this.isFlagInput){
+      this.navCtrl.pop();
+      return;
+    }
     if(!this.sampleData.FactLongitude || !this.sampleData.FactLatitude || this.sampleData.SampleDepthFrom == null || 
       this.sampleData.SampleDepthFrom == '' || this.sampleData.SampleDepthTo == null || this.sampleData.SampleDepthTo == '' ||
      !this.sampleData.Weight || this.sampleData.SoilTexture == 0 || this.sampleData.SoilColor == 0 ){
@@ -109,17 +118,21 @@ export class CollectTaskPage extends BasePage {
     if(this.changeImg){
       pictures.push({ type: "变更照片", base64: this.changeImg });
     }
+    if(this.spleTask.samples.SampleCode == ''){
+      this.isStateFlag = false;
+      this.tipContent = "但主样没有制码！";
+    } else
     if(!this.sampleData.FactAddress || this.sampleData.Altitude == '' || this.sampleData.IrrigationMethod == 0 || this.sampleData.IrrigationType == 0 ||
     this.sampleData.TerrainType == 0 || this.sampleData.Weather == 0 || !this.sampleData.DueEast || !this.sampleData.DueSouth || 
     !this.sampleData.DueWest || !this.sampleData.DueNorth){
       this.isStateFlag = false;
-      this.toast("样点信息未填写完整！");
+      this.tipContent = "但样点信息未填写完整！";
     } else if(pictures.length < (this.changeImg == null ? 7 : 8)){
       this.isStateFlag = false;
-      this.toast("样点方位照没有拍全！");
-    } else if(!this.navParams.data.isCompany){
+      this.tipContent = "但样点方位照没有拍全！";
+    } else if(!this.spleTask.isCompany){
       this.isStateFlag = false;
-      this.toast("企业信息没有填写！");
+      this.tipContent = "但企业信息没有填写！";
     }
     this.sampleData.Pictures = pictures;
     this.sampleData.TaskID = this.spleTask.taskid;
@@ -128,8 +141,8 @@ export class CollectTaskPage extends BasePage {
     //因为在上层ts中，完整的json对象才是可用可解析的，如果直接将spleTask的字段改成了string则无法识别
     //原始spleTask仍用于内存中使用，所以需保持同步更新字段内容
     let date = new Date();
-    if( this.spleTask.SamplingTime = '' ){
-      this.spleTask.SamplingTime =  date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    if( this.spleTask.samples.SamplingTime = '' ){
+      this.spleTask.samples.SamplingTime =  date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     }
     let savingData = JSON.parse(JSON.stringify(this.spleTask));
     this.spleTask['samples'] = this.sampleData;
@@ -153,7 +166,7 @@ export class CollectTaskPage extends BasePage {
           console.log(error);
         });
       }
-      this.toast("保存成功！");
+      this.toast("保存成功," + this.tipContent);
       this.navCtrl.popToRoot();
       console.log(success);
     }, error => {
@@ -164,10 +177,13 @@ export class CollectTaskPage extends BasePage {
   }
   //跳转制码
   goSampleCode(){
-    this.navCtrl.push("SampleCodePage", {taskData: this.taskData, sampleData: this.sampleData});
+    this.navCtrl.push("SampleCodePage", {model: this.model, taskData: this.taskData, sampleData: this.sampleData});
   }
   //拍照
   addImg(loc){
+    if(this.isFlagInput){
+      return;
+    }
     switch(loc){
       case 1:
         if(this.gpsView != null && this.gpsView != ''){
@@ -238,6 +254,9 @@ export class CollectTaskPage extends BasePage {
   }
   //删除照片
   delImg(loc){
+    if(this.isFlagInput){
+      return;
+    }
     let alert = this.alertCtrl.create({
       title: '删除提示',
       message: '你确定删除该图片？',

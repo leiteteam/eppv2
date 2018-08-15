@@ -35,7 +35,7 @@ export class SampleCodePage extends BasePage {
   printCodes(){
     this.device.push("printInit","",msg =>{
       console.log("连接成功，正在打印...");
-      this.device.push("print", this.sampleData.SampleCode + "&main" ,msg =>{
+      this.device.push("print", "主样:" + this.sampleData.SampleCode ,msg =>{
         console.log("打印成功");
       },err => {
         this.toast(err);
@@ -53,7 +53,7 @@ export class SampleCodePage extends BasePage {
   printCode(SubSampleId){
     this.device.push("printInit","hello print!",msg =>{
       console.log("连接成功，正在打印...");
-      this.device.push("print", SubSampleId + "&sub" ,msg =>{
+      this.device.push("print", "子样:" + SubSampleId ,msg =>{
         console.log("打印成功");
       },err => {
         this.toast(err);
@@ -76,6 +76,10 @@ export class SampleCodePage extends BasePage {
     })
   }
   goSampleSplit(){
+    if(this.navParams.data.model == 2){
+      this.toast("查看模式，禁止编辑！");
+      return;
+    }
     if(this.taskData.SampleCategory != 1){
       this.toast("只有表层土壤才能分样！");
       return;
