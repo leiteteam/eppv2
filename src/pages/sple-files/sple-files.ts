@@ -41,14 +41,15 @@ export class SpleFilesPage extends BasePage{
         "PointId":file.SPoint_ID
       },
       msg => {
-        console.log(msg);
+        msg = JSON.parse(msg);
         let spleTasks:any = {};
         let sampleData:any = msg.record.samples;
         let point:any = msg.record.point;
         sampleData['company'] = msg.record.company;
-        point['company'] = msg.record.company;
         spleTasks['samples'] = sampleData;
-        spleTasks['data'] = point;
+        spleTasks['data'] = {};
+        spleTasks['data']['Point'] = point;
+        spleTasks['data']['company'] = msg.record.company;
         this.navCtrl.push("CollectProcessPage", {spleTask: file, model: 2});
       },
       error => {

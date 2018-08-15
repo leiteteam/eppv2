@@ -21,6 +21,8 @@ export class PrepSplePreparePage extends BasePage{
   size:number = 2;
   require:string = "样品制备过程要尽可能使每一份样品都是均匀地来自该样品总量.";
   sple:any = {};
+  elements:any;
+  subSamples:any = [];
 
   SampleCategorys = {
     "1":"表层土壤",
@@ -63,7 +65,29 @@ export class PrepSplePreparePage extends BasePage{
   }
 
   splitSple(){
-
+    this.net.httpPost(AppGlobal.API.prepSampleParams, {}, msg => {
+      msg = JSON.parse(msg);
+      if(msg.ret == 200){
+        this.elements = msg.param;
+        for(let element of this.elements){
+          let params:any = [];
+          for(let param of element.ParamList){
+            let paramJson:any = {};
+            paramJson.name = param;
+            paramJson.flag = false;
+            params.push(paramJson);
+          }
+          element.ParamList = params;
+        }
+        console.log(this.elements);
+        this.navCtrl.push("PrepSpleElementPage",{sple: this.sple, elements: this.elements, subSamples: this.subSamples});
+      }else {
+        this.toast("获取数据异常！");
+      }
+    },err => {
+      this.toast(err);
+      this.navCtrl.pop();
+    });
   }
 
   spleCoding(){

@@ -28,7 +28,9 @@ export class CollectTaskPage extends BasePage {
   changeImg:String;
   distance:number = 0;
   model:number = 0;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, public device:DeviceIntefaceServiceProvider, private camera: Camera, public alertCtrl:AlertController) {
+  isStateFlag:boolean = true;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, 
+    public device:DeviceIntefaceServiceProvider, private camera: Camera, public alertCtrl:AlertController) {
     super(navCtrl, navParams, toastCtrl);
     //this.callback = navParams.get("callback");
     this.spleTask = navParams.get('spleTask');
@@ -107,6 +109,18 @@ export class CollectTaskPage extends BasePage {
     if(this.changeImg){
       pictures.push({ type: "变更照片", base64: this.changeImg });
     }
+    if(!this.sampleData.FactAddress || this.sampleData.Altitude == '' || this.sampleData.IrrigationMethod == 0 || this.sampleData.IrrigationType == 0 ||
+    this.sampleData.TerrainType == 0 || this.sampleData.Weather == 0 || !this.sampleData.DueEast || !this.sampleData.DueSouth || 
+    !this.sampleData.DueWest || !this.sampleData.DueNorth){
+      this.isStateFlag = false;
+      this.toast("样点信息未填写完整！");
+    } else if(pictures.length < (this.changeImg == null ? 7 : 8)){
+      this.isStateFlag = false;
+      this.toast("样点方位照没有拍全！");
+    } else if(!this.navParams.data.isCompany){
+      this.isStateFlag = false;
+      this.toast("企业信息没有填写！");
+    }
     this.sampleData.Pictures = pictures;
     this.sampleData.TaskID = this.spleTask.taskid;
 
@@ -114,16 +128,20 @@ export class CollectTaskPage extends BasePage {
     //因为在上层ts中，完整的json对象才是可用可解析的，如果直接将spleTask的字段改成了string则无法识别
     //原始spleTask仍用于内存中使用，所以需保持同步更新字段内容
     let date = new Date();
-    this.spleTask.SamplingTime =  date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    if( this.spleTask.SamplingTime = '' ){
+      this.spleTask.SamplingTime =  date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    }
     let savingData = JSON.parse(JSON.stringify(this.spleTask));
     this.spleTask['samples'] = this.sampleData;
     this.spleTask['data'] = this.taskData;
-    this.spleTask.state = 1;
-
+    //如果不满足条件   则不改变任务状态，仅保存
+    if(this.isStateFlag){
+      this.spleTask.state = 1;
+      savingData.state = 1;
+    }
     //这里我们复制出一个对象用于保存，将字段变换成底层接口需要的形式
     savingData.samples = JSON.stringify(this.sampleData);
     savingData.data = JSON.stringify(this.taskData);
-    savingData.state = 1;
 
     let savingDataStr = JSON.stringify(savingData);
     console.log(savingDataStr);

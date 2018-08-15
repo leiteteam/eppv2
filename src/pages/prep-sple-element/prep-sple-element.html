@@ -1,0 +1,29 @@
+<!--
+  Generated template for the PrepSpleElementPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>分样中心</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+    <ion-card *ngFor="let element of elements">
+        <ion-card-header style="background-color: #ddd;" >{{element.CategoryName}}</ion-card-header>
+        <ion-list margin>
+          <button ion-button [ngClass]="{'flag':!param.flag}" (click)="eleBtn(param)" *ngFor="let param of element.ParamList">{{param.name}}</button>
+        </ion-list>
+    </ion-card>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <button ion-button full (click)="splitBtn()" style="width: 50% !important; margin: 0 0 !important;float: left; border:solid 1px #ccc;">分样(0)</button>
+  <button ion-button full (click)="successBtn()" style="width: 50% !important; margin: 0 0 !important;float: left;">完成</button>
+</ion-footer>
