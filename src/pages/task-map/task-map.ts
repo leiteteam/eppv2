@@ -41,12 +41,7 @@ export class TaskMapPage extends BasePage{
   ionViewDidLoad() {
     console.log('ionViewDidLoad TaskMapPage');
     this.loadMap();
-    this.requestAllTasks()
-        .then(()=>{
-          this.updateMarkers();
-          this.showAll();
-          this.showTaskSummary();
-        });
+    this.refresh();
   }
 
   loadMap() {
@@ -232,130 +227,6 @@ export class TaskMapPage extends BasePage{
         true);
     });
   }
-
-  testData = {
-    "ret": 200,
-    "desc": "OK",
-    "GroupName": "采样小组01",
-    "GroupMember": "管理员、何璐、十路",
-    "category": [{
-      "CategoryID": "A1",
-      "CategoryName": "A1类-重金属",
-      "ParamList": ["镉",
-      "铅",
-      "锌",
-      "汞",
-      "镍",
-      "砷",
-      "铜",
-      "铬"]
-    },
-    {
-      "CategoryID": "A4",
-      "CategoryName": "A4类-可提取态重金属",
-      "ParamList": ["可提取态镉",
-      "可提取态铅",
-      "可提取态锌",
-      "可提取态汞",
-      "可提取态镍",
-      "可提取态砷",
-      "可提取态铜",
-      "可提取态铬"]
-    },
-    {
-      "CategoryID": "C1",
-      "CategoryName": "C1类-多环芳烃类15种",
-      "ParamList": ["苯并[a]蒽",
-      "屈",
-      "二苯并[a,h]蒽",
-      "苊",
-      "菲",
-      "荧蒽",
-      "芘",
-      "茚并[1,2,3-c,d]芘"]
-    }],
-    "Tasks": [{
-      "TaskID": 85,
-      "InvestigationCode": "",
-      "ForecastAddress": "辽宁省大连市保税区亮甲店街道",
-      "PointCategory": 1,
-      "RegionalType": 0,
-      "SampleNumber": "XW210262021",
-      "RegionName": "大连市",
-      "Longitude": "121.94563293457",
-      "Latitude": "39.1869888305664",
-      "GroupLeader": "cy000102",
-      "CompletedTime": "",
-      "InvestigationType": 0,
-      "IsTestDhft": true,
-      "IsTestZjsktq": true,
-      "ZcxmParams": "",
-      "ZcxmOtherParams": "",
-      "CompanyName": "",
-      "CompanyAddress": "",
-      "CLongitude": "",
-      "CLatitude": "",
-      "MeshSize": "",
-      "SampleStatus": 1,
-      "QualityType": 0,
-      "MainSampleId": "XW210262021S",
-      "SampleCategory": 1
-    },
-    {
-      "TaskID": 84,
-      "InvestigationCode": "",
-      "ForecastAddress": "辽宁省大连市保税区亮甲店街道",
-      "PointCategory": 1,
-      "RegionalType": 0,
-      "SampleNumber": "XW210262020",
-      "RegionName": "大连市",
-      "Longitude": "121.927452087402",
-      "Latitude": "39.1829299926758",
-      "GroupLeader": "cy000102",
-      "CompletedTime": "",
-      "InvestigationType": 0,
-      "IsTestDhft": true,
-      "IsTestZjsktq": true,
-      "ZcxmParams": "",
-      "ZcxmOtherParams": "",
-      "CompanyName": "",
-      "CompanyAddress": "",
-      "CLongitude": "",
-      "CLatitude": "",
-      "MeshSize": "",
-      "SampleStatus": 1,
-      "QualityType": 0,
-      "MainSampleId": "XW210262020S",
-      "SampleCategory": 1
-    },
-    {
-      "TaskID": 83,
-      "InvestigationCode": "",
-      "ForecastAddress": "辽宁省大连市保税区亮甲店街道",
-      "PointCategory": 1,
-      "RegionalType": 0,
-      "SampleNumber": "XW210262019",
-      "RegionName": "大连市",
-      "Longitude": "121.918502807617",
-      "Latitude": "39.1831207275391",
-      "GroupLeader": "cy000102",
-      "CompletedTime": "",
-      "InvestigationType": 0,
-      "IsTestDhft": true,
-      "IsTestZjsktq": true,
-      "ZcxmParams": "",
-      "ZcxmOtherParams": "",
-      "CompanyName": "",
-      "CompanyAddress": "",
-      "CLongitude": "",
-      "CLatitude": "",
-      "MeshSize": "",
-      "SampleStatus": 1,
-      "QualityType": 0,
-      "MainSampleId": "XW210262019S",
-      "SampleCategory": 1
-    }]
-  };
   
   showTaskSummary(){
     const modal = this.modalCtrl.create("TaskSummaryDialogPage");
@@ -363,6 +234,11 @@ export class TaskMapPage extends BasePage{
   }
 
   refresh(){
-    this.showTaskSummary();
+    this.requestAllTasks()
+        .then(()=>{
+          this.updateMarkers();
+          this.showAll();
+          this.showTaskSummary();
+        });
   }
 }
