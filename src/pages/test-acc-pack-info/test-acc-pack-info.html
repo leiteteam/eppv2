@@ -1,0 +1,30 @@
+<!--
+  Generated template for the TestAccPackInfoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>样包详情</ion-title>
+  </ion-navbar>
+  <ion-item >
+      <p class="date">样包编码:{{pack.PackageCode}}</p>
+      <p class="date">实验室名称:{{pack.UnitName}}</p>
+      <P class="date">样包类型:{{packCates[pack.PackageType]}}/{{spleCates[pack.PackageYpType]}}</P>
+      <P class="date">{{testItems[pack.CheckParam]}}</P>
+      <p class="date">包内样品数:{{pack.totalNum}}</p>
+  </ion-item>
+</ion-header>
+
+<ion-content no-padding style="margin-top: 25px;">
+    <ion-list *ngIf="subSpleList!=null&&subSpleList.length>0" no-margin>
+        <ion-card  *ngFor="let sple of subSpleList">
+            <ion-item>
+              <p class="date">样包编码:{{sple.TwoSampleId}}</p>
+              <p class="date">测试名称:{{sple.ParamCatetoryNames}}</p>
+            </ion-item>
+        </ion-card>
+    </ion-list>
+</ion-content>

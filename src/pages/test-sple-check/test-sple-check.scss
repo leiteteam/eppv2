@@ -1,0 +1,16 @@
+page-test-sple-check {
+    .label-ios{
+        font-size:1.3rem !important;
+    }
+
+    .text{
+        padding-top: 10px;
+        padding-bottom: 15px;
+    }
+    .cancel{
+        background: white; 
+    }
+     .comfirm{
+         background: color($colors,primary);
+    }
+}

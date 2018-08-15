@@ -36,7 +36,7 @@ export class HomePage extends BasePage {
 			name:"样品流转",icon:"md-car",appType:"Lz"
     },
     {
-			name:"样品测试",icon:"flask",appType:"Cs"
+			name:"样品测试",icon:"flask",appType:"Jc"
 		}
   ];
 

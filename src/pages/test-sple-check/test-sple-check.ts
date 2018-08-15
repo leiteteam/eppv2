@@ -6,7 +6,7 @@ import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-s
 import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 
 /**
- * Generated class for the FlowSpleCheckPage page.
+ * Generated class for the TestSpleCheckPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -14,19 +14,17 @@ import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-s
 
 @IonicPage()
 @Component({
-  selector: 'page-flow-sple-check',
-  templateUrl: 'flow-sple-check.html',
+  selector: 'page-test-sple-check',
+  templateUrl: 'test-sple-check.html',
 })
-export class FlowSpleCheckPage extends BasePage{
+export class TestSpleCheckPage extends BasePage{
   isSub:boolean = false;
   spleId:string = "";
-  spleIdTxt:string = "";
   title:string = "样品信息";
 
   info:any = {
     SampleName:"",
-    MainSampleId:"",
-    SubSampleId:"",
+    PackageCode:"",
     Weight:0,
     SamplePurpose:"",
     UnitName:"",
@@ -50,7 +48,8 @@ export class FlowSpleCheckPage extends BasePage{
   packcheck:boolean = false;
   storagecheck:boolean = false;
 
-  constructor(public net:TyNetworkServiceProvider,
+  constructor(
+    public net:TyNetworkServiceProvider,
     public navCtrl: NavController, 
     public navParams: NavParams,
     public device:DeviceIntefaceServiceProvider,
@@ -58,24 +57,21 @@ export class FlowSpleCheckPage extends BasePage{
       super(navCtrl,navParams,toastCtrl);
       if (navParams.data.spleId){
         this.spleId = navParams.data.spleId;
-        this.spleIdTxt = navParams.data.spleId;
       }
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PrepSpleCheckPage');
-    if (this.spleIdTxt){
-      this.querySampleInfo();
-    }
+    console.log('ionViewDidLoad TestSpleCheckPage');
+    this.querySampleInfo();
   }
 
   querySampleInfo(){
     this.net.httpPost(
-      AppGlobal.API.flowSpleAccSearch,
+      AppGlobal.API.testPackAccSearch,
       {
         "username": AppServiceProvider.getInstance().userinfo.username,
         "token": AppServiceProvider.getInstance().userinfo.token,
-        'sampleCode':this.spleId
+        'SampleCode':this.spleId
       },
       msg => {
         console.log(msg);
@@ -105,11 +101,11 @@ export class FlowSpleCheckPage extends BasePage{
       storagecheck:this.storagecheck?'1':'0',
     };
     this.net.httpPost(
-      AppGlobal.API.flowSpleAcc,
+      AppGlobal.API.testPackAcc,
       {
         "username": AppServiceProvider.getInstance().userinfo.username,
         "token": AppServiceProvider.getInstance().userinfo.token,
-        'sampleCode':this.info.SubSampleId?this.info.SubSampleId : this.info.MainSampleId,
+        'SampleCode':this.spleId,
         "ZbCheck":JSON.stringify(sampleCheck),
         "IsAccept":isAccept
       },

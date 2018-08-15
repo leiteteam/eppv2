@@ -27,6 +27,7 @@ export class TestProgressPage extends BasePage{
   testedList:any[] = [];
   reportedList:any[] = [];
 
+  testItems: any = { '1': '仅多环芳烃','2': '含多环芳烃','3': '无多环芳烃','4': '氰化物', '5': '入库无机包'};
   SampleCategorys = {
     "1":"表层土壤",
     "2":"深层土壤",

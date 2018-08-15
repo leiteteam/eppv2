@@ -22,6 +22,9 @@
 
 
 <ion-content no-padding no-margin>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingText="下拉清空列表"></ion-refresher-content>
+    </ion-refresher>
     <ion-list *ngIf="testList!=null&&testList.length>0" no-margin>
         <ion-card  *ngFor="let pack of testList" (click)="goToSpleDetail(pack)">
             <ion-item  no-lines detail-push>

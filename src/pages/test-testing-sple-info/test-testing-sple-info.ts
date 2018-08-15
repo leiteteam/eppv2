@@ -3,10 +3,10 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { BasePage } from '../base/base';
 import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
-import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
+import { AppGlobal } from '../../providers/app-service/app-service';
 
 /**
- * Generated class for the TestPackInfoPage page.
+ * Generated class for the TestTestingSpleInfoPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -14,11 +14,10 @@ import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-s
 
 @IonicPage()
 @Component({
-  selector: 'page-test-pack-info',
-  templateUrl: 'test-pack-info.html',
+  selector: 'page-test-testing-sple-info',
+  templateUrl: 'test-testing-sple-info.html',
 })
-export class TestPackInfoPage extends BasePage{
-  labSampleCode:string = "";
+export class TestTestingSpleInfoPage extends BasePage{
   packNo = "";
   pack:any = {};
   
@@ -34,7 +33,7 @@ export class TestPackInfoPage extends BasePage{
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TestPackInfoPage');
+    console.log('ionViewDidLoad TestTestingSpleInfoPage');
     this.queryPackInfo();
   }
 
@@ -50,35 +49,6 @@ export class TestPackInfoPage extends BasePage{
       },
       error => {
         this.toast(error);
-        this.navCtrl.pop();
-      },
-      true);
-  }
-
-  test(){
-    if (!this.labSampleCode){
-      this.toast("请输入关联内部码");
-      return;
-    }
-    this.net.httpPost(
-      AppGlobal.API.testFinish,
-      {
-        "username": AppServiceProvider.getInstance().userinfo.username,
-        "token": AppServiceProvider.getInstance().userinfo.token,
-        'TwoSampleId':this.pack.TwoSampleId,
-        "LabSampleCode":this.labSampleCode
-      },
-      msg => {
-        console.log(msg);
-        this.toastShort("测试成功");
-        this.navCtrl.pop();
-        if (this.navParams.data.callback){
-          this.navParams.data.callback(this.pack);
-        }
-      },
-      error => {
-        this.toast(error);
-        //this.navCtrl.pop();
       },
       true);
   }

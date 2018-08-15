@@ -6,62 +6,67 @@
 -->
 <ion-header>
 
-    <ion-navbar>
-      <ion-title>样品信息</ion-title>
-    </ion-navbar>
-  
-  </ion-header>
-  
-  <ion-content no-padding>
-    <ion-item no-lines style="min-height:3.5rem;background-color:rgb(236, 234, 234)">
-      <p item-start>主样品信息</p>
-    </ion-item>
+  <ion-navbar>
+    <ion-title>样品信息</ion-title>
+  </ion-navbar>
 
-    <ion-item style="margin-top: 0px;">
-      <ion-icon name="contrast" item-start color="primary"></ion-icon>
-      <ion-label>样品类型</ion-label>
-      <p item-end>{{SampleCategorys[pack.SampleCategory]}}</p>
-    </ion-item>
-    <ion-item style="margin-top: 0px;">
-      <ion-icon name="thermometer" item-start color="primary"></ion-icon>
-      <ion-label>采样深度(cm)</ion-label>
-      <p item-end>{{pack.depth}}</p>
-    </ion-item>
-    <ion-item style="margin-top: 0px;">
-      <ion-icon name="speedometer" item-start color="primary"></ion-icon>
-      <ion-label>样品重量(g)</ion-label>
-      <p item-end>{{pack.Weight}}</p>
-    </ion-item>
-    <ion-item style="margin-top: 0px;">
-      <ion-icon name="time" item-start color="primary"></ion-icon>
-      <ion-label>采样时间</ion-label>
-      <p item-end>{{pack.SampleDate}}</p>
-    </ion-item>
-  
-    <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(236, 234, 234)">
-      <p item-start>子样品信息</p>
-    </ion-item>
-  
-    <ion-item style="margin-top: 0px;">
-      <ion-icon name="flask" item-start color="primary"></ion-icon>
-      <ion-label>测试名称</ion-label>
-      <p style="width: 70%;text-align: right" item-end>{{pack.ParamCategoryNames}}</p>
-    </ion-item>
-    <ion-item style="margin-top: 0px;">
-      <ion-icon name="pricetag" item-start color="primary"></ion-icon>
-      <ion-label>二次编码</ion-label>
-      <p item-end>{{pack.TwoSampleId}}</p>
-    </ion-item>
-    <ion-item style="margin-top: 0px;">
-      <ion-icon name="speedometer" item-start color="primary"></ion-icon>
-      <ion-label>样品重量(g)</ion-label>
-      <p item-end>{{pack.SubWeight}}</p>
-    </ion-item>
-    <ion-item style="margin-top: 0px;">
-      <ion-icon name="grid" item-start color="primary"></ion-icon>
-      <ion-label>内部关联码</ion-label>
-      <ion-input (keydown)="keydown($event)" type="text" placeholder="请输入内部关联码"  [(ngModel)]="labSampleCode"></ion-input>
-    </ion-item>
-  
-  </ion-content>
-  
+</ion-header>
+
+<ion-content no-padding>
+  <ion-item no-lines style="min-height:3.5rem;background-color:rgb(236, 234, 234)">
+    <p item-start>主样品信息</p>
+  </ion-item>
+
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="contrast" item-start color="primary"></ion-icon>
+    <ion-label>样品类型</ion-label>
+    <p item-end>{{SampleCategorys[pack.SampleCategory]}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="thermometer" item-start color="primary"></ion-icon>
+    <ion-label>采样深度(cm)</ion-label>
+    <p item-end>{{pack.depth}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="speedometer" item-start color="primary"></ion-icon>
+    <ion-label>样品重量(g)</ion-label>
+    <p item-end>{{pack.Weight}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="time" item-start color="primary"></ion-icon>
+    <ion-label>采样时间</ion-label>
+    <p item-end>{{pack.SampleDate}}</p>
+  </ion-item>
+
+  <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(236, 234, 234)">
+    <p item-start>子样品信息</p>
+  </ion-item>
+
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="flask" item-start color="primary"></ion-icon>
+    <ion-label>测试名称</ion-label>
+    <p style="width: 70%;text-align: right" item-end>{{pack.ParamCategoryNames}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="pricetag" item-start color="primary"></ion-icon>
+    <ion-label>二次编码</ion-label>
+    <p item-end>{{pack.TwoSampleId}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="speedometer" item-start color="primary"></ion-icon>
+    <ion-label>样品重量(g)</ion-label>
+    <p item-end>{{pack.SubWeight}}</p>
+  </ion-item>
+  <ion-item style="margin-top: 0px;">
+    <ion-icon name="grid" item-start color="primary"></ion-icon>
+    <ion-label>内部关联码</ion-label>
+    <ion-input (keydown)="keydown($event)" type="text" placeholder="请输入内部关联码" [(ngModel)]="labSampleCode"></ion-input>
+  </ion-item>
+
+  <div class="ty-line15"></div>
+  <div text-center style="width:100%;overflow:auto;">
+    <div class="comfirm" float-left col-12 (click)="test()">
+      <p style="color:white;">测试完成</p>
+    </div>
+  </div>
+</ion-content>
