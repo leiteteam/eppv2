@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { BasePage } from '../base/base';
 import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
-import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
+import { AppGlobal } from '../../providers/app-service/app-service';
 
 /**
  * Generated class for the PrintAssistPage page.
@@ -70,7 +70,7 @@ export class PrintAssistPage extends BasePage{
       },
       msg => {
         console.log(msg);
-        
+        this.pack = JSON.parse(msg);
       },
       error => {
         this.toast(error);
