@@ -1,0 +1,27 @@
+page-print-assist {
+    .searchbar-ios .searchbar-input{
+        font-size: 1.3rem !important;
+        padding: 0;
+    }
+    
+    .card-ios{
+        text-align: center;
+        border-radius:0 !important;
+    }
+
+    .item-ios .item-button{
+        width: 65px;
+        height: 26px;
+    }
+
+    .empty{
+        text-align: center;
+        color: rgb(222, 222, 222)
+    }
+
+    .content{
+        background-color: color($colors,ty-partingline);
+    }
+
+    $item-ios-body-text-font-size:1.3rem;
+}

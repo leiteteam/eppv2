@@ -92,7 +92,7 @@ export class FlowMorePage extends BasePage{
   }
 
   printAssist(){
-
+    this.navCtrl.push("PrintAssistPage");
   }
 
 }

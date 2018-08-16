@@ -92,7 +92,7 @@ export class TestMorePage extends BasePage{
   }
 
   printAssist(){
-
+    this.navCtrl.push("PrintAssistPage");
   }
 
 }

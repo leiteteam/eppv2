@@ -92,7 +92,7 @@ export class PrepMorePage extends BasePage{
   }
 
   printAssist(){
-
+    this.navCtrl.push("PrintAssistPage");
   }
 
 }

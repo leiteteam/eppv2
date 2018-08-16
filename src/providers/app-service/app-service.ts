@@ -67,7 +67,8 @@ export class AppGlobal {
         testPackAcc:'/api/UpdateAcceptStatus/Post',
         testProgress:'/api/WaitTestSamples/Post',
         testPackInfo:'/api/TestSampleSearch/Post',
-        testFinish:'/api/TestFinish/Post'
+        testFinish:'/api/TestFinish/Post',
+        printAssist:'/api/PrintSampleSearch/Post'
     };
     static DATA:any ={
       uploadDoc:':8080/pc/data/uploadDoc',//文件上传
