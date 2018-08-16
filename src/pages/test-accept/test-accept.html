@@ -25,8 +25,8 @@
           <ion-refresher-content pullingText="下拉清空列表"></ion-refresher-content>
       </ion-refresher>
       <ion-list *ngIf="acceptList!=null&&acceptList.length>0" no-margin>
-          <ion-card  *ngFor="let pack of acceptList" (click)="goToSpleDetail(pack)">
-              <ion-item  no-lines detail-push>
+          <ion-card  *ngFor="let pack of acceptList">
+              <ion-item  no-lines>
                   <P style="color: #363636">样包编号:{{pack.PackageCode}}</P>
                   <P class="date">二次编码:{{pack.TwoSampleId}}</P>
                   <p class="date">实验室:{{pack.UnitName}}</p>

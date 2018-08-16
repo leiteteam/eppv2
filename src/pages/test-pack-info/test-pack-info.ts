@@ -18,11 +18,22 @@ import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-s
   templateUrl: 'test-pack-info.html',
 })
 export class TestPackInfoPage extends BasePage{
+
+  SampleCategorys = {
+    "1":"表层土壤",
+    "2":"深层土壤",
+    "3":"水稻",
+    "4":"小麦",
+    "5":"蔬菜及其他农产品",
+    "6":"其他"
+  };
+  
   labSampleCode:string = "";
   packNo = "";
   pack:any = {};
   
-  constructor(public net:TyNetworkServiceProvider,
+  constructor(
+    public net:TyNetworkServiceProvider,
     public navCtrl: NavController, 
     public navParams: NavParams,
     public device:DeviceIntefaceServiceProvider,

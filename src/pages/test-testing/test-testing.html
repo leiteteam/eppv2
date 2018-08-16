@@ -11,10 +11,10 @@
   </ion-navbar>
   <div style="width:100%;overflow:auto" class="msearchbar">
       <form action="#">
-          <ion-searchbar style="width: 90%;" cancelButtonText="取消" placeholder="扫描二维码或输入编号完成制备" float-left (keyup)="onkey($event)" [(ngModel)]="spleNo" [ngModelOptions]="{standalone: true}">
+          <ion-searchbar style="width: 90%;" cancelButtonText="取消" placeholder="扫描二维码或输入编号完成测试" float-left (keyup)="onkey($event)" [(ngModel)]="packNo" [ngModelOptions]="{standalone: true}">
           </ion-searchbar>
       </form>
-      <button no-padding no-margin ion-button clear float-right (click)="prepare()" style="width: 10%;">
+      <button no-padding no-margin ion-button clear float-right (click)="scan()" style="width: 10%;">
           <ion-icon name="qr-scanner" style="font-size: 2.6rem;"></ion-icon>
       </button>
     </div>
@@ -26,8 +26,8 @@
         <ion-refresher-content pullingText="下拉清空列表"></ion-refresher-content>
     </ion-refresher>
     <ion-list *ngIf="testList!=null&&testList.length>0" no-margin>
-        <ion-card  *ngFor="let pack of testList" (click)="goToSpleDetail(pack)">
-            <ion-item  no-lines detail-push>
+        <ion-card  *ngFor="let pack of testList">
+            <ion-item  no-lines>
                 <P style="color: #363636">样包编号:{{pack.PackageCode}}</P>
                 <P class="date">二次编码:{{pack.TwoSampleId}}</P>
                 <p class="date">实验室:{{pack.UnitName}}</p>

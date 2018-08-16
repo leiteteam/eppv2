@@ -40,7 +40,7 @@
     <div [ngSwitch]="progCategory">
       <div *ngIf="progCategory=='accept'">
         <ion-list *ngIf="acceptList!=null&&acceptList.length>0" no-margin>
-            <ion-card  *ngFor="let pack of acceptList" (click)="goToSpleDetail(pack)">
+            <ion-card  *ngFor="let pack of acceptList" (click)="goToAccSpleDetail(pack)">
                 <ion-item  no-lines detail-push>
                     <P style="color: #363636">样包编码:{{pack.PackageCode}}</P>
                     <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
@@ -57,7 +57,7 @@
   
       <div *ngIf="progCategory=='test'">
         <ion-list *ngIf="testList!=null&&testList.length>0" no-margin>
-            <ion-card  *ngFor="let pack of testList" (click)="goToSpleDetail(pack)">
+            <ion-card  *ngFor="let pack of testList" (click)="goToTestSpleDetail(pack)">
                 <ion-item  no-lines detail-push>
                     <P style="color: #363636">样包编号:{{pack.PackageCode}}</P>
                     <P class="date">二次编码:{{pack.TwoSampleId}}</P>
@@ -73,7 +73,7 @@
   
       <div *ngIf="progCategory=='tested'">
         <ion-list *ngIf="testedList!=null&&testedList.length>0" no-margin>
-            <ion-card  *ngFor="let pack of testedList" (click)="goToSpleDetail(pack)">
+            <ion-card  *ngFor="let pack of testedList" (click)="goToTestSpleDetail(pack)">
                 <ion-item  no-lines detail-push>
                     <P style="color: #363636">样包编号:{{pack.PackageCode}}</P>
                     <P class="date">二次编码:{{pack.TwoSampleId}}</P>
@@ -89,8 +89,8 @@
   
       <div *ngIf="progCategory=='reported'">
           <ion-list *ngIf="reportedList!=null&&reportedList.length>0" no-margin>
-              <ion-card  *ngFor="let pack of reportedList" (click)="goToSpleDetail(pack)">
-                  <ion-item  no-lines detail-push>
+              <ion-card  *ngFor="let pack of reportedList" >
+                  <ion-item  no-lines>
                       <P style="color: #363636">样包编号:{{pack.PackageCode}}</P>
                       <P class="date">二次编码:{{pack.TwoSampleId}}</P>
                       <p class="date">实验室:{{pack.UnitName}}</p>

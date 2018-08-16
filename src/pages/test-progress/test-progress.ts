@@ -77,26 +77,25 @@ export class TestProgressPage extends BasePage{
   }
 
   getAcceptList(){
-    this.net.httpPost(AppGlobal.API.progressList,{
+    this.net.httpPost(AppGlobal.API.testProgressAcc,{
       "username": AppServiceProvider.getInstance().userinfo.username,
-      "token": AppServiceProvider.getInstance().userinfo.token,
-      "statu":6
+      "token": AppServiceProvider.getInstance().userinfo.token
     },msg=>{
       let info = JSON.parse(msg);
-      this.acceptList = info.ProgList;
+      this.acceptList = info.list;
     },err=>{
       this.toast(err);
     },true);
   }
 
   getTestList(){
-    this.net.httpPost(AppGlobal.API.progressList,{
+    this.net.httpPost(AppGlobal.API.testProgress,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token,
-      "statu":7
+      "statu":12
     },msg=>{
       let info = JSON.parse(msg);
-      this.testList = info.ProgList;
+      this.testList = info.list;
     },err=>{
       this.toast(err);
     },true);
@@ -110,13 +109,13 @@ export class TestProgressPage extends BasePage{
 
   getTestedList(){
     return new Promise((resolve, reject) => {
-      this.net.httpPost(AppGlobal.API.progressList,{
+      this.net.httpPost(AppGlobal.API.testProgress,{
         "username": AppServiceProvider.getInstance().userinfo.username,
         "token": AppServiceProvider.getInstance().userinfo.token,
-        "statu":8
+        "statu":13
       },msg=>{
         let info = JSON.parse(msg);
-        this.testedList = info.ProgList;
+        this.testedList = info.list;
       },err=>{
         this.toast(err);
       },true);
@@ -125,20 +124,24 @@ export class TestProgressPage extends BasePage{
   }
 
   getReportedList(){
-    this.net.httpPost(AppGlobal.API.progressList,{
+    this.net.httpPost(AppGlobal.API.testProgress,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token,
-      "statu":9
+      "statu":14
     },msg=>{
       let info = JSON.parse(msg);
-      this.reportedList = info.ProgList;
+      this.reportedList = info.list;
     },err=>{
       this.toast(err);
     },true);
 
   }
 
-  goToSpleDetail(sple){
-    this.navCtrl.push("PrepSpleInfoPage",{taskid:sple.TaskID});
+  goToAccSpleDetail(sple){
+    this.navCtrl.push("TestAccPackInfoPage",{packNo:sple.PackageCode});
+  }
+
+  goToTestSpleDetail(sple){
+    this.navCtrl.push("TestTestingSpleInfoPage",{packNo:sple.TwoSampleId});
   }
 }

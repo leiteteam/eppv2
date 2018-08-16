@@ -49,7 +49,7 @@ export class TestAccPackInfoPage extends BasePage{
       "PackageCode": this.packNo
     },(msg)=>{
       this.pack = JSON.parse(msg);
-      this.subSpleList = this.pack.list;
+      this.subSpleList = this.pack.details;
     },err=>{
       this.toast(err);
     },true);

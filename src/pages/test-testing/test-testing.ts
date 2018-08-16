@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { BasePage } from '../base/base';
 import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
-import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 
 /**
  * Generated class for the TestTestingPage page.
@@ -60,7 +59,7 @@ export class TestTestingPage extends BasePage{
   scan(){
     this.device.push("qrCodeScan",'',(packNo)=>{
       console.log("packNo:"+packNo);
-      this.navCtrl.push("PrepSplePreparePage",{packNo:packNo,callback:this.callback});
+      this.navCtrl.push("TestPackInfoPage",{packNo:packNo,callback:this.callback});
     },(err)=>{
       this.toastShort(err);
     });

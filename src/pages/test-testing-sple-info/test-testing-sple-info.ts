@@ -18,6 +18,16 @@ import { AppGlobal } from '../../providers/app-service/app-service';
   templateUrl: 'test-testing-sple-info.html',
 })
 export class TestTestingSpleInfoPage extends BasePage{
+
+  SampleCategorys = {
+    "1":"表层土壤",
+    "2":"深层土壤",
+    "3":"水稻",
+    "4":"小麦",
+    "5":"蔬菜及其他农产品",
+    "6":"其他"
+  };
+  
   packNo = "";
   pack:any = {};
   
