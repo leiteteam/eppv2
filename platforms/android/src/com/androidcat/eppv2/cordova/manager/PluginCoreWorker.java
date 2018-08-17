@@ -23,6 +23,7 @@ import com.androidcat.eppv2.cordova.plugin.print.DzPrinterHelper;
 import com.androidcat.eppv2.cordova.plugin.qrcode.QrCodeHelper;
 import com.androidcat.eppv2.persistence.JepayDatabase;
 import com.androidcat.eppv2.persistence.bean.TaskData;
+import com.androidcat.eppv2.persistence.bean.Track;
 import com.androidcat.eppv2.persistence.bean.UserInfo;
 import com.androidcat.utilities.GsonUtil;
 import com.androidcat.utilities.SystemSettingUtil;
@@ -159,6 +160,7 @@ public class PluginCoreWorker {
       callbackContext.error("本地数据更新失败,请重新上传");
     }
   }
+
 
   public static void saveSample(CordovaPlugin plugin, String dataStr, final CallbackContext callbackContext) {
     JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
@@ -358,10 +360,13 @@ public class PluginCoreWorker {
     LocationActivity.doingUserId = "";
     LocationActivity.doingTaskId = "";
     LocationActivity.tracing = false;
-    if (database.updateTaskDataWithTrack(taskid)){
-      callbackContext.success();
-    }else {
-      callbackContext.error("");
+    JSONArray jsonArray = new JSONArray();
+
+    List<Track> list = database.getTrackList(taskid);
+    for (Track data : list){
+      String json = new Gson().toJson(data);
+      jsonArray.put(json);
     }
+    callbackContext.success(jsonArray);
   }
 }

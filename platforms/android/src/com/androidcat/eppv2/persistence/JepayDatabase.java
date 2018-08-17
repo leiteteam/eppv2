@@ -175,23 +175,13 @@ public class JepayDatabase {
     }
   }
 
-  public boolean updateTaskDataWithTrack(String taskid){
+  public String updateTaskDataWithTrack(String taskid){
     if (mDbUtils == null){
-      return false;
+      return "";
     }
-    try {
-      TaskData taskData = getTaskData(taskid);
-      if (taskData != null){
-        List<Track> tracks = getTrackList(taskid);
-        String track = new Gson().toJson(tracks,new TypeToken<List<Track>>(){}.getType());
-        taskData.track = track;
-        mDbUtils.replace(taskData);
-      }
-      return true;
-    } catch (DbException e) {
-      e.printStackTrace();
-      return false;
-    }
+    List<Track> tracks = getTrackList(taskid);
+    String track = new Gson().toJson(tracks,new TypeToken<List<Track>>(){}.getType());
+    return track;
   }
 
   public boolean updateTaskDataList(List<TaskData> list){

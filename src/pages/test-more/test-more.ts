@@ -95,4 +95,11 @@ export class TestMorePage extends BasePage{
     this.navCtrl.push("PrintAssistPage");
   }
 
+  about(){
+    this.navCtrl.push("TestDevPage");
+  }
+
+  dev(){
+    this.navCtrl.push("TestDevPage");
+  }
 }

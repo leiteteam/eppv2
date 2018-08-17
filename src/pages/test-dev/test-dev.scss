@@ -1,0 +1,10 @@
+page-test-dev {
+    .bgContent{
+        background:url('../assets/imgs/swim2.jpg') no-repeat top;
+        position: absolute;
+        top: 0 !important;
+        .scroll-content{
+            overflow-y: scroll;
+        }
+    }
+}
