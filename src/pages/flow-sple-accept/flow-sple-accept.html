@@ -20,9 +20,12 @@
     </div>
 </ion-header>
 
-<ion-content no-padding no-margin>
+<ion-content no-padding no-margin>        <ion-refresher-content pullingText="下拉刷新"></ion-refresher-content>
+n-it</ion-refresher>
+     <io-list *ngIf="acceptList!=null&&accepem  not.length>0" no-margin>
+        <ion-card  *
     <ion-refresher (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content pullingText="下拉刷新"></ion-refresher-content>
+        <ion-refresher-content pullingText="下拉清空"></ion-refresher-content>
     </ion-refresher>
     <ion-list *ngIf="acceptList!=null&&acceptList.length>0" no-margin>
         <ion-card  *ngFor="let sple of acceptList">
@@ -36,6 +39,3 @@
         </ion-card>
     </ion-list>
     <div class="empty" *ngIf="acceptList == null || acceptList.length==0 ">
-      <p>暂无内容</p>
-    </div>
-</ion-content>
