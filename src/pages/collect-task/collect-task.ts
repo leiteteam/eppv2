@@ -1,3 +1,4 @@
+import { DbServiceProvider } from './../../providers/db-service/db-service';
 import { BasePage } from './../base/base';
 import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface-service/device-inteface-service';
 import { CameraOptions, Camera } from '@ionic-native/camera';
@@ -17,6 +18,7 @@ import { IonicPage, NavController, NavParams, AlertController, ToastController }
   templateUrl: 'collect-task.html',
 })
 export class CollectTaskPage extends BasePage {
+  distanceNum:number = 500;
   //callback:any;
   spleTask:any;
   taskData:any;
@@ -31,7 +33,8 @@ export class CollectTaskPage extends BasePage {
   tipContent:string = "状态更改成功！";
   isStateFlag:boolean = true;
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, 
-    public device:DeviceIntefaceServiceProvider, private camera: Camera, public alertCtrl:AlertController) {
+    public device:DeviceIntefaceServiceProvider, private camera: Camera, public alertCtrl:AlertController,
+    public db:DbServiceProvider) {
     super(navCtrl, navParams, toastCtrl);
     //this.callback = navParams.get("callback");
     this.spleTask = navParams.get('spleTask');
@@ -82,8 +85,8 @@ export class CollectTaskPage extends BasePage {
       this.navCtrl.pop();
       return;
     }
-    if(!this.sampleData.FactLongitude || !this.sampleData.FactLatitude || this.sampleData.SampleDepthFrom == null || 
-      this.sampleData.SampleDepthFrom == '' || this.sampleData.SampleDepthTo == null || this.sampleData.SampleDepthTo == '' ||
+    if(!this.sampleData.FactLongitude || !this.sampleData.FactLatitude || this.sampleData.SampleDepthFrom == null ||
+      this.sampleData.SampleDepthFrom.toString() == "" || this.sampleData.SampleDepthTo == null || this.sampleData.SampleDepthTo.toString() == "" ||
      !this.sampleData.Weight || this.sampleData.SoilTexture == 0 || this.sampleData.SoilColor == 0 ){
       this.toast("请将带*的信息输入完整！");
       return;
@@ -92,8 +95,8 @@ export class CollectTaskPage extends BasePage {
       this.toast("GPS屏显、采样工作过程、采样负责人3张图片必须拍摄！");
       return;
     }
-    if(this.sampleData.DeviationDistance > 50 && (this.changeImg == null || !this.sampleData.ChangeReason)){
-      this.toast("偏移距离超过50米必须填写变更说明和拍摄变更照片！");
+    if(this.sampleData.DeviationDistance > this.distanceNum && (this.changeImg == null || !this.sampleData.ChangeReason)){
+      this.toast("偏移距离超过" + this.distanceNum + "米必须填写变更说明和拍摄变更照片！");
       return;
     }
     let pictures:any = JSON.stringify(this.sampleData.Pictures);
@@ -130,23 +133,42 @@ export class CollectTaskPage extends BasePage {
     } else if(pictures.length < (this.changeImg == null ? 7 : 8)){
       this.isStateFlag = false;
       this.tipContent = "但样点方位照没有拍全！";
-    } else if(!this.spleTask.isCompany){
+    } else if(!this.spleTask.samples.isCompany){
       this.isStateFlag = false;
       this.tipContent = "但企业信息没有填写！";
     }
     this.sampleData.Pictures = pictures;
     this.sampleData.TaskID = this.spleTask.taskid;
-
+    this.db.getString("organicSplTool",organicSplTool=>{
+      if (organicSplTool) {
+        this.sampleData.WJSampleTool = organicSplTool
+      }
+    });
+    this.db.getString("organicSplContainer",organicSplContainer=>{
+      if (organicSplContainer) {
+        this.sampleData.WJSampleContainer = organicSplContainer
+      }
+    });
+    this.db.getString("abioSplTool",abioSplTool=>{
+      if (abioSplTool) {
+        this.sampleData.YJSampleTool = abioSplTool
+      }
+    });
+    this.db.getString("abioSplContainer",abioSplContainer=>{
+      if (abioSplContainer) {
+        this.sampleData.YJSampleContainer = abioSplContainer
+      }
+    });
     //复制内存中当前的spleTask，用于数据保存
     //因为在上层ts中，完整的json对象才是可用可解析的，如果直接将spleTask的字段改成了string则无法识别
     //原始spleTask仍用于内存中使用，所以需保持同步更新字段内容
     let date = new Date();
-    if( this.spleTask.samples.SamplingTime = '' ){
-      this.spleTask.samples.SamplingTime =  date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    if( this.sampleData.SamplingTime == '' ){
+      this.sampleData.SamplingTime =  date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     }
-    let savingData = JSON.parse(JSON.stringify(this.spleTask));
     this.spleTask['samples'] = this.sampleData;
     this.spleTask['data'] = this.taskData;
+    let savingData = JSON.parse(JSON.stringify(this.spleTask));
     //如果不满足条件   则不改变任务状态，仅保存
     if(this.isStateFlag){
       this.spleTask.state = 1;
@@ -158,22 +180,31 @@ export class CollectTaskPage extends BasePage {
 
     let savingDataStr = JSON.stringify(savingData);
     console.log(savingDataStr);
-    this.device.push("saveSample",savingDataStr, success=> {
-      if(this.model == 0){
-        this.device.push("stopTracing",this.spleTask.taskid,success=>{
+    if(this.model == 0){
+      this.device.push("stopTracing",this.spleTask.taskid,success=>{
+
+        this.device.push("saveSample",savingDataStr, success=> {
+          this.toast("保存成功," + this.tipContent);
+          this.navCtrl.popToRoot();
           console.log(success);
         }, error => {
           console.log(error);
+          this.toast(error);
         });
-      }
-      this.toast("保存成功," + this.tipContent);
-      this.navCtrl.popToRoot();
-      console.log(success);
-    }, error => {
-      console.log(error);
-      this.toast(error);
-    });
-
+      }, error => {
+        console.log(error);
+      });
+    }else {
+      this.device.push("saveSample",savingDataStr, success=> {
+        this.toast("保存成功," + this.tipContent);
+        this.navCtrl.popToRoot();
+        console.log(success);
+      }, error => {
+        console.log(error);
+        this.toast(error);
+      });
+    }
+    
   }
   //跳转制码
   goSampleCode(){

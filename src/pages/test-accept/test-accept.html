@@ -27,8 +27,8 @@
       <ion-list *ngIf="acceptList!=null&&acceptList.length>0" no-margin>
           <ion-card  *ngFor="let pack of acceptList">
               <ion-item  no-lines>
-                  <P style="color: #363636">样包编号:{{pack.PackageCode}}</P>
-                  <P class="date">二次编码:{{pack.TwoSampleId}}</P>
+                  <P style="color: #363636">样品编码:{{pack.TwoSampleId}}</P>
+                  <p class="date">样包编号:{{pack.PackageCode}}</p>
                   <p class="date">实验室:{{pack.UnitName}}</p>
                   <p class="date">测试名称:{{pack.ParamCatetoryNames}}</p>
               </ion-item>

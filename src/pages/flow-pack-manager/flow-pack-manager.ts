@@ -1,3 +1,4 @@
+import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface-service/device-inteface-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { BasePage } from '../base/base';
@@ -33,7 +34,8 @@ export class FlowPackManagerPage extends BasePage{
     public net:TyNetworkServiceProvider,
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public toastCtrl:ToastController) {
+    public toastCtrl:ToastController,
+    public device:DeviceIntefaceServiceProvider) {
     super(navCtrl,navParams,toastCtrl);
   }
 
@@ -71,6 +73,23 @@ export class FlowPackManagerPage extends BasePage{
 
   gotoPackInfo(pack){
     this.navCtrl.push("FlowPackInfoPage",{packNo:pack.PackageCode,callback:this.callback});
+  }
+
+  print(pack){
+    this.device.push("printInit","hello print!",msg =>{
+      console.log("连接成功，正在打印...");
+      this.device.push("print", "包码:" + pack.PackageCode ,msg =>{
+        console.log("打印成功");
+      },err => {
+        this.toast(err);
+        console.log("push failed");
+        console.log(err);
+      });
+    },err => {
+      this.toast(err);
+      console.log("push failed");
+      console.log(err);
+    });
   }
 
   newPack(){

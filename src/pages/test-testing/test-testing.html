@@ -28,12 +28,12 @@
     <ion-list *ngIf="testList!=null&&testList.length>0" no-margin>
         <ion-card  *ngFor="let pack of testList">
             <ion-item  no-lines>
-                <P style="color: #363636">样包编号:{{pack.PackageCode}}</P>
-                <P class="date">二次编码:{{pack.TwoSampleId}}</P>
-                <p class="date">实验室:{{pack.UnitName}}</p>
-                <p class="date">测试名称:{{pack.ParamCatetoryNames}}</p>
+                <P style="color: #363636">样品编码:{{pack.TwoSampleId}}</P>
+                <p class="date">内部关联码:{{pack.LabSampleCode}}</p>
+                <p class="date">测试名称:{{pack.ParamCategoryNames}}</p>
             </ion-item>
         </ion-card>
+        
     </ion-list>
     <div class="empty" *ngIf="testList == null || testList.length==0 ">
       <p>暂无内容</p>

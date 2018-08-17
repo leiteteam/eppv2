@@ -144,22 +144,24 @@ export class PrepSpleElementPage extends BasePage {
     }
     this.boreDiameter[ele] = bore;
     let CommonValue = "";
-    for(let i = 0; i < (this.sple.QualityType == 4 ? 1 : 3); i++){
+    for(let i = 0; i < (parseInt(this.sple.QualityType) == 4 ? 1 : 3); i++){
       let qType = 5;
       if(i == 0){
         qType = 4;
+      }
+      if(parseInt(this.sple.QualityType) != 4){
         CommonValue = this.sple.SampleCode + (this.num < 10 ? "0"+ this.num : this.num);
       }
       this.subSample = {
         SubSampleId: this.sple.SampleCode + (this.num < 10 ? "0"+ this.num : this.num),
         SubSampleType: "2",
         ProjectType: 2,
-        Weight: parseInt(weight),
+        Weight: parseFloat(weight),
         ParamCatetoryIDs: this.ParamCatetoryIDs,
         ParamCatetoryNames: this.ParamCatetoryNames,
         QualityType: qType,
         RelationSampleId: CommonValue,
-        holeSize: parseInt(this.boreDiameter[ele])
+        holeSize: parseFloat(this.boreDiameter[ele])
       }
       this.num++;
       this.subSamples.push(this.subSample);

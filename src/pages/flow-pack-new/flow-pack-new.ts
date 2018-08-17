@@ -25,7 +25,7 @@ export class FlowPackNewPage extends BasePage{
       options: [
         { text: '普通检测样包', value: 1 },
         { text: '实验室间质控样包', value: 2 },
-        { text: '入库包', value: 3 }
+        // { text: '入库包', value: 3 }
       ]
     }
   ];

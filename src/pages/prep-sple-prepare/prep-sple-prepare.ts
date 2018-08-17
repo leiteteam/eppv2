@@ -1,7 +1,7 @@
 import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface-service/device-inteface-service';
 import { prepSubSample } from './../prep-sple-element/prep-sple-element';
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import { BasePage } from '../base/base';
 import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
@@ -41,7 +41,8 @@ export class PrepSplePreparePage extends BasePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private ref: ChangeDetectorRef, 
-    public device:DeviceIntefaceServiceProvider) {
+    public device:DeviceIntefaceServiceProvider,
+    public alertCtrl:AlertController) {
     super(navCtrl, navParams, toastCtrl);
     this.spleId = navParams.data.spleId;
   }
@@ -69,17 +70,29 @@ export class PrepSplePreparePage extends BasePage {
   }
 
   done() {
-    this.net.httpPost(AppGlobal.API.progressList,{
-      "username": AppServiceProvider.getInstance().userinfo.username,
-      "token": AppServiceProvider.getInstance().userinfo.token,
-      "TaskID": this.sple.TaskID,
-      "SubSamples": this.subSamples
-    },msg=>{
-      this.toast("提交成功！");
-      this.navCtrl.pop();
-    },err=>{
-      this.toast(err);
-    },true);
+    let alert = this.alertCtrl.create({
+      title: '提示信息',
+      message: '分样完成，并已制码？',
+      buttons: [{text: '取消'},
+      {
+        text:"确定",
+        handler: () => {
+          this.net.httpPost(AppGlobal.API.UpdateMadeSubSamples,{
+            "username": AppServiceProvider.getInstance().userinfo.username,
+            "token": AppServiceProvider.getInstance().userinfo.token,
+            "TaskID": this.sple.TaskID,
+            "SubSamples": this.subSamples
+          },msg=>{
+            msg = JSON.parse(msg);
+            this.toast(msg.desc);
+            this.navCtrl.pop();
+          },err=>{
+            this.toast(err);
+          },true);
+        }
+      }]
+    });
+    alert.present();
   }
 
   splitSple() {
@@ -105,7 +118,7 @@ export class PrepSplePreparePage extends BasePage {
     }, err => {
       this.toast(err);
       this.navCtrl.pop();
-    });
+    }, true);
   }
 
   spleCoding(subSampleId) {

@@ -137,7 +137,11 @@ export class SampleSplitPage extends BasePage {
     }
     if( this.subId == null || this.subId == '' ){
       this.subId = this.navParams.data.sampleCode;
+    }
+    if( this.taskData.QualityType == 2 || this.taskData.QualityType == 3 ){
       this.CommonValue = this.subId + this.num;
+    } else {
+      this.CommonValue = "";
     }
     let sub = new SubSample( this.subId + this.num++, 1, weight, 4, this.CommonValue, this.ParamCatetoryIDs.join(","), this.ParamNames.join(","));
     this.subSamples.push(sub.toJson());

@@ -28,7 +28,7 @@
     </div>
   </ion-item>
   <ion-item no-lines>
-    <p style="text-align: center;" [ngStyle]="{'color':sampleData.DeviationDistance > 50 ? '#f53d3d' : '#8aa88f' }">偏移距离：{{sampleData.DeviationDistance}} m</p>
+    <p style="text-align: center;" [ngStyle]="{'color':sampleData.DeviationDistance > distanceNum ? '#f53d3d' : '#8aa88f' }">偏移距离：{{sampleData.DeviationDistance}} m</p>
   </ion-item>
   <ion-item no-lines>
     <ion-textarea class="input-border" placeholder="样点变更说明" [disabled]="isFlagInput" [(ngModel)]="sampleData.ChangeReason"></ion-textarea>
@@ -57,13 +57,13 @@
     <ion-input type="number" class="input-border" [disabled]="isFlagInput" [(ngModel)]="sampleData.Weight"></ion-input>
   </ion-item>
   <ion-item no-lines detail-push>
-    <ion-label>土壤质地
+    <ion-label style="opacity: 1 !important;">土壤质地
       <span style="color: red">*</span>
     </ion-label>
     <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.SoilTexture" [multiPickerColumns]="soilTypes" doneText="确定" cancelText="取消"></ion-multi-picker>
   </ion-item>
   <ion-item no-lines detail-push>
-    <ion-label>三角表土壤颜色
+    <ion-label style="opacity: 1 !important;">三角表土壤颜色
       <span style="color: red">*</span>
     </ion-label>
     <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.SoilColor" [multiPickerColumns]="soilColors" doneText="确定"
@@ -93,7 +93,7 @@
           变更照片
         </div>
       </div>
-      <div style="margin-top:30px;margin-left:20px;margin-right:20px">
+      <div *ngIf="sampleData.DeviationDistance > distanceNum" style="margin-top:30px;margin-left:20px;margin-right:20px">
           <button ion-button block color="primary" (click)="save()">
             {{isFlagInput ? "退出" : "保存"}}
           </button>

@@ -47,6 +47,7 @@ export class AppGlobal {
         prepSpleMake:'/api/MadeSampleSearch/Post',
         prepSpleFlow:'/api/MadeSampleFlow/Post',
         prepSampleParams: "/api/MadeSampleParams/Post",
+        UpdateMadeSubSamples: "/api/UpdateMadeSubSamples/Post",
         unitInfo:'/api/UnitInfo/Post',
         flowProgress:'/api/FlowProgress/Post',
         flowSpleDetail:'/api/FlowSampleSearch/Post',

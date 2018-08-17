@@ -44,11 +44,11 @@ export class SpleInfoPage extends BasePage{
     a5:"样品保存方式符合要求(常温/低温/避光)"
   };
 
-  labelcheck:boolean = false;
-  weightcheck:boolean = false;
-  numcheck:boolean = false;
-  packcheck:boolean = false;
-  storagecheck:boolean = false;
+  labelcheck:boolean = true;
+  weightcheck:boolean = true;
+  numcheck:boolean = true;
+  packcheck:boolean = true;
+  storagecheck:boolean = true;
 
   constructor(public net:TyNetworkServiceProvider,
     public navCtrl: NavController, 
@@ -59,6 +59,10 @@ export class SpleInfoPage extends BasePage{
       super(navCtrl,navParams,toastCtrl);
       if (navParams.data.spleId){
         this.spleId = navParams.data.spleId;
+        if(this.spleId.length > 18){
+          this.isSub = true;
+          this.title = '子样品信息';
+        }
       }
   }
 
@@ -84,14 +88,14 @@ export class SpleInfoPage extends BasePage{
         'sampleCode':this.spleId
       },
       msg => {
+        msg = JSON.parse(msg);
         console.log(msg);
         if(msg.ret == 200){
-          let resp = JSON.parse(msg);
-          this.info = resp.info;
+          this.info = msg.info;
         }else{
           let alert = this.alertCtrl.create({
             title: '警告信息',
-            message: '该扫描的二维码数据不存在，请核对后再扫！',
+            message: msg.desc,
             buttons: ['确定']
           });
           alert.present();
@@ -118,7 +122,7 @@ export class SpleInfoPage extends BasePage{
       {
         "username": AppServiceProvider.getInstance().userinfo.username,
         "token": AppServiceProvider.getInstance().userinfo.token,
-        'sampleCode':this.info.SubSampleId?this.info.SubSampleId : this.info.MainSampleId,
+        'sampleCode':this.info.SubSampleId ? this.info.SubSampleId : this.info.SampleCode,
         "sampleCheck":JSON.stringify(sampleCheck)
       },
       msg => {

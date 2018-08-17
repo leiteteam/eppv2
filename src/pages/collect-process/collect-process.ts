@@ -36,13 +36,6 @@ export class CollectProcessPage extends BasePage {
     console.log(this.spleTask);
     this.taskData = this.spleTask['data'];
     this.model = navParams.data.model;
-    if(this.spleTask.isCompany == null){
-      if (this.taskData.Point.IsYXQ) {
-        this.spleTask.isCompany = false;
-      } else {
-        this.spleTask.isCompany = true;
-      }
-    }
     if (this.model == 2) {
       this.isFlagInput = true;
     }
@@ -64,6 +57,15 @@ export class CollectProcessPage extends BasePage {
             this.northImg = pictures[index].base64;
             break;
         }
+      }
+    } else {
+      this.spleTask['samples'] = this.sampleData; 
+    }
+    if(this.spleTask.samples.isCompany == null){
+      if (this.taskData.Point.IsYXQ) {
+        this.spleTask.samples.isCompany = false;
+      } else {
+        this.spleTask.samples.isCompany = true;
       }
     }
   }
@@ -107,7 +109,7 @@ export class CollectProcessPage extends BasePage {
     this.spleTask['samples'] = this.sampleData;
     //分段信息保存
     this.saveSample();
-    if(!this.spleTask.isCompany){
+    if(!this.spleTask.samples.isCompany){
       this.tipContent = ",但企业信息没有填写！";
     }
     this.navCtrl.push("CollectTaskPage", { model: this.model, spleTask: this.spleTask});
@@ -349,7 +351,7 @@ export class CollectProcessPage extends BasePage {
       }
       this.sampleData['company'] = company;
       this.spleTask['samples'] = this.sampleData;
-      this.spleTask.isCompany = true;
+      this.spleTask.samples.isCompany = true;
       this.saveSample();
       resolve();
     });
