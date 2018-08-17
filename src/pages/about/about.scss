@@ -1,0 +1,44 @@
+page-about {
+    //设置背景颜色
+    ion-content{
+        .fixed-content{
+            background: rgba($color: #000000, $alpha: 0) !important;
+        }
+        .scroll-content{
+            background: rgba($color: #000000, $alpha: 0) !important;
+        }
+        background: rgb(238, 237, 237) !important;
+
+        .item-ios{
+            background-color:rgb(253, 252, 252);
+        }
+    }
+
+    ion-footer{
+        top:0px !important;
+    }
+
+    .background{
+        width: 100%;
+        height: 100% !important;
+        background-position: top;
+        background-image: url(../assets/imgs/blur_bg.jpg);
+        background-repeat: no-repeat;
+        background-size:100% 260px; 
+        z-index: 1;
+    }
+
+    .logoHeader{
+        margin-top: 90px;
+        margin-bottom: 60px;
+        width: 100px;
+        height: 100px;
+    }
+
+    .iputcenter{
+        width: 90%;
+        margin:0 auto;
+        text-align: center;
+    }
+
+}

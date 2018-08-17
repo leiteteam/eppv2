@@ -152,6 +152,6 @@ export class SettingPage extends BasePage{
   }
 
   about(){
-    this.navCtrl.push("TestDevPage");
+    this.navCtrl.push("AboutPage");
   }
 }

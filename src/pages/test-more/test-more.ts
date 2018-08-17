@@ -96,7 +96,7 @@ export class TestMorePage extends BasePage{
   }
 
   about(){
-    this.navCtrl.push("TestDevPage");
+    this.navCtrl.push("AboutPage");
   }
 
   dev(){

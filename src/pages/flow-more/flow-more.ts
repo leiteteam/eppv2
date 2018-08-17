@@ -95,4 +95,7 @@ export class FlowMorePage extends BasePage{
     this.navCtrl.push("PrintAssistPage");
   }
 
+  about(){
+    this.navCtrl.push("AboutPage");
+  }
 }
