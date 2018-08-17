@@ -19,6 +19,7 @@ import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-s
 })
 export class PrepProgressPage extends BasePage{
 
+  tabIndex:number = 0;
   progCategory: any = "accept";
   spleType = "main";
   tabList = [{name:"accept",count:4},{name:"prepare",count:0},{name:"flow",count:0},{name:"flowed",count:0}];
@@ -55,8 +56,29 @@ export class PrepProgressPage extends BasePage{
     this.getAcceptList();
   }
 
+  doRefresh(refresher) {
+    //刷新
+    console.log("下拉刷新");
+    if (this.tabIndex == 0){
+      this.getAcceptList(refresher);
+    }
+
+    if (this.tabIndex == 1){
+      this.getPrepareList(refresher);
+    }
+
+    if (this.tabIndex == 2){
+      this.getFlowList(refresher);
+    }
+
+    if (this.tabIndex == 3){
+      this.getFlowedList(refresher);
+    }
+  }
+
   segmentClick(index:number) {
     //alert(this.dictCode[item]);
+    this.tabIndex = index;
     this.progCategory = this.tabList[index].name;
     if (index == 0){
       this.getAcceptList();
@@ -75,7 +97,7 @@ export class PrepProgressPage extends BasePage{
     }
   }
 
-  getAcceptList(){
+  getAcceptList(refresher?){
     this.net.httpPost(AppGlobal.API.progressList,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token,
@@ -83,12 +105,14 @@ export class PrepProgressPage extends BasePage{
     },msg=>{
       let info = JSON.parse(msg);
       this.acceptList = info.ProgList;
+      this.refreshDone(refresher);
     },err=>{
       this.toast(err);
+      this.refreshDone(refresher);
     },true);
   }
 
-  getPrepareList(){
+  getPrepareList(refresher?){
     this.net.httpPost(AppGlobal.API.progressList,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token,
@@ -96,8 +120,10 @@ export class PrepProgressPage extends BasePage{
     },msg=>{
       let info = JSON.parse(msg);
       this.prepareList = info.ProgList;
+      this.refreshDone(refresher);
     },err=>{
       this.toast(err);
+      this.refreshDone(refresher);
     },true);
 
   }
@@ -107,7 +133,7 @@ export class PrepProgressPage extends BasePage{
     profileModal.present();
   }
 
-  getFlowList(){
+  getFlowList(refresher?){
     return new Promise((resolve, reject) => {
       this.net.httpPost(AppGlobal.API.progressList,{
         "username": AppServiceProvider.getInstance().userinfo.username,
@@ -116,14 +142,16 @@ export class PrepProgressPage extends BasePage{
       },msg=>{
         let info = JSON.parse(msg);
         this.flowList = info.ProgList;
+        this.refreshDone(refresher);
       },err=>{
         this.toast(err);
+        this.refreshDone(refresher);
       },true);
 
     });
   }
 
-  getFlowedList(){
+  getFlowedList(refresher?){
     this.net.httpPost(AppGlobal.API.progressList,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token,
@@ -131,8 +159,10 @@ export class PrepProgressPage extends BasePage{
     },msg=>{
       let info = JSON.parse(msg);
       this.flowedList = info.ProgList;
+      this.refreshDone(refresher);
     },err=>{
       this.toast(err);
+      this.refreshDone(refresher);
     },true);
 
   }
@@ -141,4 +171,9 @@ export class PrepProgressPage extends BasePage{
     this.navCtrl.push("PrepSpleInfoPage",{taskid:sple.TaskID});
   }
 
+  refreshDone(refresher){
+    if (refresher){
+      refresher.complete();
+    }
+  }
 }

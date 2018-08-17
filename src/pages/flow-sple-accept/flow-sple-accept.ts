@@ -41,6 +41,13 @@ export class FlowSpleAcceptPage extends BasePage{
     console.log('ionViewDidLoad FlowSpleAcceptPage');
   }
 
+  doRefresh(refresher) {
+    //刷新
+    console.log("下拉刷新");
+    this.acceptList = [];
+    refresher.complete();
+  }
+
   /**
    * 监听键盘enter键
    * @param event 

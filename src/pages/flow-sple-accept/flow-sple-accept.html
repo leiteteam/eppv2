@@ -21,6 +21,9 @@
 </ion-header>
 
 <ion-content no-padding no-margin>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingText="下拉刷新"></ion-refresher-content>
+    </ion-refresher>
     <ion-list *ngIf="acceptList!=null&&acceptList.length>0" no-margin>
         <ion-card  *ngFor="let sple of acceptList">
             <ion-item  no-lines>

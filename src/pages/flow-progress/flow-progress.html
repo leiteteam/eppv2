@@ -28,6 +28,9 @@
 
 
 <ion-content no-padding no-margin>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingText="下拉刷新"></ion-refresher-content>
+    </ion-refresher>
   <div class="ty-line15"></div>
   <!-- <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>

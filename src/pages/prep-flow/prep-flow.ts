@@ -35,6 +35,15 @@ export class PrepFlowPage extends BasePage{
     console.log('ionViewDidLoad PrepPrparePage');
   }
 
+  doRefresh(refresher) {
+    //刷新
+    console.log("下拉刷新");
+    this.flowList = [];
+    if (refresher != null) {
+      refresher.complete();
+    }
+  }
+
   /**
    * 监听键盘enter键
    * @param event 

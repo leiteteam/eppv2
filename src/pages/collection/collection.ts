@@ -18,6 +18,7 @@ import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-
   templateUrl: 'collection.html',
 })
 export class CollectionPage extends BasePage{
+  tabIndex:number = 0;
   spleCategory: any = "todo";
   spleType = "main";
   tabList = [{name:"todo",count:4},{name:"done",count:0},{name:"uploaded",count:0},{name:"togo",count:0}];
@@ -68,8 +69,29 @@ export class CollectionPage extends BasePage{
     this.getTodoList();
   }
 
+  doRefresh(refresher) {
+    //刷新
+    console.log("下拉刷新");
+    if (this.tabIndex == 0){
+      this.getTodoList(refresher);
+    }
+
+    if (this.tabIndex == 1){
+      this.getDoneList(refresher);
+    }
+
+    if (this.tabIndex == 2){
+      this.getUploadedList(refresher);
+    }
+
+    if (this.tabIndex == 3){
+      this.getFlowedList(refresher);
+    }
+  }
+
   segmentClick(index:number) {
     //alert(this.dictCode[item]);
+    this.tabIndex = index;
     this.spleCategory = this.tabList[index].name;
     if (index == 0){
       this.getTodoList();
@@ -88,7 +110,7 @@ export class CollectionPage extends BasePage{
     }
   }
 
-  getTodoList(){
+  getTodoList(refresher?){
     this.device.push(
       "getTodoList",
       AppServiceProvider.getInstance().userinfo.username,
@@ -103,15 +125,17 @@ export class CollectionPage extends BasePage{
           }
           this.todoList.push(task);
         });
+        this.refreshDone(refresher);
       },
       (err)=>{
         this.toast(err);
+        this.refreshDone(refresher);
       }
       ,true
     );
   }
 
-  getDoneList(){
+  getDoneList(refresher?){
     this.device.push(
       "getDoneList",
       AppServiceProvider.getInstance().userinfo.username,
@@ -125,9 +149,11 @@ export class CollectionPage extends BasePage{
           }
           this.doneList.push(task);
         });
+        this.refreshDone(refresher);
       },
       (err)=>{
         this.toast(err);
+        this.refreshDone(refresher);
       }
       ,true
     );
@@ -157,7 +183,7 @@ export class CollectionPage extends BasePage{
     }
   }
 
-  getUploadedList(){
+  getUploadedList(refresher?){
     return new Promise((resolve, reject) => {
       this.net.httpPost(
         AppGlobal.API.taskList,
@@ -189,16 +215,18 @@ export class CollectionPage extends BasePage{
               this.uploadedList.push(task);
             }
           });
+          this.refreshDone(refresher);
           resolve();
         },
         error => {
           this.toastShort(error);
+          this.refreshDone(refresher);
         },
         true);
     });
   }
 
-  getFlowedList(){
+  getFlowedList(refresher?){
     this.net.httpPost(
       AppGlobal.API.flowedList,
       {
@@ -210,11 +238,19 @@ export class CollectionPage extends BasePage{
         let info = JSON.parse(msg);
         this.flowedMainSpleList = info.MainSamples;
         this.flowedSubSpleList = info.SubSamples;
+
+        this.refreshDone(refresher);
       },
       error => {
         this.toastShort(error);
+        this.refreshDone(refresher);
       },
       true);
   }
 
+  refreshDone(refresher){
+    if (refresher){
+      refresher.complete();
+    }
+  }
 }

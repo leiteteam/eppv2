@@ -51,7 +51,7 @@ export class FlowPackNewPage extends BasePage{
         { text: '含多环芳烃', value: 2 },
         { text: '无多环芳烃', value: 3 },
         { text: '氰化物', value: 4 },
-        { text: '入库无机包', value: 5 }
+        { text: '无机包', value: 5 }
       ]
     }
   ];

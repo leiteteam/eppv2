@@ -41,6 +41,14 @@ export class PrepSpleAcceptPage  extends BasePage{
     console.log('ionViewDidLoad PrepSpleAcceptPage');
   }
 
+
+  doRefresh(refresher) {
+    //刷新
+    console.log("下拉刷新");
+    this.acceptList = [];
+    refresher.complete();
+  }
+
   /**
    * 监听键盘enter键
    * @param event 
