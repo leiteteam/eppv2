@@ -32,10 +32,11 @@
   
   
   <ion-content no-padding no-margin>
+      <ion-refresher (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content pullingText="下拉刷新"></ion-refresher-content>
+      </ion-refresher>
     <div class="ty-line15"></div>
-    <!-- <ion-refresher (ionRefresh)="doRefresh($event)">
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher> -->
+    
     <!-- 推荐 -->
     <div [ngSwitch]="progCategory">
       <div *ngIf="progCategory=='accept'">
@@ -87,7 +88,7 @@
         </div>
       </div>
   
-      <div *ngIf="progCategory=='reported'">
+      <div *ngIf="showReported && progCategory=='reported'">
           <ion-list *ngIf="reportedList!=null&&reportedList.length>0" no-margin>
               <ion-card  *ngFor="let pack of reportedList" >
                   <ion-item  no-lines>

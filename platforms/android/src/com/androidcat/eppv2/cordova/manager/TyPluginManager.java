@@ -307,6 +307,10 @@ public class TyPluginManager {
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.stopTracing(plugin,commandData,callbackContext);
       }
+      else if("version".equals(code)){
+        String version = com.androidcat.utilities.Utils.getVersionName(plugin.cordova.getActivity());
+        callbackContext.success(version);
+      }
     } catch (JSONException e) {
       e.printStackTrace();
       callbackContext.error("解析缓存信息出错");

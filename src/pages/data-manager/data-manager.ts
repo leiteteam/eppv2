@@ -1,6 +1,6 @@
 import { Events } from 'ionic-angular/util/events';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController } from 'ionic-angular';
 import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 import { BasePage } from '../base/base';
@@ -31,6 +31,7 @@ export class DataManagerPage extends BasePage{
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     public alertCtrl:AlertController,
+    public loadingCtrl:LoadingController,
     private net: TyNetworkServiceProvider,
     private device: DeviceIntefaceServiceProvider,
     public toastCtrl: ToastController,
@@ -200,13 +201,33 @@ export class DataManagerPage extends BasePage{
   }
 
   upload(){
-    this.getDoneTaskList()
-    .then((taskList)=>{
-      return this.uploadSamples(taskList);
-    })
-    .then((taskidList)=>{
-      return this.updateTaskToUploaded(taskidList);
+    let alert = this.alertCtrl.create({
+      title: '温馨提示',
+      message: '上传任务是您工作成果的提交，由于数据量较大，请确保当前网络畅通稳定后上传',
+      buttons: [
+        {
+          text: '等会再传'
+        },
+        {
+          text: '开始上传',
+          handler: () => {
+            this.failNum = 0;
+            this.successNum = 0;
+            this.getDoneTaskList()
+            .then((taskList)=>{
+              return this.uploadSamples(taskList);
+            })
+            .then((taskidList)=>{
+              return this.updateTaskToUploaded(taskidList);
+            })
+            .then(()=>{
+              this.countTask();
+            });
+          }
+        }
+      ]
     });
+    alert.present();
   }
 
   getDoneTaskList(){
@@ -266,9 +287,65 @@ export class DataManagerPage extends BasePage{
     });
   }
 
+  uploadSamplesOneByOne(taskList){
+    return new Promise((resolve,reject)=>{
+      let spleList:any[] = [];
+      let taskidList:string[] = [];
+      taskList.forEach(element => {
+        let task = JSON.parse(element);
+        task.data = JSON.parse(task.data);
+        if (task.samples){
+          task.samples = JSON.parse(task.samples);
+        }
+        spleList.push(task.samples);
+      });
+
+      if (spleList.length == 0){
+        this.toastShort("当前无可上传样品数据.");
+        reject();
+      }else {
+        let index = 0;
+        let loadingConf = {
+          spinner: 'ios',
+          content:'正在上传任务，请确保网络通畅稳定...'+index+'/'+spleList.length
+        };
+        let loading = this.loadingCtrl.create(loadingConf);
+        loading.present();
+        spleList.forEach(sple => {
+          index++;
+          loadingConf.content = '正在上传任务，请确保网络通畅稳定...'+index+'/'+spleList.length
+          this.net.httpPost(
+            AppGlobal.API.uploadSamples,
+            {
+              "username": AppServiceProvider.getInstance().userinfo.username,
+              "token": AppServiceProvider.getInstance().userinfo.token,
+              "samples":[spleList[index-1]]
+            },
+            msg => {
+              console.log(msg);
+              this.successNum++;
+              taskidList.push(sple.TaskID);
+            },
+            error => {
+              this.toastShort(error);
+              this.failNum++;
+            },
+            false);
+        });
+        loading.dismiss();
+        resolve(taskidList);
+      }
+    });
+  }
+
   updateTaskToUploaded(taskidList){
-    this.device.push("updateTaskDataToUploaded",JSON.stringify(taskidList),success=>{
-      this.toast("上传成功!");
+    return new Promise((resolve,reject)=>{
+      this.device.push("updateTaskDataToUploaded",JSON.stringify(taskidList),success=>{
+        this.toast("上传成功!");
+        resolve();
+      },fail=>{
+        reject();
+      });
     });
   }
 

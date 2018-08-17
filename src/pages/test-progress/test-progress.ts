@@ -19,6 +19,7 @@ import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-s
 })
 export class TestProgressPage extends BasePage{
 
+  tabIndex:number = 0;
   progCategory: any = "accept";
   spleType = "main";
   tabList = [{name:"accept",count:4},{name:"test",count:0},{name:"tested",count:0},{name:"reported",count:0}];
@@ -27,7 +28,7 @@ export class TestProgressPage extends BasePage{
   testedList:any[] = [];
   reportedList:any[] = [];
 
-  testItems: any = { '1': '仅多环芳烃','2': '含多环芳烃','3': '无多环芳烃','4': '氰化物', '5': '入库无机包'};
+  testItems: any = { '1': '仅多环芳烃','2': '含多环芳烃','3': '无多环芳烃','4': '氰化物', '5': '无机包'};
   SampleCategorys = {
     "1":"表层土壤",
     "2":"深层土壤",
@@ -56,8 +57,26 @@ export class TestProgressPage extends BasePage{
     this.getAcceptList();
   }
 
+  doRefresh(refresher) {
+    //刷新
+    console.log("下拉刷新");
+    if (this.tabIndex == 0){
+      this.getAcceptList(refresher);
+    }
+
+    if (this.tabIndex == 1){
+      this.getTestList(refresher);
+    }
+
+    if (this.tabIndex == 2){
+      this.getTestedList(refresher);
+    }
+
+  }
+
   segmentClick(index:number) {
     //alert(this.dictCode[item]);
+    this.tabIndex = index;
     this.progCategory = this.tabList[index].name;
     if (index == 0){
       this.getAcceptList();
@@ -76,19 +95,21 @@ export class TestProgressPage extends BasePage{
     }
   }
 
-  getAcceptList(){
+  getAcceptList(refresher?){
     this.net.httpPost(AppGlobal.API.testProgressAcc,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token
     },msg=>{
       let info = JSON.parse(msg);
       this.acceptList = info.list;
+      this.refreshDone(refresher);
     },err=>{
       this.toast(err);
+      this.refreshDone(refresher);
     },true);
   }
 
-  getTestList(){
+  getTestList(refresher?){
     this.net.httpPost(AppGlobal.API.testProgress,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token,
@@ -96,8 +117,10 @@ export class TestProgressPage extends BasePage{
     },msg=>{
       let info = JSON.parse(msg);
       this.testList = info.list;
+      this.refreshDone(refresher);
     },err=>{
       this.toast(err);
+      this.refreshDone(refresher);
     },true);
 
   }
@@ -107,7 +130,7 @@ export class TestProgressPage extends BasePage{
     profileModal.present();
   }
 
-  getTestedList(){
+  getTestedList(refresher?){
     return new Promise((resolve, reject) => {
       this.net.httpPost(AppGlobal.API.testProgress,{
         "username": AppServiceProvider.getInstance().userinfo.username,
@@ -116,14 +139,16 @@ export class TestProgressPage extends BasePage{
       },msg=>{
         let info = JSON.parse(msg);
         this.testedList = info.list;
+        this.refreshDone(refresher);
       },err=>{
         this.toast(err);
+        this.refreshDone(refresher);
       },true);
 
     });
   }
 
-  getReportedList(){
+  getReportedList(refresher?){
     this.net.httpPost(AppGlobal.API.testProgress,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token,
@@ -131,8 +156,10 @@ export class TestProgressPage extends BasePage{
     },msg=>{
       let info = JSON.parse(msg);
       this.reportedList = info.list;
+      this.refreshDone(refresher);
     },err=>{
       this.toast(err);
+      this.refreshDone(refresher);
     },true);
 
   }
@@ -143,5 +170,11 @@ export class TestProgressPage extends BasePage{
 
   goToTestSpleDetail(sple){
     this.navCtrl.push("TestTestingSpleInfoPage",{packNo:sple.TwoSampleId});
+  }
+
+  refreshDone(refresher){
+    if (refresher){
+      refresher.complete();
+    }
   }
 }

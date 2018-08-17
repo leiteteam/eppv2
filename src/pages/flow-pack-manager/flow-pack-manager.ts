@@ -26,7 +26,7 @@ export class FlowPackManagerPage extends BasePage{
 
   spleCates: any = { '1': '表层土壤','2': '深层土壤' ,'3': '农产品' };
 
-  testItems: any = { '1': '仅多环芳烃','2': '含多环芳烃','3': '无多环芳烃','4': '氰化物', '5': '入库无机包'};
+  testItems: any = { '1': '仅多环芳烃','2': '含多环芳烃','3': '无多环芳烃','4': '氰化物', '5': '无机包'};
 
   status: any = { '1': '可用','2': '已封包', '3': '已流转','4': '已接收'};
 
@@ -45,7 +45,13 @@ export class FlowPackManagerPage extends BasePage{
     this.flowPackList();
   }
 
-  flowPackList(){
+  doRefresh(refresher) {
+    //刷新
+    console.log("下拉刷新");
+    this.flowPackList(refresher);
+  }
+
+  flowPackList(refresher?){
     this.net.httpPost(AppGlobal.API.flowPackList,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token
@@ -53,8 +59,15 @@ export class FlowPackManagerPage extends BasePage{
       let info = JSON.parse(msg);
       this.packList = [];
       this.packList = info.packageList;
+
+      if (refresher) {
+        refresher.complete();
+      }
     },err=>{
       this.toast(err);
+      if (refresher) {
+        refresher.complete();
+      }
     },true);
   }
 

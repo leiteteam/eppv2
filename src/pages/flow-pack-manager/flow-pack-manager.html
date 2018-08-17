@@ -18,6 +18,9 @@
 </ion-header>
 
 <ion-content no-padding no-margin>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingText="下拉刷新"></ion-refresher-content>
+    </ion-refresher>
   <ion-list *ngIf="packList!=null&&packList.length>0" no-margin>
       <ion-card  *ngFor="let pack of packList" (click)="gotoPackInfo(pack);">
           <ion-item>
