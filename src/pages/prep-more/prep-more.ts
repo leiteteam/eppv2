@@ -95,4 +95,7 @@ export class PrepMorePage extends BasePage{
     this.navCtrl.push("PrintAssistPage");
   }
 
+  about(){
+    this.navCtrl.push("AboutPage");
+  }
 }
