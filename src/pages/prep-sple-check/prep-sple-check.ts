@@ -44,11 +44,11 @@ export class PrepSpleCheckPage extends BasePage{
     a5:"样品保存方式符合要求(常温/低温/避光)"
   };
 
-  labelcheck:boolean = false;
-  weightcheck:boolean = false;
-  numcheck:boolean = false;
-  packcheck:boolean = false;
-  storagecheck:boolean = false;
+  labelcheck:boolean = true;
+  weightcheck:boolean = true;
+  numcheck:boolean = true;
+  packcheck:boolean = true;
+  storagecheck:boolean = true;
 
   constructor(public net:TyNetworkServiceProvider,
     public navCtrl: NavController, 
@@ -109,7 +109,7 @@ export class PrepSpleCheckPage extends BasePage{
       {
         "username": AppServiceProvider.getInstance().userinfo.username,
         "token": AppServiceProvider.getInstance().userinfo.token,
-        'sampleCode':this.info.SubSampleId?this.info.SubSampleId : this.info.MainSampleId,
+        'SampleCode':this.info.SubSampleId?this.info.SubSampleId : this.info.SampleCode,
         "ZbCheck":JSON.stringify(sampleCheck),
         "IsAccept":isAccept
       },

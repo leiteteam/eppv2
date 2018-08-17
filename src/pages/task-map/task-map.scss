@@ -7,6 +7,10 @@ page-task-map {
         opacity: 0;
     }
 
+    .text-color {
+        color: #eee;
+    }
+
     .item-ios{
         background-color: transparent !important;
     }
@@ -21,6 +25,10 @@ page-task-map {
     }
     .btn-group input[type="checkbox"], .btn-group input[type="radio"] {
         display: none;
+    }
+
+    .btn-group input[type="checkbox"]:checked + .btn-group {
+        background-color: #3DEF9D;
     }
     
     .btn-group input[type="checkbox"] + label, .btn-group input[type="radio"] + label, .btn-group input[type="text"], .btn-group input[type="number"] {
@@ -47,5 +55,21 @@ page-task-map {
         border: 1px solid #429170;
         color: #eee;
         background: #429170;
+    }
+    .btn-group .dai input[type="checkbox"]:checked + label, .btn-group .dai input[type="radio"]:checked + label {
+        border: 1px solid #3CAEF0;
+        background: #3CAEF0;
+    }
+    .btn-group .cun input[type="checkbox"]:checked + label, .btn-group .cun input[type="radio"]:checked + label {
+        border: 1px solid #EF543E;
+        background: #EF543E;
+    }
+    .btn-group .chuan input[type="checkbox"]:checked + label, .btn-group .chuan input[type="radio"]:checked + label {
+        border: 1px solid #3DEF9D;
+        background: #3DEF9D;
+    }
+    .btn-group .che input[type="checkbox"]:checked + label, .btn-group .che input[type="radio"]:checked + label {
+        border: 1px solid #EF3DC3;
+        background: #EF3DC3;
     }
 }

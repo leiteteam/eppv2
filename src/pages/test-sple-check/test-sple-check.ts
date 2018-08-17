@@ -42,11 +42,11 @@ export class TestSpleCheckPage extends BasePage{
     a5:"样品保存方式符合要求(常温/低温/避光)"
   };
 
-  labelcheck:boolean = false;
-  weightcheck:boolean = false;
-  numcheck:boolean = false;
-  packcheck:boolean = false;
-  storagecheck:boolean = false;
+  labelcheck:boolean = true;
+  weightcheck:boolean = true;
+  numcheck:boolean = true;
+  packcheck:boolean = true;
+  storagecheck:boolean = true;
 
   constructor(
     public net:TyNetworkServiceProvider,

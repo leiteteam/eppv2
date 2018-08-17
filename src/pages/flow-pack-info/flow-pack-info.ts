@@ -93,6 +93,7 @@ export class FlowPackInfoPage extends BasePage{
     this.net.httpPost(AppGlobal.API.flowPackAddSple,{
       "username": AppServiceProvider.getInstance().userinfo.username,
       "token": AppServiceProvider.getInstance().userinfo.token,
+      "PackageCode": this.packNo,
       "SubSampleId":spleNo
     },(msg)=>{
       let info = JSON.parse(msg);

@@ -46,11 +46,11 @@
     <ion-list *ngIf="subSpleList!=null&&subSpleList.length>0" no-margin>
         <ion-card  *ngFor="let sple of subSpleList">
             <ion-item>
-              <h5 item-start>样包编码:{{sple.TwoSampleId}}</h5>
+              <h5 item-start>样品编码:{{sple.TwoSampleId}}</h5>
               <button item-end ion-button (click)="print(sple)">制码</button>
             </ion-item>
             <ion-item>
-                <h5 item-start>样包编号:{{sple.SubSampleId}}</h5>
+                <h5 item-start>样品编号:{{sple.SubSampleId}}</h5>
                 <button *ngIf="pack.Status == 1" item-end ion-button (click)="delSple(sple)">删除</button>
             </ion-item>
         </ion-card>
