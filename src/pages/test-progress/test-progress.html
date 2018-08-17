@@ -23,7 +23,7 @@
         已测试
         <div class="bolder-sm"></div>
       </ion-segment-button>
-      <ion-segment-button value="reported" (click)="segmentClick(3)">
+      <ion-segment-button *ngIf="showReported" value="reported" (click)="segmentClick(3)">
         已上报
         <div class="bolder-sm"></div>
       </ion-segment-button>
