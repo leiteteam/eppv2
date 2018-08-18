@@ -108,7 +108,7 @@ export class TestDevPage extends BasePage{
     taskid:"286",
     state:0,
     userid:"wh",
-    data:"",
+    data:"{}",
     samples:JSON.stringify(this.sple)
   };
 
@@ -126,6 +126,10 @@ export class TestDevPage extends BasePage{
   }
 
   stopTracing(){
-    this.device.push( "stopTracing", this.task.taskid );
+    this.device.push( "stopTracing", this.task.taskid ,track=>{
+			this.sple.route = track;
+			this.task.samples = JSON.stringify(this.sple);
+			this.import();
+		});
   }
 }

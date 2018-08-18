@@ -11,6 +11,10 @@ import com.lidroid.xutils.db.annotation.Table;
 
 @Table(name = "Track")
 public class Track {
+  @Id
+  @Column(column = "id")
+  public long id;
+
   @Column(column = "userid")
   public String userid;
 
@@ -24,7 +28,6 @@ public class Track {
   @Column(column = "lng")
   public String lng;
 
-  @Id
   @Column(column = "time")
   public long time;
 }

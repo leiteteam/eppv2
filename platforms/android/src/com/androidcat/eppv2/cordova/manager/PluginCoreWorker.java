@@ -34,6 +34,7 @@ import com.flyco.animation.FlipEnter.FlipVerticalSwingEnter;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.cordova.CallbackContext;
@@ -365,7 +366,13 @@ public class PluginCoreWorker {
     List<Track> list = database.getTrackList(taskid);
     for (Track data : list){
       String json = new Gson().toJson(data);
-      jsonArray.put(json);
+      try {
+        JSONObject track = new JSONObject(json);
+        jsonArray.put(track);
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
+
     }
     callbackContext.success(jsonArray);
   }

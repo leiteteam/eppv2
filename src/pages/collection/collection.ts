@@ -111,52 +111,58 @@ export class CollectionPage extends BasePage{
   }
 
   getTodoList(refresher?){
-    this.device.push(
-      "getTodoList",
-      AppServiceProvider.getInstance().userinfo.username,
-      (taskList)=>{
-        //console.log(JSON.stringify(taskList));
-        this.todoList = [];
-        taskList.forEach(element => {
-          let task = JSON.parse(element);
-          task.data = JSON.parse(task.data);
-          if (task.samples){
-            task.samples = JSON.parse(task.samples);
-          }
-          this.todoList.push(task);
-        });
-        this.refreshDone(refresher);
-      },
-      (err)=>{
-        this.toast(err);
-        this.refreshDone(refresher);
-      }
-      ,true
-    );
+    try {
+      this.device.push(
+        "getTodoList",
+        AppServiceProvider.getInstance().userinfo.username,
+        (taskList)=>{
+          //console.log(JSON.stringify(taskList));
+          this.todoList = [];
+          taskList.forEach(element => {
+            let task = JSON.parse(element);
+            task.data = JSON.parse(task.data);
+            if (task.samples){
+              task.samples = JSON.parse(task.samples);
+            }
+            this.todoList.push(task);
+          });
+          this.refreshDone(refresher);
+        },
+        (err)=>{
+          this.toast(err);
+          this.refreshDone(refresher);
+        }
+        ,true);
+    } catch (error) {
+      this.refreshDone(refresher);
+    }
   }
 
   getDoneList(refresher?){
-    this.device.push(
-      "getDoneList",
-      AppServiceProvider.getInstance().userinfo.username,
-      (taskList)=>{
-        this.doneList = [];
-        taskList.forEach(element => {
-          let task = JSON.parse(element);
-          task.data = JSON.parse(task.data);
-          if (task.samples){
-            task.samples = JSON.parse(task.samples);
-          }
-          this.doneList.push(task);
-        });
-        this.refreshDone(refresher);
-      },
-      (err)=>{
-        this.toast(err);
-        this.refreshDone(refresher);
-      }
-      ,true
-    );
+    try {
+      this.device.push(
+        "getDoneList",
+        AppServiceProvider.getInstance().userinfo.username,
+        (taskList)=>{
+          this.doneList = [];
+          taskList.forEach(element => {
+            let task = JSON.parse(element);
+            task.data = JSON.parse(task.data);
+            if (task.samples){
+              task.samples = JSON.parse(task.samples);
+            }
+            this.doneList.push(task);
+          });
+          this.refreshDone(refresher);
+        },
+        (err)=>{
+          this.toast(err);
+          this.refreshDone(refresher);
+        }
+        ,true);
+    } catch (error) {
+      this.refreshDone(refresher);
+    }
   }
 
   spleDetail(sple,isSub){
