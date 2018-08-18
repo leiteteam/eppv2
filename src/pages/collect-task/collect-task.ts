@@ -174,15 +174,15 @@ export class CollectTaskPage extends BasePage {
       this.spleTask.state = 1;
       savingData.state = 1;
     }
-    //这里我们复制出一个对象用于保存，将字段变换成底层接口需要的形式
-    savingData.samples = JSON.stringify(this.sampleData);
-    savingData.data = JSON.stringify(this.taskData);
-
-    let savingDataStr = JSON.stringify(savingData);
-    console.log(savingDataStr);
     if(this.model == 0){
       this.device.push("stopTracing",this.spleTask.taskid,success=>{
-
+        console.log(success);
+        this.spleTask['samples'].route = success;
+        savingData.samples.route = success;
+        //这里我们复制出一个对象用于保存，将字段变换成底层接口需要的形式
+        savingData.samples = JSON.stringify(this.sampleData);
+        savingData.data = JSON.stringify(this.taskData);
+        let savingDataStr = JSON.stringify(savingData);
         this.device.push("saveSample",savingDataStr, success=> {
           this.toast("保存成功," + this.tipContent);
           this.navCtrl.popToRoot();
@@ -195,6 +195,10 @@ export class CollectTaskPage extends BasePage {
         console.log(error);
       });
     }else {
+      //这里我们复制出一个对象用于保存，将字段变换成底层接口需要的形式
+      savingData.samples = JSON.stringify(this.sampleData);
+      savingData.data = JSON.stringify(this.taskData);
+      let savingDataStr = JSON.stringify(savingData);
       this.device.push("saveSample",savingDataStr, success=> {
         this.toast("保存成功," + this.tipContent);
         this.navCtrl.popToRoot();
