@@ -100,6 +100,6 @@ export class TestMorePage extends BasePage{
   }
 
   dev(){
-    this.navCtrl.push("TestDevPage");
+    //this.navCtrl.push("TestDevPage");
   }
 }
