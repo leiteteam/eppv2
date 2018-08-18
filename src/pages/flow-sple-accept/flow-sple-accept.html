@@ -6,30 +6,29 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>样品接收</ion-title>
-  </ion-navbar>
-  <div style="width:100%;overflow:auto" class="msearchbar">
-      <form action="#">
-          <ion-searchbar style="width: 90%;" cancelButtonText="取消" placeholder="扫描二维码或输入编号完成接收" float-left (keyup)="onkey($event)" [(ngModel)]="spleNo" [ngModelOptions]="{standalone: true}">
-          </ion-searchbar>
-      </form>
-      <button no-padding no-margin ion-button clear float-right (click)="accept()" style="width: 10%;">
-          <ion-icon name="qr-scanner" style="font-size: 2.6rem;"></ion-icon>
-      </button>
+    <ion-navbar>
+        <ion-title>样品接收</ion-title>
+    </ion-navbar>
+    <div style="width:100%;overflow:auto" class="msearchbar">
+        <form action="#">
+            <ion-searchbar style="width: 90%;" cancelButtonText="取消" placeholder="扫描二维码或输入编号完成接收" float-left (keyup)="onkey($event)"
+                [(ngModel)]="spleNo" [ngModelOptions]="{standalone: true}">
+            </ion-searchbar>
+        </form>
+        <button no-padding no-margin ion-button clear float-right (click)="accept()" style="width: 10%;">
+            <ion-icon name="qr-scanner" style="font-size: 2.6rem;"></ion-icon>
+        </button>
     </div>
 </ion-header>
 
-<ion-content no-padding no-margin>        <ion-refresher-content pullingText="下拉刷新"></ion-refresher-content>
-n-it</ion-refresher>
-     <io-list *ngIf="acceptList!=null&&accepem  not.length>0" no-margin>
-        <ion-card  *
+<ion-content no-padding no-margin>
     <ion-refresher (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content pullingText="下拉清空"></ion-refresher-content>
+        <ion-refresher-content pullingText="下拉清空列表"></ion-refresher-content>
     </ion-refresher>
+
     <ion-list *ngIf="acceptList!=null&&acceptList.length>0" no-margin>
-        <ion-card  *ngFor="let sple of acceptList">
-            <ion-item  no-lines>
+        <ion-card *ngFor="let sple of acceptList">
+            <ion-item no-lines>
                 <P style="color: #363636">样品编号:{{sple.SubSampleId}}</P>
                 <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
                 <p class="date">流转中心:{{sple.UnitName}}</p>
@@ -38,4 +37,5 @@ n-it</ion-refresher>
             </ion-item>
         </ion-card>
     </ion-list>
-    <div class="empty" *ngIf="acceptList == null || acceptList.length==0 ">
+    <div class="empty" *ngIf="acceptList == null || acceptList.length==0 "></div>
+</ion-content>
