@@ -311,6 +311,11 @@ public class TyPluginManager {
         String version = com.androidcat.utilities.Utils.getVersionName(plugin.cordova.getActivity());
         callbackContext.success(version);
       }
+      else if("findOnMap".equals(code)){
+        String version = com.androidcat.utilities.Utils.getVersionName(plugin.cordova.getActivity());
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.findOnMap(plugin,commandData,callbackContext);
+      }
     } catch (JSONException e) {
       e.printStackTrace();
       callbackContext.error("解析缓存信息出错");

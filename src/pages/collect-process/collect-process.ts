@@ -341,6 +341,16 @@ export class CollectProcessPage extends BasePage {
   collcetTaskBtn() {
     this.navCtrl.push("CollectTaskPage", { callback: this.collectTask, model: this.model, taskData: this.taskData, sampleData: this.sampleData });
   }
+
+  findOnMap(){
+    if (this.spleTask.data){
+      this.device.push( "findOnMap", {lat:this.spleTask.data.Point.Latitude,lng:this.spleTask.data.Point.Longitude} );
+    }
+    if (this.spleTask.Point){
+      this.device.push( "findOnMap", {lat:this.spleTask.Point.Latitude,lng:this.spleTask.Point.Longitude} );
+    }
+  }
+
   sampleInfoBtn() {
     this.navCtrl.push('SampleInfoPage', { taskData: this.taskData });
   }

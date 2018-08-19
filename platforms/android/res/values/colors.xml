@@ -315,4 +315,5 @@
   <color name="card_info_text_color">#66687f</color>
   <color name="pay_mode_text_color">#434343</color>
 
+  <color name="map_label">#9bf7f7f7</color>
 </resources>
