@@ -25,6 +25,7 @@ import com.androidcat.eppv2.persistence.JepayDatabase;
 import com.androidcat.eppv2.persistence.bean.TaskData;
 import com.androidcat.eppv2.persistence.bean.Track;
 import com.androidcat.eppv2.persistence.bean.UserInfo;
+import com.androidcat.eppv2.ui.FindOnMapActivity;
 import com.androidcat.utilities.GsonUtil;
 import com.androidcat.utilities.SystemSettingUtil;
 import com.androidcat.utilities.Utils;
@@ -375,5 +376,12 @@ public class PluginCoreWorker {
 
     }
     callbackContext.success(jsonArray);
+  }
+
+  public static void findOnMap(final CordovaPlugin plugin, String loc, final CallbackContext callbackContext) {
+    Intent intent = new Intent(plugin.cordova.getActivity(), FindOnMapActivity.class);
+    intent.putExtra("target",loc);
+    plugin.cordova.getActivity().startActivity(intent);
+    callbackContext.success();
   }
 }
