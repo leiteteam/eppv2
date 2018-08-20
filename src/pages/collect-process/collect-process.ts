@@ -183,9 +183,7 @@ export class CollectProcessPage extends BasePage {
   }
   //拍照
   getImg(loc) {
-    if (this.isFlagInput) {
-      return;
-    }
+    
     switch (loc) {
       case 1:
         if (this.eastImg != null && this.eastImg != '') {
@@ -211,6 +209,9 @@ export class CollectProcessPage extends BasePage {
           return;
         }
         break;
+    }
+    if (this.isFlagInput) {
+      return;
     }
     // 设置选项
     const options: CameraOptions = {
@@ -373,7 +374,7 @@ export class CollectProcessPage extends BasePage {
   aletBigImg(imgBuf: String, titleName: any) {
     let alert = this.alertCtrl.create({
       title: titleName,
-      message: '<img src="' + imgBuf + '" />',
+      message: '<img src="data:image/jpeg;base64,' + imgBuf + '" />',
       buttons: [{ text: '关闭' }]
     });
     alert.present();

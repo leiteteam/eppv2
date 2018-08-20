@@ -1,3 +1,4 @@
+import { Events } from 'ionic-angular/util/events';
 import { DbServiceProvider } from './../../providers/db-service/db-service';
 import { BasePage } from './../base/base';
 import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface-service/device-inteface-service';
@@ -34,7 +35,7 @@ export class CollectTaskPage extends BasePage {
   isStateFlag:boolean = true;
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, 
     public device:DeviceIntefaceServiceProvider, private camera: Camera, public alertCtrl:AlertController,
-    public db:DbServiceProvider) {
+    public db:DbServiceProvider, public events:Events ) {
     super(navCtrl, navParams, toastCtrl);
     //this.callback = navParams.get("callback");
     this.spleTask = navParams.get('spleTask');
@@ -185,8 +186,6 @@ export class CollectTaskPage extends BasePage {
         let savingDataStr = JSON.stringify(savingData);
         this.device.push("saveSample",savingDataStr, success=> {
           this.toast("保存成功," + this.tipContent);
-          this.navCtrl.popToRoot();
-          console.log(success);
         }, error => {
           console.log(error);
           this.toast(error);
@@ -201,14 +200,13 @@ export class CollectTaskPage extends BasePage {
       let savingDataStr = JSON.stringify(savingData);
       this.device.push("saveSample",savingDataStr, success=> {
         this.toast("保存成功," + this.tipContent);
-        this.navCtrl.popToRoot();
-        console.log(success);
       }, error => {
         console.log(error);
         this.toast(error);
       });
     }
-    
+    this.navCtrl.popToRoot();
+    this.events.publish('tabChanged', null);
   }
   //跳转制码
   goSampleCode(){
@@ -216,9 +214,6 @@ export class CollectTaskPage extends BasePage {
   }
   //拍照
   addImg(loc){
-    if(this.isFlagInput){
-      return;
-    }
     switch(loc){
       case 1:
         if(this.gpsView != null && this.gpsView != ''){
@@ -244,6 +239,9 @@ export class CollectTaskPage extends BasePage {
         return ;
       }
         break;
+    }
+    if(this.isFlagInput){
+      return;
     }
     // 设置选项
     const options: CameraOptions = {
@@ -282,7 +280,7 @@ export class CollectTaskPage extends BasePage {
   aletBigImg(imgBuf:String,titleName:any){
     let alert = this.alertCtrl.create({
       title: titleName,
-      message: '<img src="'+ imgBuf +'" />',
+      message: '<img src="data:image/jpeg;base64,'+ imgBuf +'" />',
       buttons: [ {text: '关闭'} ]
     });
     alert.present();

@@ -1,5 +1,5 @@
 page-sample-info {
-    .input-border input, .input-border textarea  {
+    /* .input-border input, .input-border textarea  {
         margin-top: 3px;
         margin-bottom: 3px;
         margin-left: 8px;
@@ -8,12 +8,13 @@ page-sample-info {
         margin-top: 5px;
         margin-bottom: 3px;
         border: solid 1px #aaa;
-    }
+    } */
     ion-label {
         white-space: normal;
-        width: 40% !important;
+        width: 110px !important;
     }
     .input-border[disabled=true]{
-        background-color: #ddd;
+        text-align:right; 
+        /* background-color: #ddd; */
     }
 }

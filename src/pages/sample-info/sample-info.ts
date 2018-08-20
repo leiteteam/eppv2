@@ -17,6 +17,7 @@ export class SampleInfoPage {
   taskData:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    
     this.taskData = navParams.get("taskData");
   }
 

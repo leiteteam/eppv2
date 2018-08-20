@@ -14,65 +14,66 @@
 
 <ion-content>
   <ion-list>
-    <ion-item no-lines>
-      <ion-label>样点编码</ion-label>
-      <ion-input type="text" class="input-border" [value]="taskData?.Point?.SampleNumber" disabled="true"></ion-input>
+    <ion-item>
+      <ion-label>样点编码:</ion-label>
+      <ion-input type="text" class="input-border" [value]="taskData?.Point?.SampleNumber" placeholder="无" disabled="true"></ion-input>
     </ion-item>
-    <ion-item no-lines>
-      <ion-label>布点网格大小</ion-label>
-      <ion-input type="text" class="input-border" [value]="taskData?.MeshSize" disabled="true"></ion-input>
+    <ion-item>
+      <ion-label>布点网格大小:</ion-label>
+      <ion-input type="text" class="input-border" [value]="taskData?.MeshSize" placeholder="无" disabled="true"></ion-input>
     </ion-item>
-    <ion-item no-lines>
-      <ion-label>计划采样地区</ion-label>
-      <ion-input type="text" class="input-border" [value]="taskData?.Point?.RegionName" disabled="true"></ion-input>
+    <ion-item>
+      <ion-label>计划采样地区:</ion-label>
+      <ion-input type="text" class="input-border" [value]="taskData?.Point?.RegionName" placeholder="无" disabled="true"></ion-input>
     </ion-item>
-    <ion-item no-lines>
-      <ion-label>计划采样地点</ion-label>
-      <ion-input type="text" class="input-border" [value]="taskData?.Point?.ForecastAddress" disabled="true"></ion-input>
+    <ion-item>
+      <ion-label>计划采样地点:</ion-label>
+      <ion-input type="text" class="input-border" [value]="taskData?.Point?.ForecastAddress" placeholder="无" disabled="true"></ion-input>
     </ion-item>
-    <div class="item item-ios">
-      <label style="display: inline-block;width: 40%;">计划经/纬度</label>
-      <div style="display: inline-block; width: 56%;">
+    <ion-item>
+      <ion-label>计划经/纬度:</ion-label>
+      <ion-textarea type="text" autoresize="2" class="input-border" [value]="taskData?.Point?.Longitude + '\n' + taskData?.Point?.Latitude" disabled="true"></ion-textarea>
+      <!-- <div style="display: inline-block; width: 56%;">
         <input type="text" class="input-border" [value]="taskData?.Point?.Longitude" style="width: 45%;" disabled="true" /> - 
         <input type="text" class="input-border" [value]="taskData?.Point?.Latitude" style="width: 45%;" disabled="true" /> 
-      </div>
-    </div>
-    <ion-item no-lines>
-      <ion-label>样点类型</ion-label>
+      </div> -->
+    </ion-item>
+    <ion-item>
+      <ion-label>样点类型:</ion-label>
       <ion-input type="text" class="input-border" [value]="taskData?.Point?.PointCategory | pointType" disabled="true"></ion-input>
     </ion-item>
-    <ion-item no-lines>
-      <ion-label>采样负责人</ion-label>
-      <ion-input type="text" class="input-border" [value]="taskData?.Point?.PointName" disabled="true"></ion-input>
+    <ion-item>
+      <ion-label>采样负责人:</ion-label>
+      <ion-input type="text" class="input-border" [value]="taskData?.Point?.PointName" placeholder="无" disabled="true"></ion-input>
     </ion-item>
-    <ion-item no-lines>
-      <ion-label>采样日期</ion-label>
-      <ion-input type="text" class="input-border" [value]="taskData?.CompletedTime" disabled="true"></ion-input>
+    <ion-item>
+      <ion-label>采样日期:</ion-label>
+      <ion-input type="text" class="input-border" [value]="taskData?.CompletedTime" placeholder="无" disabled="true"></ion-input>
     </ion-item>
-    <ion-item no-lines>
-      <ion-label>详查单元编码</ion-label>
-      <ion-input type="text" class="input-border" [value]="taskData?.Point?.InvestigationCode" disabled="true"></ion-input>
+    <ion-item>
+      <ion-label>详查单元编码:</ion-label>
+      <ion-input type="text" class="input-border" [value]="taskData?.Point?.InvestigationCode" placeholder="无" disabled="true"></ion-input>
     </ion-item>
-    <ion-item no-lines>
-      <ion-label>详查单元类型</ion-label>
+    <ion-item>
+      <ion-label>详查单元类型:</ion-label>
       <ion-input type="text" class="input-border" [value]="taskData?.Point?.InvestigationType | investigationType" disabled="true"></ion-input>
     </ion-item>
-    <ion-item no-lines>
-      <ion-label style="opacity:1 !important;">是否测试多环芳烃</ion-label>
+    <ion-item>
+      <ion-label style="opacity:1 !important;">是否测试多环芳烃:</ion-label>
       <ion-toggle disabled="true" checked="{{taskData?.Point?.IsTestDhft}}" style="opacity:1 !important;"></ion-toggle>
       <!-- <ion-input type="text" class="input-border"  disabled="true"></ion-input> -->
     </ion-item>
-    <ion-item no-lines>
-      <ion-label style="opacity:1 !important;">是否测试重金属可提取物</ion-label>
+    <ion-item>
+      <ion-label style="opacity:1 !important;">是否测试重金属可提取物:</ion-label>
       <ion-toggle disabled="true" checked="{{taskData?.Point?.IsTestZjsktq}}" style="opacity:1 !important;"></ion-toggle>
     </ion-item>
-    <ion-item no-lines>
-      <ion-label>增测项目特征污染物</ion-label>
-      <ion-input type="text" class="input-border" [value]="taskData?.Point?.ZcxmParams" disabled="true"></ion-input>
+    <ion-item>
+      <ion-label>增测项目特征污染物:</ion-label>
+      <ion-input type="text" class="input-border" [value]="taskData?.Point?.ZcxmParams" placeholder="无" disabled="true"></ion-input>
     </ion-item>
-    <ion-item no-lines>
-        <ion-label>增测项目其它污染物</ion-label>
-        <ion-input type="text" class="input-border" [value]="taskData?.Point?.ZcxmOtherParams" disabled="true"></ion-input>
+    <ion-item>
+        <ion-label>增测项目其它污染物:</ion-label>
+        <ion-input type="text" class="input-border" [value]="taskData?.Point?.ZcxmOtherParams" placeholder="无" disabled="true"></ion-input>
       </ion-item>
   </ion-list>
 </ion-content>
