@@ -49,7 +49,7 @@
   <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(236, 234, 234)">
     <p item-start>子样品信息</p>
   </ion-item>
-  <div *ngFor="let sub of subSamples" >
+  <div (press)='delSub(sub)' *ngFor="let sub of subSamples" >
     <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(255, 255, 255)">
       <p item-start style="font-size: 1.3rem;color: rgb(172, 137, 118);width: 60%;white-space: nowrap;text-overflow: ellipsis;">{{sub.ParamCatetoryNames}}</p>
       <button ion-button item-end (click)="spleCoding(sub.SubSampleId)" color="primary">子样编码</button>
@@ -128,9 +128,11 @@
     <p item-end style="width: 70%;">{{require}}</p>
   </ion-item> -->
 
+</ion-content>
+<ion-footer>
   <div text-center style="width:100%;overflow:auto;">
     <div class="comfirm" float-left col-12 (click)="done()">
       <p style="color:white;font-size: 1.7rem;margin: 7px">完成制备</p>
     </div>  
   </div>
-</ion-content>
+</ion-footer>

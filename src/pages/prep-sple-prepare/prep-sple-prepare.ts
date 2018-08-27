@@ -69,6 +69,27 @@ export class PrepSplePreparePage extends BasePage {
     }, true);
   }
 
+  delSub(sub){
+    let subSampleId:string = sub.SubSampleId;
+    let number = parseInt(subSampleId.substring(subSampleId.length - 2));
+    if(number == 1 || number == 2 || number == 3){
+      this.toast("不能删除固定子样");
+      return;
+    }
+    this.alertCtrl.create({
+      title:"提示信息",
+      subTitle: sub.SubSampleId,
+      message:"你确定要删除该子样吗？",
+      buttons: [{text: '取消'},
+      {
+        text:"确定",
+        handler: () => {
+          this.subSamples.splice(this.subSamples.indexOf(sub), 1);
+        }
+      }]
+    }).present();
+  }
+
   done() {
     let alert = this.alertCtrl.create({
       title: '提示信息',

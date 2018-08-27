@@ -21,16 +21,18 @@
     <button ion-button item-end (click)="printCodes()">样品制码</button>
   </ion-item>
   <ion-list>
-    <ion-item *ngFor="let subSample of subSamples">
-      <div item-start style="width: 68%">
-          <p style="font-weight: bold;white-space: nowrap;text-overflow: ellipsis;">{{subSample.ParamNames}}</p>
-          <p>样品重量：{{subSample.Weight}}g</p>
-          <p>子样编码：{{subSample.SubSampleId}}</p>
-      </div>
-      <div item-end>
-          <button ion-button (click)="printCode(subSample.SubSampleId)">子样制码</button>
-      </div>
-      
+    <ion-item-sliding *ngFor="let subSample of subSamples">
+    <ion-item>
+      <ion-item no-lines style="margin-top: 0px;min-height:3.5rem;background-color:rgb(255, 255, 255)">
+        <p item-start style="font-size: 1.3rem;color: rgb(172, 137, 118);width: 60% !important;white-space: nowrap;text-overflow: ellipsis;">{{subSample.ParamNames}}</p>
+        <button ion-button item-end (click)="printCode(subSample.SubSampleId)">子样制码</button>
+      </ion-item>
+      <p>样品重量：{{subSample.Weight}}g</p>
+      <p>子样编码：{{subSample.SubSampleId}}</p>
     </ion-item>
+    <ion-item-options side="right">
+        <button ion-button expandable (click)="delete(subSample)" color="danger"><ion-icon name="trash"></ion-icon> 删除</button>
+    </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>

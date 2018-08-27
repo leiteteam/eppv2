@@ -1,7 +1,7 @@
 import { BasePage } from './../base/base';
 import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface-service/device-inteface-service';
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 
 /**
  * Generated class for the SampleCodePage page.
@@ -20,7 +20,12 @@ export class SampleCodePage extends BasePage {
   sampleData:any;
   subSamples:any;
   num:number = 10;
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController,private ref: ChangeDetectorRef, public device:DeviceIntefaceServiceProvider, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, 
+    public toastCtrl: ToastController,
+    private ref: ChangeDetectorRef, 
+    public device:DeviceIntefaceServiceProvider, 
+    public navParams: NavParams, 
+    public alertCtrl:AlertController) {
     super(navCtrl, navParams, toastCtrl);
     this.taskData = navParams.get("taskData");
     this.sampleData = navParams.data.sampleData;
@@ -93,5 +98,19 @@ export class SampleCodePage extends BasePage {
       str += Math.floor(Math.random()*10); 
     }
     return str;
+  }
+  delete(sub){
+    this.alertCtrl.create({
+      title:"提示信息",
+      subTitle: sub.SubSampleId,
+      message:"你确定要删除该子样吗？",
+      buttons: [{text: '取消'},
+      {
+        text:"确定",
+        handler: () => {
+          this.subSamples.splice(this.subSamples.indexOf(sub), 1);
+        }
+      }]
+    }).present();
   }
 }

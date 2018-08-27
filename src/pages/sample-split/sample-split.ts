@@ -126,7 +126,7 @@ export class SampleSplitPage extends BasePage {
     for(let index in this.categorys){
       if(this.categorys[index].isCheck){
         this.ParamCatetoryIDs.push(this.categorys[index].CategoryID);
-        this.ParamNames.push(this.categorys[index].CategoryName);
+        this.ParamNames.push(this.categorys[index].CategoryName + this.categorys[index].ParamList.length + "种:" + this.categorys[index]['text'] );
         this.categorys[index].isFlag = true;
         this.categorys[index].isCheck = false;
       }

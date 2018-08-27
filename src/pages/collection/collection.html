@@ -44,7 +44,7 @@
     <div *ngIf="spleCategory=='todo'">
       <ion-list *ngIf="todoList!=null&&todoList.length>0" no-margin>
         <ion-item *ngFor="let spleTask of todoList">
-          <P style="color: #949059">点位编码:{{spleTask.data.Point.SampleNumber}}</P>
+          <P style="color: #949059">点位编码:{{spleTask.data.Point.SampleNumber}} <span *ngIf="spleTask.data.editFlag" style="float: right; color: #f53d3d">已编辑</span></P>
           <h5 class="title">{{spleTask.data.Point.ForecastAddress}}</h5>
           <p class="date">{{spleTask.data.Point.PointName}}</p>
           <p class="date">{{spleTask.data.category[spleTask.data.SampleCategory].CategoryName}}</p>

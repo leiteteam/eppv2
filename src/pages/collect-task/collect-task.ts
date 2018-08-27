@@ -160,6 +160,8 @@ export class CollectTaskPage extends BasePage {
         this.sampleData.YJSampleContainer = abioSplContainer
       }
     });
+    //有数据保存将状态改为已编辑
+    this.taskData.editFlag = true;
     //复制内存中当前的spleTask，用于数据保存
     //因为在上层ts中，完整的json对象才是可用可解析的，如果直接将spleTask的字段改成了string则无法识别
     //原始spleTask仍用于内存中使用，所以需保持同步更新字段内容
@@ -186,6 +188,8 @@ export class CollectTaskPage extends BasePage {
         let savingDataStr = JSON.stringify(savingData);
         this.device.push("saveSample",savingDataStr, success=> {
           this.toast("保存成功," + this.tipContent);
+          this.navCtrl.popToRoot();
+          this.events.publish('tabChanged', null);
         }, error => {
           console.log(error);
           this.toast(error);
@@ -200,13 +204,13 @@ export class CollectTaskPage extends BasePage {
       let savingDataStr = JSON.stringify(savingData);
       this.device.push("saveSample",savingDataStr, success=> {
         this.toast("保存成功," + this.tipContent);
+        this.navCtrl.popToRoot();
+        this.events.publish('tabChanged', null);
       }, error => {
         console.log(error);
         this.toast(error);
       });
     }
-    this.navCtrl.popToRoot();
-    this.events.publish('tabChanged', null);
   }
   //跳转制码
   goSampleCode(){
@@ -251,6 +255,7 @@ export class CollectTaskPage extends BasePage {
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       correctOrientation:true,
+      saveToPhotoAlbum: true,
       targetHeight:520,
       targetWidth:360
     }
@@ -272,6 +277,8 @@ export class CollectTaskPage extends BasePage {
           this.changeImg = base64Image;
           break;
       }
+      //清理缓存的图片文件
+      this.camera.cleanup();
      }, (err) => {
        console.log(err);
       // Handle error

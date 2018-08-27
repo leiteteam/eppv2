@@ -105,6 +105,12 @@ export class CollectProcessPage extends BasePage {
     if (this.northImg) {
       pictures.push({ type: "正北", base64: this.northImg });
     }
+    if(this.sampleData.FactAddress || this.sampleData.Altitude != '' || this.sampleData.IrrigationMethod != 0 || this.sampleData.IrrigationType != 0 ||
+    this.sampleData.TerrainType != 0 || this.sampleData.Weather != 0 || this.sampleData.DueEast || this.sampleData.DueSouth || 
+    this.sampleData.DueWest || this.sampleData.DueNorth){
+      //有数据保存将状态改为已编辑
+      this.taskData.editFlag = true;
+    }
     this.sampleData.Pictures = pictures;
     this.spleTask['samples'] = this.sampleData;
     //分段信息保存
@@ -242,6 +248,8 @@ export class CollectProcessPage extends BasePage {
           this.northImg = base64Image;
           break;
       }
+      //清理缓存的图片文件
+      this.camera.cleanup();
     }, (err) => {
       console.log(err);
       // Handle error
@@ -363,6 +371,8 @@ export class CollectProcessPage extends BasePage {
       this.sampleData['company'] = company;
       this.spleTask['samples'] = this.sampleData;
       this.spleTask.samples.isCompany = true;
+      //有数据保存将状态改为已编辑
+      this.taskData.editFlag = true;
       this.saveSample();
       resolve();
     });
