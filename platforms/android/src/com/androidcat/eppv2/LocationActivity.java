@@ -40,6 +40,7 @@ public class LocationActivity extends CheckPermissionActivity implements AMapLoc
   public static String doingTaskId = "";
   public static String doingUserId = "";
   public static boolean tracing = false;
+  private boolean isFirstLocated = false;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -115,6 +116,9 @@ public class LocationActivity extends CheckPermissionActivity implements AMapLoc
   @Override
   public void onLocationChanged(AMapLocation aMapLocation) {
     if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
+      if (!isFirstLocated){
+
+      }
       province = aMapLocation.getProvince();
       county = aMapLocation.getDistrict();
       street = aMapLocation.getStreet();

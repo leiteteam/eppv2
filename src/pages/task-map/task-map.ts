@@ -4,6 +4,7 @@ import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-s
 import { BasePage } from '../base/base';
 import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-network-service';
 import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
+import { DbServiceProvider } from '../../providers/db-service/db-service';
 
 /**
  * Generated class for the TaskMapPage page.
@@ -17,56 +18,82 @@ import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-s
   selector: 'page-task-map',
   templateUrl: 'task-map.html',
 })
-export class TaskMapPage extends BasePage{
+export class TaskMapPage extends BasePage {
 
   public map: any;
-  curLocMarker:any;
+  curLocMarker: any;
 
-  allMarkers:any[] = [];
-  undownMarkers:any[] = [];
-  downloadedMarkers:any[] = [];
-  uploadedMarkers:any[] = [];
-  returnedMarkers:any[] = [];
+  allMarkers: any[] = [];
+  undownMarkers: any[] = [];
+  downloadedMarkers: any[] = [];
+  uploadedMarkers: any[] = [];
+  returnedMarkers: any[] = [];
+
+  lastLng = 121.907852;
+  lastLat = 39.183170;
+
+  data:any = {
+    "dai":false,
+    "cun":false,
+    "chuan":false,
+    "che":false
+  };
 
   constructor(
-    public net:TyNetworkServiceProvider,
-    public navCtrl: NavController, 
+    public net: TyNetworkServiceProvider,
+    public db: DbServiceProvider,
+    public navCtrl: NavController,
     public navParams: NavParams,
-    public device:DeviceIntefaceServiceProvider,
-    public toastCtrl:ToastController,
-    public modalCtrl:ModalController) {
-      super(navCtrl,navParams,toastCtrl);
+    public device: DeviceIntefaceServiceProvider,
+    public toastCtrl: ToastController,
+    public modalCtrl: ModalController) {
+    super(navCtrl, navParams, toastCtrl);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TaskMapPage');
-    this.loadMap();
-    this.refresh();
+    this.getLastLocation()
+      .then(() => {
+        this.loadMap();
+        this.refresh();
+      });
+  }
+
+  getLastLocation() {
+    return new Promise((resolve, reject) => {
+      this.db.getString("lastLocation", lastLocation => {
+        if (lastLocation) {
+          let lng = lastLocation.split(",")[0];
+          let lat = lastLocation.split(",")[1];
+          this.lastLng = Number.parseFloat(lng);
+          this.lastLat = Number.parseFloat(lat);
+        }
+        resolve();
+      }, err => { resolve(); });
+    });
   }
 
   loadMap() {
     let map = new AMap.Map('mapView', {
       resizeEnable: true,
-      zoom: 12,
-      center: [116.39, 39.9]
+      zoom: 10,
+      center: [this.lastLng, this.lastLat]
     });
-    AMap.plugin(['AMap.ToolBar','AMap.MapType'],function(){
+    AMap.plugin(['AMap.ToolBar', 'AMap.MapType'], function () {
       var toolbar = new AMap.ToolBar();
       map.addControl(toolbar);
       var mapType = new AMap.MapType();
       map.addControl(mapType);
-   })
+    })
 
-    // this.markers.forEach(element => {
-    //   this.addMarker(map,new AMap.LngLat(element.lng,element.lat));
-    // });
-    // map.setFitView();// 执行定位
+    //this.addMarker(map, new AMap.LngLat(this.lastLng, this.lastLat));
+    //map.setFitView();// 执行定位
 
     this.map = map;
   }
 
   // 实例化点标记
-  addMarker(map,lnglatXY) {
+  addMarker(map, lnglatXY) {
     //console.log(lnglatXY);
     let marker = new AMap.Marker({
       icon: "assets/imgs/marker.png",
@@ -76,13 +103,15 @@ export class TaskMapPage extends BasePage{
     //this.map.setFitView();// 执行定位
   }
 
-  locate(){
-    this.device.push("location","",(location)=>{
-      if (this.curLocMarker && this.map){
-          this.map.remove(this.curLocMarker);
+  locate() {
+    this.device.push("location", "", (location) => {
+      if (this.curLocMarker && this.map) {
+        this.map.remove(this.curLocMarker);
       }
       location = JSON.parse(location);
-      let lnglatXY = new AMap.LngLat(location.lng,location.lat);
+      let lnglatXY = new AMap.LngLat(location.lng, location.lat);
+      //缓存用户定位位置，用于下次加载默认地图位置使用
+      this.db.saveString(location.lng + "," + location.lat, "lastLocation");
       this.curLocMarker = new AMap.Marker({
         icon: "assets/imgs/loc.png",
         position: lnglatXY
@@ -90,43 +119,45 @@ export class TaskMapPage extends BasePage{
       this.map.add(this.curLocMarker);
       this.map.setZoom(15);// 执行定位
       this.map.setCenter(lnglatXY);
-      }, (err)=>{
-        this.toast("定位失败，请在室外空旷处再试!");
-      }
+    }, (err) => {
+      this.toast("定位失败，请在室外空旷处再试!");
+    }
     );
   }
 
-  showAll(){
+  
+
+  showAll() {
     this.map.clearMap();
     this.map.add(this.allMarkers);
-    this.map.setFitView();// 执行定位
+    this.fitMap(this.allMarkers);
   }
 
-  showUndown(){
+  showUndown() {
     this.map.clearMap();
     this.map.add(this.undownMarkers);
-    this.map.setFitView();// 执行定位
+    this.fitMap(this.undownMarkers);// 执行定位
   }
 
-  showDownloaded(){
+  showDownloaded() {
     this.map.clearMap();
     this.map.add(this.downloadedMarkers);
-    this.map.setFitView();// 执行定位
+    this.fitMap(this.downloadedMarkers);// 执行定位
   }
 
-  showUploaded(){
+  showUploaded() {
     this.map.clearMap();
     this.map.add(this.uploadedMarkers);
-    this.map.setFitView();// 执行定位
+    this.fitMap(this.uploadedMarkers);// 执行定位
   }
 
-  showReturned(){
+  showReturned() {
     this.map.clearMap();
     this.map.add(this.returnedMarkers);
-    this.map.setFitView();// 执行定位
+    this.fitMap(this.returnedMarkers);// 执行定位
   }
 
-  updateMarkers(){
+  updateMarkers() {
     console.log("-------updateMarkers-------");
     this.allMarkers = [];
     this.undownMarkers = [];
@@ -135,7 +166,7 @@ export class TaskMapPage extends BasePage{
     this.returnedMarkers = [];
 
     AppServiceProvider.getInstance().undownTaskList.forEach(element => {
-      let lnglat = new AMap.LngLat(element.Point.Longitude,element.Point.Latitude);
+      let lnglat = new AMap.LngLat(element.Point.Longitude, element.Point.Latitude);
       let marker = new AMap.Marker({
         icon: "assets/imgs/marker_download.png",
         position: lnglat
@@ -145,7 +176,7 @@ export class TaskMapPage extends BasePage{
     });
 
     AppServiceProvider.getInstance().downloadedTaskList.forEach(element => {
-      let lnglat = new AMap.LngLat(element.Point.Longitude,element.Point.Latitude);
+      let lnglat = new AMap.LngLat(element.Point.Longitude, element.Point.Latitude);
       let marker = new AMap.Marker({
         icon: "assets/imgs/marker.png",
         position: lnglat
@@ -155,7 +186,7 @@ export class TaskMapPage extends BasePage{
     });
 
     AppServiceProvider.getInstance().uploadedTaskList.forEach(element => {
-      let lnglat = new AMap.LngLat(element.Point.Longitude,element.Point.Latitude);
+      let lnglat = new AMap.LngLat(element.Point.Longitude, element.Point.Latitude);
       let marker = new AMap.Marker({
         icon: "assets/imgs/marker_done.png",
         position: lnglat
@@ -165,7 +196,7 @@ export class TaskMapPage extends BasePage{
     });
 
     AppServiceProvider.getInstance().returnedTaskList.forEach(element => {
-      let lnglat = new AMap.LngLat(element.Point.Longitude,element.Point.Latitude);
+      let lnglat = new AMap.LngLat(element.Point.Longitude, element.Point.Latitude);
       let marker = new AMap.Marker({
         icon: "assets/imgs/marker_return.png",
         position: lnglat
@@ -175,18 +206,18 @@ export class TaskMapPage extends BasePage{
     });
   }
 
-  requestAllTasks(){
+  requestAllTasks() {
     return new Promise((resolve, reject) => {
       this.net.httpPost(
         AppGlobal.API.taskList,
         {
           "username": AppServiceProvider.getInstance().userinfo.username,
           "token": AppServiceProvider.getInstance().userinfo.token,
-          "statu":0
+          "statu": 0
         },
         msg => {
           console.log(msg);
-    
+
           let info = JSON.parse(msg);
           //let info = this.testData;
           AppServiceProvider.getInstance().undownTaskList = [];
@@ -198,26 +229,26 @@ export class TaskMapPage extends BasePage{
           AppServiceProvider.getInstance().teamMember = info.GroupMember;
 
           info.Tasks.forEach(element => {
-            let task:any = element;
+            let task: any = element;
             task.category = info.category;
             task.GroupName = info.GroupName;
             task.GroupMember = info.GroupMember;
             // 1 待下载 2 待采样 4 已上传 5 已撤回
-            if (task.SampleStatus == 1){
+            if (task.SampleStatus == 1) {
               AppServiceProvider.getInstance().undownTaskList.push(task);
             }
-            if (task.SampleStatus == 2){
+            if (task.SampleStatus == 2) {
               //do nothing...改状态由本地维护，直到本地上传成功
               AppServiceProvider.getInstance().downloadedTaskList.push(task);
             }
-            if (task.SampleStatus == 4){
+            if (task.SampleStatus == 4) {
               AppServiceProvider.getInstance().uploadedTaskList.push(task);
             }
-            if (task.SampleStatus == 5){
+            if (task.SampleStatus == 5) {
               AppServiceProvider.getInstance().returnedTaskList.push(task);
               AppServiceProvider.getInstance().undownTaskList.push(task);
             }
-      
+
           });
           resolve();
         },
@@ -227,18 +258,27 @@ export class TaskMapPage extends BasePage{
         true);
     });
   }
-  
-  showTaskSummary(){
+
+  showTaskSummary() {
     const modal = this.modalCtrl.create("TaskSummaryDialogPage");
     modal.present();
   }
 
-  refresh(){
+  refresh() {
     this.requestAllTasks()
-        .then(()=>{
-          this.updateMarkers();
-          this.showAll();
-          this.showTaskSummary();
-        });
+      .then(() => {
+        this.updateMarkers();
+        this.showUndown();
+        this.showTaskSummary();
+      });
+  }
+
+  fitMap(markers) {
+    if (markers && markers.length > 0) {
+      let zoom = 10;
+      let marker = markers[0];
+
+      this.map.setZoomAndCenter(zoom, [marker.getPosition().getLng(), marker.getPosition().getLat()]);// 执行定位
+    }
   }
 }

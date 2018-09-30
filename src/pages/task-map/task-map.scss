@@ -2,9 +2,24 @@ page-task-map {
     .amap-logo {
         display: none !important;
     }
+    .amap-toolbar{
+        top:50% !important;
+        bottom: 50% !important;
+    }
 
     .amap-copyright {
         opacity: 0;
+    }
+
+    .item.item-ios .checkbox-ios{
+        margin: 0px !important;
+    }
+    .item-ios{
+        padding: 0px 0px 0px 5px !important;
+    }
+    .label-ios{
+        margin: 0px 0px 0px 3px !important;
+        font-size: 1.0rem !important;
     }
 
     .text-color {
@@ -13,10 +28,6 @@ page-task-map {
 
     .item-ios{
         background-color: transparent !important;
-    }
-
-    .label-ios {
-        margin: 0px 8px 0px 0;
     }
     
     .row .col-33 {
