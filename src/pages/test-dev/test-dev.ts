@@ -131,5 +131,11 @@ export class TestDevPage extends BasePage{
 			this.task.samples = JSON.stringify(this.sple);
 			this.import();
 		});
-  }
+	}
+	
+	viewTrace(){
+		this.device.push( "viewTrace", this.task.taskid ,()=>{
+			
+		});
+	}
 }

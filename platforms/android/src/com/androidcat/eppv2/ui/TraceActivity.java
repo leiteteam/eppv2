@@ -19,6 +19,8 @@ import com.amap.api.maps.model.PolylineOptions;
 import com.androidcat.eppv2.R;
 import com.androidcat.eppv2.bean.PathRecord;
 import com.androidcat.eppv2.bean.TrackPoint;
+import com.androidcat.eppv2.persistence.JepayDatabase;
+import com.androidcat.eppv2.persistence.bean.Track;
 import com.androidcat.utilities.listener.OnSingleClickListener;
 
 import java.util.ArrayList;
@@ -82,16 +84,38 @@ public class TraceActivity extends Activity{
    */
   private void setUpMap() {
     mAMap.getUiSettings().setMyLocationButtonEnabled(false);// 设置默认定位按钮是否显示
-    Bundle bundle = getIntent().getExtras();
-    bundle.setClassLoader(getClass().getClassLoader());
-    List<PathRecord> recordList = bundle.getParcelableArrayList("recordList");
+    String taskId = getIntent().getStringExtra("taskId");
+    JepayDatabase database = JepayDatabase.getInstance(this);
+    List<Track> recordList = database.getTrackList(taskId);
     if(recordList!=null){
-      this.records.addAll(recordList);
+      getTraceData(recordList);
       buildPolylineOptionsList();
       //地图轨迹
       mAMap.clear(true);
       drawLines();
       setupRecord();
+    }
+  }
+
+  private void getTraceData(List<Track> list){
+    PathRecord pathRecord = new PathRecord();
+    if (list != null && list.size() > 0) {
+      for (Track track : list) {
+        TrackPoint point = new TrackPoint();
+        point.latitude = track.lat;
+        point.longitude = track.lng;
+        pathRecord.addpoint(point);
+      }
+
+      TrackPoint startLoc = new TrackPoint();
+      startLoc.longitude = list.get(0).lng;
+      startLoc.latitude = list.get(0).lat;
+      TrackPoint endLoc = new TrackPoint();
+      endLoc.latitude = list.get(list.size() - 1).lat;
+      endLoc.longitude = list.get(list.size() - 1).lng;
+      pathRecord.setmStartPoint(startLoc);
+      pathRecord.setmEndPoint(endLoc);
+      records.add(pathRecord);
     }
   }
 
@@ -113,10 +137,10 @@ public class TraceActivity extends Activity{
         Double.parseDouble(endLoc.longitude));
       mAMap.addMarker(new MarkerOptions().position(
         startLatLng).icon(
-        BitmapDescriptorFactory.fromResource(R.drawable.start)));
+        BitmapDescriptorFactory.fromResource(R.mipmap.trace_start)));
       mAMap.addMarker(new MarkerOptions().position(
         endLatLng).icon(
-        BitmapDescriptorFactory.fromResource(R.drawable.end)));
+        BitmapDescriptorFactory.fromResource(R.mipmap.trace_end)));
       mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(getBounds(), 50));
     } else {
       Log.i("MY", "mRecord == null");

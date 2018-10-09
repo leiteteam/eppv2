@@ -52,7 +52,7 @@ public class LocationActivity extends CheckPermissionActivity implements AMapLoc
   @Override
   protected void onResume() {
     super.onResume();
-    if (locationClient != null) {
+    if (locationClient != null && !locationClient.isStarted()) {
       locationClient.startLocation();
     }
   }
@@ -60,9 +60,9 @@ public class LocationActivity extends CheckPermissionActivity implements AMapLoc
   @Override
   protected void onPause() {
     super.onPause();
-    if (locationClient != null) {
-      locationClient.stopLocation();
-    }
+//    if (locationClient != null) {
+//      locationClient.stopLocation();
+//    }
   }
 
   @Override
@@ -97,7 +97,7 @@ public class LocationActivity extends CheckPermissionActivity implements AMapLoc
    */
   private AMapLocationClientOption getDefaultOption() {
     locationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
-    locationOption.setInterval(60000);
+    locationOption.setInterval(30000);
     locationOption.setNeedAddress(true);//可选，设置是否返回逆地理地址信息。默认是true
     locationOption.setOnceLocation(false); //可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
     locationOption.setLocationCacheEnable(true); //可选，设置是否使用缓存定位，默认为true

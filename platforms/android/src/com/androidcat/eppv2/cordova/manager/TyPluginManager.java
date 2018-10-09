@@ -12,6 +12,7 @@ import com.androidcat.eppv2.MainActivity;
 import com.androidcat.eppv2.persistence.JepayDatabase;
 import com.androidcat.eppv2.persistence.bean.KeyValue;
 import com.androidcat.eppv2.ui.MyWebBrowserActivity;
+import com.androidcat.eppv2.ui.TraceActivity;
 import com.androidcat.eppv2.utils.Utils;
 import com.androidcat.eppv2.utils.log.LogUtil;
 import com.androidcat.utilities.GsonUtil;
@@ -319,6 +320,13 @@ public class TyPluginManager {
         String version = com.androidcat.utilities.Utils.getVersionName(plugin.cordova.getActivity());
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.findOnMap(plugin,commandData,callbackContext);
+      }
+      else if("viewTrace".equals(code)){
+        String taskId = jsonObject.optString("commandData");
+        Intent intent = new Intent(plugin.cordova.getActivity(), TraceActivity.class);
+        intent.putExtra("taskId",taskId);
+        plugin.cordova.getActivity().startActivity(intent);
+        callbackContext.success();
       }
     } catch (JSONException e) {
       e.printStackTrace();
