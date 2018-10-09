@@ -45,10 +45,10 @@
       <ion-list *ngIf="acceptList!=null&&acceptList.length>0" no-margin>
           <ion-card  *ngFor="let sple of acceptList" (click)="goToSpleDetail(sple)">
               <ion-item  no-lines detail-push>
-                  <P style="color: #363636">待收样子样数:{{sple.SubSampleNum}}</P>
+                  <P style="color: #363636">样品编号:{{sple.SampleCode}}</P>
                   <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
                   <P class="date">{{sple.CompleteTime}}</P>
-                  <p class="date">编号:{{sple.SampleCode}}</p>
+                  <p class="date">待制备子样数:{{sple.SubSampleNum}}</p>
                   <p class="date">{{SampleCategorys[sple.SampleCategory]}}</p>
               </ion-item>
           </ion-card>
@@ -83,7 +83,7 @@
                   <div class="ty-line1" style="margin-top: 8px;margin-bottom: 8px;"></div>
                   <p class="date">编号:{{sple.SampleCode}}</p>
                   <p class="date">流转中心:{{sple.FlowCenter}}</p>
-                  <p class="date">测试项目:{{sple.TestItem}}</p>
+                  <!-- <p class="date">测试项目:{{sple.TestItem}}</p> -->
                   <p class="date">是否质控:{{sple.IsQualityControl==1?'是':'否'}}</p>
               </ion-item>
         </ion-card>

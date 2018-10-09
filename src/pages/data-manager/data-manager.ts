@@ -41,9 +41,45 @@ export class DataManagerPage extends BasePage{
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DataManagerPage');
-    this.tobeDownloadedNum = AppServiceProvider.getInstance().undownTaskList.length;
+    this.requestTaskSummary(null);
     this.countTask();
   }
+
+  doRefresh(refresher) {
+    //刷新
+    console.log("下拉刷新");
+    this.requestTaskSummary(refresher);
+    this.countTask();
+  }
+
+  requestTaskSummary(refresher){
+    return new Promise((resolve, reject) => {
+      this.net.httpPost(
+        AppGlobal.API.taskSummary,
+        {
+          "username": AppServiceProvider.getInstance().userinfo.username,
+          "token": AppServiceProvider.getInstance().userinfo.token
+        },
+        msg => {
+          console.log(msg);
+          let ret = JSON.parse(msg);
+          let counts = ret.counts;
+          this.tobeDownloadedNum = counts.WaitDownload;
+          if (refresher){
+            refresher.complete();
+          }
+          resolve();
+        },
+        error => {
+          //this.toastShort(error);
+          if (refresher){
+            refresher.complete();
+          }
+        },
+        true);
+    });
+  }
+
   gotoSampleList(){
     this.events.publish("triggerTab", {index: 2, type: 0});
   }

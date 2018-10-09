@@ -22,13 +22,13 @@
         <ion-refresher-content pullingText="下拉刷新"></ion-refresher-content>
     </ion-refresher>
   <ion-list *ngIf="packList!=null&&packList.length>0" no-margin>
-      <ion-card  *ngFor="let pack of packList" (click)="gotoPackInfo(pack);">
+      <ion-card  *ngFor="let pack of packList">
           <ion-item>
             <h5 item-start>样包编号:{{pack.PackageCode}}</h5>
             <button item-end ion-button (click)="print(pack)">打印包码</button>
           </ion-item>
           <div class="ty-line1" ></div>
-          <ion-item detail-push>
+          <ion-item detail-push (click)="gotoPackInfo(pack);">
               <p class="date">实验室名称:{{pack.UnitName}}</p>
               <P class="date">样包类型:{{packCates[pack.PackageType]}}/{{spleCates[pack.PackageYpType]}}</P>
               <P class="date">{{testItems[pack.CheckParam]}}</P>

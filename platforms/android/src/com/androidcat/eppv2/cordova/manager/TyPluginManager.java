@@ -55,6 +55,10 @@ public class TyPluginManager {
 
   //通用post
   public static void post(final Context context, final String message, final CallbackContext callbackContext) {
+    if (!Utils.isNetworkAvailable(context)){
+      callbackContext.error("网络不给力，请检查网络设置");
+      return;
+    }
     try {
       JSONObject jsonObject = new JSONObject(message);
       String actionInfo = jsonObject.optString("postData");
@@ -92,7 +96,7 @@ public class TyPluginManager {
 
         @Override
         public void onFailure(int statusCode, String error_msg) {
-          callbackContext.error(error_msg);
+          callbackContext.error("网络不给力，请检查网络设置");
         }
       });
     } catch (JSONException e) {

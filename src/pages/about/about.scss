@@ -14,14 +14,8 @@ page-about {
         }
     }
 
-    ion-footer{
-        top:0px !important;
-    }
-
     .background{
         width: 100%;
-        height: 100% !important;
-        background-position: top;
         background-image: url(../assets/imgs/blur_bg.jpg);
         background-repeat: no-repeat;
         background-size:100% 260px; 
@@ -29,14 +23,13 @@ page-about {
     }
 
     .logoHeader{
-        margin-top: 90px;
         margin-bottom: 60px;
         width: 100px;
         height: 100px;
     }
 
     .iputcenter{
-        width: 90%;
+        width: 100%;
         margin:0 auto;
         text-align: center;
     }

@@ -23,20 +23,21 @@ export class TaskMapPage extends BasePage {
   public map: any;
   curLocMarker: any;
 
-  allMarkers: any[] = [];
+  //allMarkers: any[] = [];
   undownMarkers: any[] = [];
   downloadedMarkers: any[] = [];
   uploadedMarkers: any[] = [];
   returnedMarkers: any[] = [];
+  selectedMarkers: any[] = [];
 
   lastLng = 121.907852;
   lastLat = 39.183170;
 
-  data:any = {
-    "dai":false,
-    "cun":false,
-    "chuan":false,
-    "che":false
+  checkState: any = {
+    "dai": true,
+    "cun": true,
+    "chuan": true,
+    "che": true
   };
 
   constructor(
@@ -54,7 +55,6 @@ export class TaskMapPage extends BasePage {
     console.log('ionViewDidLoad TaskMapPage');
     this.getLastLocation()
       .then(() => {
-        this.loadMap();
         this.refresh();
       });
   }
@@ -74,22 +74,33 @@ export class TaskMapPage extends BasePage {
   }
 
   loadMap() {
-    let map = new AMap.Map('mapView', {
-      resizeEnable: true,
-      zoom: 10,
-      center: [this.lastLng, this.lastLat]
+    return new Promise((resolve, reject) => {
+      if (this.map) {
+        resolve();
+      } else {
+        let map = new AMap.Map('mapView', {
+          resizeEnable: true,
+          zoom: 10,
+          center: [this.lastLng, this.lastLat]
+        });
+        AMap.plugin(['AMap.ToolBar', 'AMap.MapType'], function () {
+          var toolbar = new AMap.ToolBar();
+          map.addControl(toolbar);
+          var mapType = new AMap.MapType();
+          map.addControl(mapType);
+        })
+
+        //this.addMarker(map, new AMap.LngLat(this.lastLng, this.lastLat));
+        //map.setFitView();// 执行定位
+        map.on('complete', function () {
+          // 地图图块加载完成后触发
+          console.log("-----地图图块加载完成-----");
+        });
+
+        this.map = map;
+        resolve();
+      }
     });
-    AMap.plugin(['AMap.ToolBar', 'AMap.MapType'], function () {
-      var toolbar = new AMap.ToolBar();
-      map.addControl(toolbar);
-      var mapType = new AMap.MapType();
-      map.addControl(mapType);
-    })
-
-    //this.addMarker(map, new AMap.LngLat(this.lastLng, this.lastLat));
-    //map.setFitView();// 执行定位
-
-    this.map = map;
   }
 
   // 实例化点标记
@@ -125,41 +136,14 @@ export class TaskMapPage extends BasePage {
     );
   }
 
-  
-
-  showAll() {
+  showSelected() {
     this.map.clearMap();
-    this.map.add(this.allMarkers);
-    this.fitMap(this.allMarkers);
-  }
-
-  showUndown() {
-    this.map.clearMap();
-    this.map.add(this.undownMarkers);
-    this.fitMap(this.undownMarkers);// 执行定位
-  }
-
-  showDownloaded() {
-    this.map.clearMap();
-    this.map.add(this.downloadedMarkers);
-    this.fitMap(this.downloadedMarkers);// 执行定位
-  }
-
-  showUploaded() {
-    this.map.clearMap();
-    this.map.add(this.uploadedMarkers);
-    this.fitMap(this.uploadedMarkers);// 执行定位
-  }
-
-  showReturned() {
-    this.map.clearMap();
-    this.map.add(this.returnedMarkers);
-    this.fitMap(this.returnedMarkers);// 执行定位
+    this.map.add(this.selectedMarkers);
+    this.fitMap(this.selectedMarkers);
   }
 
   updateMarkers() {
     console.log("-------updateMarkers-------");
-    this.allMarkers = [];
     this.undownMarkers = [];
     this.downloadedMarkers = [];
     this.uploadedMarkers = [];
@@ -171,7 +155,6 @@ export class TaskMapPage extends BasePage {
         icon: "assets/imgs/marker_download.png",
         position: lnglat
       });
-      this.allMarkers.push(marker);
       this.undownMarkers.push(marker);
     });
 
@@ -181,7 +164,6 @@ export class TaskMapPage extends BasePage {
         icon: "assets/imgs/marker.png",
         position: lnglat
       });
-      this.allMarkers.push(marker);
       this.downloadedMarkers.push(marker);
     });
 
@@ -191,7 +173,6 @@ export class TaskMapPage extends BasePage {
         icon: "assets/imgs/marker_done.png",
         position: lnglat
       });
-      this.allMarkers.push(marker);
       this.uploadedMarkers.push(marker);
     });
 
@@ -201,7 +182,6 @@ export class TaskMapPage extends BasePage {
         icon: "assets/imgs/marker_return.png",
         position: lnglat
       });
-      this.allMarkers.push(marker);
       this.returnedMarkers.push(marker);
     });
   }
@@ -266,10 +246,12 @@ export class TaskMapPage extends BasePage {
 
   refresh() {
     this.requestAllTasks()
+      .then(() => { return this.loadAMapJs() })
+      .then(() => { return this.loadMap() })
       .then(() => {
         this.updateMarkers();
-        this.showUndown();
         this.showTaskSummary();
+        this.checkChange(true);
       });
   }
 
@@ -281,4 +263,55 @@ export class TaskMapPage extends BasePage {
       this.map.setZoomAndCenter(zoom, [marker.getPosition().getLng(), marker.getPosition().getLat()]);// 执行定位
     }
   }
+
+  checkChange(event) {
+    console.log("daiChange---->" + event);
+    this.selectedMarkers = [];
+    if (this.checkState.dai) {
+      this.selectedMarkers = this.selectedMarkers.concat(this.undownMarkers);
+    }
+    if (this.checkState.cun) {
+      this.selectedMarkers = this.selectedMarkers.concat(this.downloadedMarkers);
+    }
+    if (this.checkState.chuan) {
+      this.selectedMarkers = this.selectedMarkers.concat(this.uploadedMarkers);
+    }
+    if (this.checkState.che) {
+      this.selectedMarkers = this.selectedMarkers.concat(this.returnedMarkers);
+    }
+
+    this.showSelected();
+  }
+
+  loadAMapJs(){
+    return new Promise((resolve,reject)=>{
+      if (typeof (AMap) == "undefined") {
+          this.dynamicLoadJs("https://webapi.amap.com/maps?v=1.4.8&key=f93c4639c7efa00395c2bac42985a2c6",()=>{
+          resolve();
+        });
+      }else {
+        resolve();
+      }
+    }); 
+  }
+
+    /**
+     * 动态加载JS
+     * @param {string} url 脚本地址
+     * @param {function} callback  回调函数
+     */
+    dynamicLoadJs(url, callback) {
+      var head = document.getElementsByTagName('head')[0];
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = url;
+      if(typeof(callback)=='function'){
+          script.onload =  function () {
+            callback();
+            script.onload = null;
+          };
+      }
+      head.appendChild(script);
+  }
+
 }

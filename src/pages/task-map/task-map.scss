@@ -31,9 +31,16 @@ page-task-map {
     }
     
     .row .col-33 {
-        margin-left: 0;
+        //margin-left: 0;
         text-align: center;
     }
+
+    .checkbox-md {
+        position: relative;
+        display: inline-table;
+        margin-right: -15px;
+    }
+    
     .btn-group input[type="checkbox"], .btn-group input[type="radio"] {
         display: none;
     }

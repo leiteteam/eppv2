@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>样品档案</ion-title>
+    <ion-title>样点档案</ion-title>
   </ion-navbar>
   <div style="width:100%;overflow:auto" class="msearchbar">
     <form action="#">
@@ -28,7 +28,7 @@
     <ion-card *ngFor="let file of files" >
       <ion-item no-lines detail-push (click)="goCollectInfo(file)">
         <h5 style="color: rgb(114, 156, 144)">{{file.PointName}}</h5>
-        <p>样品类型:{{PointCategorys[file.PointCategory]}}</p>
+        <p>样点类型:{{PointCategorys[file.PointCategory]}}</p>
         <p>样品数量:{{file.SampleNum}}</p>
       </ion-item>
     </ion-card>
