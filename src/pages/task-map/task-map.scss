@@ -35,11 +35,11 @@ page-task-map {
         text-align: center;
     }
 
-    .checkbox-md {
-        position: relative;
-        display: inline-table;
-        margin-right: -15px;
-    }
+    // .checkbox-md {
+    //     position: relative;
+    //     display: inline-table;
+    //     margin-right: -15px;
+    // }
     
     .btn-group input[type="checkbox"], .btn-group input[type="radio"] {
         display: none;
@@ -89,5 +89,9 @@ page-task-map {
     .btn-group .che input[type="checkbox"]:checked + label, .btn-group .che input[type="radio"]:checked + label {
         border: 1px solid #EF3DC3;
         background: #EF3DC3;
+    }
+    .grid > .row > .item{
+        min-height: 2.5rem;
+        margin:auto;
     }
 }

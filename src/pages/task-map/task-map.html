@@ -66,24 +66,28 @@
         </ion-row>
     </ion-grid> -->
 
-    <ion-grid no-margin style="position: absolute; bottom: 3px;">
+    <ion-grid no-margin style="position: absolute; bottom: 0px;background-color: rgba(250, 250, 250, 0.55)">
         <ion-row>
-            <div col-3  style="text-align: center; overflow:auto;">
-                <ion-checkbox mode="md" [(ngModel)]="checkState.dai" (ngModelChange)="checkChange($event)" color="third"></ion-checkbox>
-                <p float-right style="margin: 0px;padding: 0px;">待下载</p>
-            </div>
-            <div col-3 style="text-align: center; overflow:auto;" >
-                <ion-checkbox mode="md" [(ngModel)]="checkState.cun" (ngModelChange)="checkChange($event)"></ion-checkbox>
-                <p float-right style="margin: 0px;padding: 0px;">已下载</p>
-            </div>
-            <div col-3 style="text-align: center; overflow:auto;" >
-                <ion-checkbox mode="md" color="secondary" [(ngModel)]="checkState.chuan" (ngModelChange)="checkChange($event)"></ion-checkbox>
-                <p float-right style="margin: 0px;padding: 0px;">已上传</p>
-            </div>
-            <div col-3 style="text-align: center; overflow:auto;">
-                <ion-checkbox mode="md" color="danger" [(ngModel)]="checkState.che" (ngModelChange)="checkChange($event)"></ion-checkbox>
-                <p float-right style="margin: 0px;padding: 0px;">已撤销</p>
-            </div>
+            <ion-item no-lines style="width: 25%">
+                <ion-label>待下载</ion-label>
+                <ion-checkbox class="checkbox-md checkbox-md-third" [(ngModel)]="checkState.dai" (ngModelChange)="checkChange($event)" color="third"></ion-checkbox>
+                <!-- <p float-right style="margin: 0px;padding: 0px;">待下载</p> -->
+            </ion-item>
+            <ion-item no-lines style="width: 25%">
+                <ion-label>已下载</ion-label>
+                <ion-checkbox class="checkbox-md" [(ngModel)]="checkState.cun" (ngModelChange)="checkChange($event)"></ion-checkbox>
+                <!-- <p float-right style="margin: 0px;padding: 0px;">已下载</p> -->
+            </ion-item>
+            <ion-item no-lines style="width: 25%">
+                <ion-label>已上传</ion-label>
+                <ion-checkbox class="checkbox-md checkbox-md-secondary" color="secondary" [(ngModel)]="checkState.chuan" (ngModelChange)="checkChange($event)"></ion-checkbox>
+                <!-- <p float-right style="margin: 0px;padding: 0px;">已上传</p> -->
+            </ion-item>
+            <ion-item no-lines style="width: 25%">
+                <ion-label>已撤销</ion-label>
+                <ion-checkbox class="checkbox-md checkbox-md-danger" color="danger" [(ngModel)]="checkState.che" (ngModelChange)="checkChange($event)"></ion-checkbox>
+                <!-- <p float-right style="margin: 0px;padding: 0px;">已撤销</p> -->
+            </ion-item>
         </ion-row>
     </ion-grid>
 </ion-content>
