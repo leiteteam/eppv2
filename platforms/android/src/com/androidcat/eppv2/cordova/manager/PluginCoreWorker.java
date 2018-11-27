@@ -163,6 +163,15 @@ public class PluginCoreWorker {
     }
   }
 
+  public static void updateSingleTaskDataToUploaded(CordovaPlugin plugin, String taskid, final CallbackContext callbackContext) {
+    JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
+    if(database.updateTaskDataToUploaded(taskid)){
+      callbackContext.success();
+    }else {
+      callbackContext.error("本地数据更新失败,请重新上传");
+    }
+  }
+
 
   public static void saveSample(CordovaPlugin plugin, String dataStr, final CallbackContext callbackContext) {
     JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());

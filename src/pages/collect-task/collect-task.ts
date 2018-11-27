@@ -70,7 +70,7 @@ export class CollectTaskPage extends BasePage {
       this.toast("查看模式，禁止编辑！");
       return;
     }
-    this.device.push("location","",(location)=>{
+    this.device.push("gps_location","",(location)=>{
       location = JSON.parse(location);
       this.sampleData.FactLongitude = location.lng;
       this.sampleData.FactLatitude = location.lat;

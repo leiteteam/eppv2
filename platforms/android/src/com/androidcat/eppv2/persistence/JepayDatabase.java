@@ -229,6 +229,24 @@ public class JepayDatabase {
         }
     }
 
+  public boolean updateTaskDataToUploaded(String taskId) {
+    if (mDbUtils == null) {
+      return false;
+    }
+    try {
+      TaskData localData = getTaskData(taskId);
+      localData.state = 2;
+      mDbUtils.replace(localData);
+
+      //清除关联的轨迹表数据
+      delTrackByTaskid(taskId);
+      return true;
+    } catch (DbException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
     public TaskData getTaskData(String taskid) {
         if (mDbUtils == null) {
             return null;
