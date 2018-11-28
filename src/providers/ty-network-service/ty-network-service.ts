@@ -1,7 +1,7 @@
 import { AppServiceProvider, AppGlobal } from './../app-service/app-service';
 import { Injectable, NgZone } from '@angular/core';
 import { LoadingController, Events } from 'ionic-angular';
-import { Http } from '@angular/http';
+import { HttpClient, HttpRequest, HttpEventType } from '@angular/common/http';
 declare var cordova;
 /*
   Generated class for the TyNetworkServiceProvider provider.
@@ -12,7 +12,11 @@ declare var cordova;
 @Injectable()
 export class TyNetworkServiceProvider {
 
-  constructor(public loadingCtrl: LoadingController,public zone?:NgZone,public http?:Http,public events?: Events) {
+  constructor(
+    public loadingCtrl: LoadingController,
+    public zone?:NgZone,
+    public http?:HttpClient,
+    public events?: Events) {
 
   }
   encode(params) {
@@ -132,43 +136,118 @@ export class TyNetworkServiceProvider {
     });
   }
 
-  ///////////////////////////////////////////兼容模拟数据/////////////////////////////////////////////////////////////
- 
-  webGet(url, params, success,failed, loader: boolean = false) {
-    let loading = this.loadingCtrl.create();
-    if (loader) {
-        loading.present();
+
+  ///////////////////////////////////////////////带进度的多条数据上传////////////////////////////////////////////////////////
+  isFirst:boolean = true;
+  count:number = 0;
+  uploadRecords(arr, success, failed, progress, complete) {    
+    if (this.isFirst) {
+      this.count = arr.length;
+      this.isFirst = false;
     }
-    let actioname = params.ACTION_NAME.replace("|","");
-    let murl ="assets/data/"+actioname+'.json';
-    this.http.get(murl)
-        .toPromise()
-        .then(res => {
 
-          setTimeout(() => {
-            if (loader) {
-              loading.dismiss();
+    let record = arr.pop();
+    let spleList:any[] = [];
+    spleList.push(record);
+    this.uploadRecordPost(spleList, (response) => {
+      success(record, response);
+      if (arr.length > 0) {
+        //继续发送
+        this.uploadRecords(arr, success, failed, progress, complete);
+      } else {
+        //发送完成
+        this.isFirst = true;
+        complete();
+      }
+    }, error => {
+      this.isFirst = true;
+      failed(error);
+    }, uploadProgress => {
+      let myProgress = uploadProgress;
+      if (this.count > 1) {
+        let subProgress = uploadProgress / this.count;
+        myProgress = 100 * (this.count - arr.length - 1) / this.count + subProgress;
+      }
+      myProgress = parseInt(0 + myProgress);
+      progress(myProgress);
+    });
+  }
+
+  uploadRecordPost(record, success, failed, progress?) {
+    console.log("post:" + AppGlobal.domain +  AppGlobal.API.uploadSamples + "-->" + JSON.stringify(record));
+    this.http.request(new HttpRequest(
+      'POST',
+      AppGlobal.domain +  AppGlobal.API.uploadSamples,
+      {
+        "username": AppServiceProvider.getInstance().userinfo.username,
+        "token": AppServiceProvider.getInstance().userinfo.token,
+        "samples":record
+      },
+      {
+        reportProgress: true
+      })).subscribe(event => {
+
+        if (event.type === HttpEventType.DownloadProgress) {
+          // {
+          // loaded:11, // Number of bytes uploaded or downloaded.
+          // total :11 // Total number of bytes to upload or download
+          // }
+          console.log('loaded:' + event.loaded + '  total:' + event.total);
+        }
+
+        if (event.type === HttpEventType.UploadProgress) {
+          // {
+          // loaded:11, // Number of bytes uploaded or downloaded.
+          // total :11 // Total number of bytes to upload or download
+          // }
+          console.log('loaded:' + event.loaded + '  total:' + event.total);
+          if (event.total && progress) {
+            let uploadProgress = event.loaded / event.total;
+            console.log('progress:' + uploadProgress);
+            uploadProgress = parseInt('0' + uploadProgress * 100);
+            progress(uploadProgress);
+          }
+        }
+
+        if (event.type === HttpEventType.Response) {
+          console.log(event.body);
+
+          let res = event.body
+          //成功
+          this.zone.runGuarded(() => {
+
+            if (success != null) {
+              console.log("result:" + JSON.stringify(res));
+              let re = res as any;
+              let code = re.ret;
+              if (200 == code) {
+                success(re);
+              } 
+              else if(code == 150){
+                this.events.publish("tokenError150");
+                //failed(des);
+              }
+              else{
+                if (failed != null) {
+                  failed(re.desc);
+                }
+              }
             }
-            
-            let m=  res.text();
-            var reg = /("([^\\\"]*(\\.)?)*")|('([^\\\']*(\\.)?)*')|(\/{2,}.*?(\r|\n))|(\/\*(\n|.)*?\*\/)/g;
-            let str = m.replace(reg,function(word) { // 去除注释后的文本  
-              return /^\/{2,}/.test(word) || /^\/\*/.test(word) ? "" : word;  
           });
-            success(str);
-          }, 1000);
-
-        })
-        .catch(error => {
-
-          setTimeout(() => {
-            if (loader) {
-              loading.dismiss();
+        }
+      }, error => {
+        this.zone.runGuarded(() => {
+          if ("tokenError150" == error){
+            this.events.publish("tokenError150");
+          }
+          else {
+            if (failed != null) {
+              failed(error);
             }
-            console.log(error);
-            failed(error.message);
-          }, 1000);
-
+          }
+          
         });
+      })
+
   }
 }

@@ -19,13 +19,13 @@ import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
 import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 import { TaskServiceProvider } from '../providers/task-service/task-service';
+import { HttpClient, HttpClientModule } from '../../node_modules/@angular/common/http';
 
-
-export function netFactory(platform:Platform,loadingCtrl:LoadingController,http:Http,zone:NgZone, events?: Events) {
+export function netFactory(platform:Platform,loadingCtrl:LoadingController,http:Http,zone:NgZone,httpClient?:HttpClient, events?: Events) {
   if (platform.is("mobileweb") /*||platform.is("mobile")*/) {
     return new WebTyNetworkServiceProvider(http,loadingCtrl,events);
   }else if(platform.is("mobile")){
-    return new TyNetworkServiceProvider(loadingCtrl,zone,http,events);
+    return new TyNetworkServiceProvider(loadingCtrl,zone,httpClient,events);
   }else{
     return new WebTyNetworkServiceProvider(http,loadingCtrl,events);
   }
@@ -47,6 +47,7 @@ export function dbFactory(platform:Platform,zone:NgZone) {
   imports: [
     BrowserModule,
     HttpModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp,{
       backButtonText: '返回', 
       iconMode: 'ios',//安卓icon强制使用ios的icon以及样式
@@ -68,7 +69,7 @@ export function dbFactory(platform:Platform,zone:NgZone) {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AppServiceProvider,
     {provide:TyNetworkServiceProvider,useFactory:netFactory,
-      deps:[Platform,LoadingController,Http,NgZone,Events]
+      deps:[Platform,LoadingController,Http,NgZone,HttpClient,Events]
     },
     {provide: DbServiceProvider,useFactory:dbFactory,
       deps:[Platform,NgZone]

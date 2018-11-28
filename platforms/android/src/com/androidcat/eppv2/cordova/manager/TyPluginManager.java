@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Base64;
 
+import com.amap.api.services.core.LatLonPoint;
 import com.androidcat.acnet.okhttp.MyOkHttp;
 import com.androidcat.acnet.okhttp.callback.RawResponseHandler;
 import com.androidcat.eppv2.bean.BaseResponse;
 import com.androidcat.eppv2.MainActivity;
+import com.androidcat.eppv2.cordova.plugin.map.MapNaviUtil;
 import com.androidcat.eppv2.persistence.JepayDatabase;
 import com.androidcat.eppv2.persistence.bean.KeyValue;
 import com.androidcat.eppv2.ui.MyWebBrowserActivity;
@@ -225,6 +227,14 @@ public class TyPluginManager {
         job.put("address",mainActivity.address);
         callbackContext.success(job.toString());
       }
+      else if ("gps_location".equals(code)){
+        MainActivity mainActivity = (MainActivity) plugin.cordova.getActivity();
+        JSONObject job = new JSONObject();
+        LatLonPoint latLonPoint = MapNaviUtil.toGPSPoint(Double.parseDouble(mainActivity.lat),Double.parseDouble(mainActivity.lng));
+        job.put("lat",latLonPoint.getLatitude()+"");
+        job.put("lng",latLonPoint.getLongitude()+"");
+        callbackContext.success(job.toString());
+      }
       else if ("platform.ready".equals(code)){
         plugin.cordova.getActivity().runOnUiThread(new Runnable() {
           public void run() {
@@ -265,6 +275,9 @@ public class TyPluginManager {
       else if("updateTaskDataToUploaded".equals(code)){
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.updateTaskDataToUploaded(plugin,commandData,callbackContext);
+      }else if("updateSingleTaskDataToUploaded".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.updateSingleTaskDataToUploaded(plugin,commandData,callbackContext);
       }
       else if("saveSample".equals(code)){
         String commandData = jsonObject.optString("commandData");

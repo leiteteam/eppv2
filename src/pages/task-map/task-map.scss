@@ -90,7 +90,8 @@ page-task-map {
         border: 1px solid #EF3DC3;
         background: #EF3DC3;
     }
-    .grid > .row > .item-block{
-        min-height: 2.8rem;
+    .grid > .row > .item{
+        min-height: 2.5rem;
+        margin:auto;
     }
 }

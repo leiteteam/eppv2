@@ -5,6 +5,7 @@ import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-
 import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 import { BasePage } from '../base/base';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
+import { resolveDefinition } from '../../../node_modules/@angular/core/src/view/util';
 
 /**
  * Generated class for the DataManagerPage page.
@@ -251,11 +252,12 @@ export class DataManagerPage extends BasePage{
             this.successNum = 0;
             this.getDoneTaskList()
             .then((taskList)=>{
-              return this.uploadSamples(taskList);
+              //return this.uploadSamples(taskList);
+              return this.uploadAll(taskList);
             })
-            .then((taskidList)=>{
-              return this.updateTaskToUploaded(taskidList);
-            })
+            // .then((taskidList)=>{
+            //   return this.updateTaskToUploaded(taskidList);
+            // })
             .then(()=>{
               this.countTask();
             });
@@ -385,4 +387,55 @@ export class DataManagerPage extends BasePage{
     });
   }
 
+  /////////////////////////////////////////逐条上传记录带进度////////////////////////////////////////////////
+
+  uploadAll(taskList){
+    return new Promise((resolve,reject)=>{
+      let spleList:any[] = [];
+      taskList.forEach(element => {
+        let task = JSON.parse(element);
+        task.data = JSON.parse(task.data);
+        if (task.samples){
+          task.samples = JSON.parse(task.samples);
+        }
+        spleList.push(task.samples);
+      });
+
+      if (spleList.length == 0){
+        this.toastShort("当前无可上传样品数据.");
+        return;
+      }
+      let loading = this.loadingCtrl.create();
+      loading.present();
+
+      this.net.uploadRecords(spleList, (sple, response) => {
+        console.log(response);
+        //每上传成功一条数据，更新一条本地数据
+        //todo
+        this.device.push("updateSingleTaskDataToUploaded",sple.TaskID,()=>{        
+          console.log("update local data:"+sple.TaskID);
+        });
+        this.successNum++;
+      }, (error) => {
+        console.log(error);
+        this.failNum++;
+        loading.dismiss();
+        this.toast(error);
+
+        resolve();
+      }, (progress) => {
+        console.log('progress:' + progress);
+        loading.data.content = progress + "%";
+      }, () => {
+        //complete
+        this.doneCountNum = 0;
+        this.failNum = 0;
+        loading.dismiss();
+        this.toast("上传成功");
+
+        resolve();
+      });
+    });
+  }
+  
 }

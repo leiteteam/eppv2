@@ -70,7 +70,7 @@
   },
   "description": "An Ionic project",
   "devDependencies": {
-    "@ionic/app-scripts": "^3.0.0-201710091726",
+    "@ionic/app-scripts": "3.2.1",
     "typescript": "2.3.4"
   },
   "homepage": "http://ionicframework.com/",
