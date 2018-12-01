@@ -174,7 +174,8 @@ android {
     targetSdkVersion 26
 
     ndk {
-      abiFilters "armeabi"
+      // 设置支持的SO库架构
+      abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
     }
   }
 
@@ -224,6 +225,8 @@ repositories {
 }
 
 dependencies {
+  implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+  implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
   implementation 'com.android.support:support-v4:27.0.1'
   implementation 'com.android.support:appcompat-v7:26.1.0'
   implementation 'com.commit451:PhotoView:1.2.4'
@@ -239,7 +242,6 @@ dependencies {
   implementation files('libs/jcore-android-1.1.8.jar')
   implementation files('libs/Zxing-core-3.2.0.jar')
   implementation files('libs/DzPrinter-2017-06-16.jar')
-
   compile(name: 'AMap3DMap_6.3.1_AMapNavi_6.2.0_AMapSearch_6.1.0_AMapTrack_1.0.0_AMapLocation_4.2.0', ext: 'aar')
   compile project(path: ':acwidgets')
 }
