@@ -134,6 +134,27 @@ public class JepayDatabase {
         }
     }
 
+  /**
+   *   * 分页查找
+   *   *
+   *   * @param object
+   *   *            哪个类
+   *   * @param offset
+   *   *            偏移量
+   *   * @param num
+   *   *            查询多少条
+   *   * @return
+   *  
+   */
+  public List<TaskData> queryMulDatas(Class<TaskData> object, int offset, int num) {
+    try {
+      return mDbUtils.findAll(Selector.from(object).offset(offset).limit(num));
+    } catch (DbException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
     public List<TaskData> getDoneTaskList(String userid) {
         if (mDbUtils == null) {
             return new ArrayList<TaskData>();
