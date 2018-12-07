@@ -21,6 +21,8 @@ import { resolveDefinition } from '../../../node_modules/@angular/core/src/view/
 })
 export class DataManagerPage extends BasePage{
 
+  cacheMax:number = 50;
+
   tobeDownloadedNum:number = 0;
 
   undoneCountNum:number = 0;
