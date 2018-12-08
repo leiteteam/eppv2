@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, ModalController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ModalController, Events, AlertController } from 'ionic-angular';
 import { BasePage } from '../base/base';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 import { AppServiceProvider, AppGlobal } from '../../providers/app-service/app-service';
@@ -30,6 +30,9 @@ export class CollectionPage extends BasePage{
   flowedMainSpleList:any[] = [];
   flowedSubSpleList:any[] = [];
 
+  undoneCountNum:number = 0;
+  doneCountNum:number = 0;
+
   SampleCategorys = {
     "1":"表层土壤",
     "2":"深层土壤",
@@ -39,8 +42,12 @@ export class CollectionPage extends BasePage{
     "6":"其他"
   };
 
+  pageSize:number = 10;
+  cacheMax:number = 30;
+
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
+    public alertCtrl:AlertController,
     public toastCtrl:ToastController,
     public modalCtrl: ModalController,
     private net: TyNetworkServiceProvider,
@@ -48,16 +55,59 @@ export class CollectionPage extends BasePage{
     public device:DeviceIntefaceServiceProvider) {
     super(navCtrl,navParams,toastCtrl);
     events.subscribe('tabChanged',(data)=>{
-      this.getTodoList();
+      this.getTodoList(0,this.pageSize);
       if(data != null){
         this.segmentClick(data.type);
       }
     });
+    this.countTask();
   }
 
   onCllect(spleTask){
+    let left = this.cacheMax - this.doneCountNum;
+    if (left <=0){
+      this.showUploadTip(spleTask);
+      return
+    }
+    if (left < 5){
+      this.showUploadWarningTip(left,spleTask);
+      return;
+    }
     this.navCtrl.push('CollectProcessPage', {'spleTask':spleTask, model: 0});
   }
+
+  showUploadTip(spleTask){
+    let alert = this.alertCtrl.create({
+      title: '警告提示',
+      message: '您已完成的离线任务数已经超过系统设定最大缓存数，为了确保数据安全，请先上传已完成的离线任务。',
+      buttons: [
+         {
+          text: '确定',
+          // handler: () => {
+          //   this.navCtrl.push('CollectProcessPage', {'spleTask':spleTask, model: 0});
+          // }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  showUploadWarningTip(left,spleTask){
+    let alert = this.alertCtrl.create({
+      title: '警告提示',
+      message: '您已完成大量的离线任务，可用剩余缓存数不足'+ left +'，为了确保数据安全，请尽快上传已完成的离线任务。',
+      buttons: [
+         {
+          text: '确定',
+          handler: () => {
+            this.navCtrl.push('CollectProcessPage', {'spleTask':spleTask, model: 0});
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   goUpdateTask(spleTask){
     this.navCtrl.push('CollectProcessPage', {'spleTask':spleTask, model: 1});
   }
@@ -66,18 +116,18 @@ export class CollectionPage extends BasePage{
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad CollectionPage');
-    this.getTodoList();
+    this.getTodoList(0,this.pageSize);
   }
 
   doRefresh(refresher) {
     //刷新
     console.log("下拉刷新");
     if (this.tabIndex == 0){
-      this.getTodoList(refresher);
+      this.getTodoList(0,this.pageSize,refresher);
     }
 
     if (this.tabIndex == 1){
-      this.getDoneList(refresher);
+      this.getDoneList(0,this.pageSize,refresher);
     }
 
     if (this.tabIndex == 2){
@@ -89,16 +139,26 @@ export class CollectionPage extends BasePage{
     }
   }
 
+  doInfinite(refresher) {
+    console.log("上拉加载更多");
+    if (this.tabIndex == 0){
+      this.getTodoList(this.todoList.length,this.pageSize,refresher);
+    }
+    if (this.tabIndex == 1){
+      this.getDoneList(this.doneList.length,this.pageSize,refresher);
+    }
+  }
+
   segmentClick(index:number) {
     //alert(this.dictCode[item]);
     this.tabIndex = index;
     this.spleCategory = this.tabList[index].name;
     if (index == 0){
-      this.getTodoList();
+      this.getTodoList(0,this.pageSize);
     }
 
     if (index == 1){
-      this.getDoneList();
+      this.getDoneList(0,this.pageSize);
     }
 
     if (index == 2){
@@ -110,14 +170,37 @@ export class CollectionPage extends BasePage{
     }
   }
 
-  getTodoList(refresher?){
+  countTask(){
+    return new Promise((resolve,reject)=>{
+      this.device.push(
+        "countTask",
+        AppServiceProvider.getInstance().userinfo.username,
+        (success)=>{
+          this.undoneCountNum = success.undoneCountNum;
+          this.doneCountNum = success.doneCountNum;
+        },
+        (err)=>{
+          //this.toastShort(err);
+        },
+        false
+      );
+    });
+  }
+
+  getTodoList(offset,pageSize,refresher?){
     try {
       this.device.push(
-        "getTodoList",
-        AppServiceProvider.getInstance().userinfo.username,
+        "getTodoListByPage",
+        {
+          username:AppServiceProvider.getInstance().userinfo.username,
+          offset:offset,
+          pageSize:pageSize
+        },
         (taskList)=>{
           //console.log(JSON.stringify(taskList));
-          this.todoList = [];
+          if (offset == 0){
+            this.todoList = [];
+          }
           taskList.forEach(element => {
             let task = JSON.parse(element);
             task.data = JSON.parse(task.data);
@@ -138,13 +221,19 @@ export class CollectionPage extends BasePage{
     }
   }
 
-  getDoneList(refresher?){
+  getDoneList(offset,pageSize,refresher?){
     try {
       this.device.push(
-        "getDoneList",
-        AppServiceProvider.getInstance().userinfo.username,
+        "getDoneListByPage",
+        {
+          username:AppServiceProvider.getInstance().userinfo.username,
+          offset:offset,
+          pageSize:pageSize
+        },
         (taskList)=>{
-          this.doneList = [];
+          if (offset == 0){
+            this.doneList = [];
+          }
           taskList.forEach(element => {
             let task = JSON.parse(element);
             task.data = JSON.parse(task.data);

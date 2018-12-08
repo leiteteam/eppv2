@@ -309,11 +309,12 @@ public class CordovaActivity extends Activity {
     @Override
     public void onDestroy() {
         LOG.d(TAG, "CordovaActivity.onDestroy()");
-        super.onDestroy();
-
         if (this.appView != null) {
             appView.handleDestroy();
         }
+        super.onDestroy();
+
+
     }
 
     /**

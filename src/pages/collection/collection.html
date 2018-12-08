@@ -55,10 +55,12 @@
               <ion-icon name="pin"></ion-icon>导航</button>
           </ion-item>
         </ion-item>
+        <ion-custom-empty *ngIf="todoList == null|| todoList.length==0"></ion-custom-empty>
       </ion-list>
-      <div class="empty" *ngIf="todoList == null|| todoList.length==0 ">
-        <p>暂无内容</p>
-      </div>
+      
+      <ion-infinite-scroll *ngIf="todoList.length<undoneCountNum" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content loadingText="正在加载..."></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
     </div>
 
     <div *ngIf="spleCategory=='done'">
@@ -75,10 +77,12 @@
               <ion-icon name="pin"></ion-icon>导航</button>
           </ion-item>
         </ion-item>
+        <ion-custom-empty *ngIf="doneList == null|| doneList.length==0"></ion-custom-empty>
       </ion-list>
-      <div class="empty" *ngIf="doneList == null|| doneList.length==0 ">
-        <p>暂无内容</p>
-      </div>
+      
+      <ion-infinite-scroll *ngIf="doneList.length<doneCountNum" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content loadingText="正在加载..."></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
     </div>
 
     <div *ngIf="spleCategory=='uploaded'">
@@ -96,7 +100,7 @@
           </ion-item>
         </ion-item>
       </ion-list>
-      <div class="empty" *ngIf="uploadedList == null|| uploadedList.length==0 ">
+      <div class="empty" *ngIf="uploadedList == null|| uploadedList.length==0">
         <p>暂无内容</p>
       </div>
     </div>

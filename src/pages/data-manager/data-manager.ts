@@ -21,7 +21,7 @@ import { resolveDefinition } from '../../../node_modules/@angular/core/src/view/
 })
 export class DataManagerPage extends BasePage{
 
-  cacheMax:number = 50;
+  cacheMax:number = 3;
 
   tobeDownloadedNum:number = 0;
 
@@ -250,16 +250,40 @@ export class DataManagerPage extends BasePage{
         {
           text: '开始上传',
           handler: () => {
+            if (this.doneCountNum > this.cacheMax){
+              this.showMaxWarningAlert();
+              return;
+            }
             this.failNum = 0;
             this.successNum = 0;
             this.getDoneTaskList()
             .then((taskList)=>{
-              //return this.uploadSamples(taskList);
               return this.uploadAll(taskList);
             })
-            // .then((taskidList)=>{
-            //   return this.updateTaskToUploaded(taskidList);
-            // })
+            .then(()=>{
+              this.countTask();
+            });
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  showMaxWarningAlert(){
+    let alert = this.alertCtrl.create({
+      title: '温馨提示',
+      message: '您的离线任务数已超过系统设定最大值('+ this.cacheMax +'),为了确保数据上传安全稳定，请分批上传。',
+      buttons: [
+       {
+          text: '确定',
+          handler: () => {
+            this.failNum = 0;
+            this.successNum = 0;
+            this.getDoneTaskList()
+            .then((taskList)=>{
+              return this.uploadAll(taskList);
+            })
             .then(()=>{
               this.countTask();
             });
@@ -273,8 +297,12 @@ export class DataManagerPage extends BasePage{
   getDoneTaskList(){
     return new Promise((resolve,reject)=>{
       this.device.push(
-        "getDoneList",
-        AppServiceProvider.getInstance().userinfo.username,
+        "getDoneListByPage",
+        {
+          username:AppServiceProvider.getInstance().userinfo.username,
+          offset:0,
+          pageSize:this.cacheMax
+        },
         (taskList)=>{
           if (taskList == null || taskList.length == 0){
             this.toast("当前尚无待上传任务。");

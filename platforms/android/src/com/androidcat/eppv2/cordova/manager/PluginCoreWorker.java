@@ -142,6 +142,25 @@ public class PluginCoreWorker {
     callbackContext.success(jsonArray);
   }
 
+    public static void getUndoneTaskListByPage(CordovaPlugin plugin, String info, final CallbackContext callbackContext) {
+        try {
+            JSONObject jsonObject = new JSONObject(info);
+            String username = jsonObject.optString("username");
+            int offset = jsonObject.optInt("offset");
+            int pageSize = jsonObject.optInt("pageSize");
+            JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
+            List<TaskData> list = database.queryUndoneMulDatas(username,offset,pageSize);
+            JSONArray jsonArray = new JSONArray();
+            for (TaskData data : list){
+                String json = new Gson().toJson(data);
+                jsonArray.put(json);
+            }
+            callbackContext.success(jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
   public static void getDoneTaskList(CordovaPlugin plugin, String username, final CallbackContext callbackContext) {
     JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
     List<TaskData> list = database.getDoneTaskList(username);
@@ -151,6 +170,25 @@ public class PluginCoreWorker {
       jsonArray.put(json);
     }
     callbackContext.success(jsonArray);
+  }
+
+  public static void getDoneTaskListByPage(CordovaPlugin plugin, String info, final CallbackContext callbackContext) {
+    try {
+      JSONObject jsonObject = new JSONObject(info);
+      String username = jsonObject.optString("username");
+      int offset = jsonObject.optInt("offset");
+      int pageSize = jsonObject.optInt("pageSize");
+      JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
+      List<TaskData> list = database.queryMulDatas(username,offset,pageSize);
+      JSONArray jsonArray = new JSONArray();
+      for (TaskData data : list){
+        String json = new Gson().toJson(data);
+        jsonArray.put(json);
+      }
+      callbackContext.success(jsonArray);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
   }
 
   public static void updateTaskDataToUploaded(CordovaPlugin plugin, String listStr, final CallbackContext callbackContext) {

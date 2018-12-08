@@ -268,9 +268,17 @@ public class TyPluginManager {
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.getUndoneTaskList(plugin,commandData,callbackContext);
       }
+      else if("getTodoListByPage".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.getUndoneTaskListByPage(plugin,commandData,callbackContext);
+      }
       else if("getDoneList".equals(code)){
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.getDoneTaskList(plugin,commandData,callbackContext);
+      }
+      else if("getDoneListByPage".equals(code)){
+        String commandData = jsonObject.optString("commandData");
+        PluginCoreWorker.getDoneTaskListByPage(plugin,commandData,callbackContext);
       }
       else if("updateTaskDataToUploaded".equals(code)){
         String commandData = jsonObject.optString("commandData");

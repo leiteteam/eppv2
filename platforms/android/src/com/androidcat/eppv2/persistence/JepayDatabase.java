@@ -134,6 +134,15 @@ public class JepayDatabase {
         }
     }
 
+    public List<TaskData> queryUndoneMulDatas(String userid, int offset, int num) {
+        try {
+            return mDbUtils.findAll(Selector.from(TaskData.class).where("userid", "=", userid).and("state", "=", "0").offset(offset).limit(num));
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<TaskData>();
+    }
+
   /**
    *   * 分页查找
    *   *
@@ -146,13 +155,13 @@ public class JepayDatabase {
    *   * @return
    *  
    */
-  public List<TaskData> queryMulDatas(Class<TaskData> object, int offset, int num) {
+  public List<TaskData> queryMulDatas(String userid, int offset, int num) {
     try {
-      return mDbUtils.findAll(Selector.from(object).offset(offset).limit(num));
+      return mDbUtils.findAll(Selector.from(TaskData.class).where("userid", "=", userid).and("state", "=", "1").offset(offset).limit(num));
     } catch (DbException e) {
       e.printStackTrace();
     }
-    return null;
+      return new ArrayList<TaskData>();
   }
 
     public List<TaskData> getDoneTaskList(String userid) {
