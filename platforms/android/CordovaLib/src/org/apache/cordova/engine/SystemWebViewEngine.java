@@ -115,7 +115,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
                 //sometimes this can be called after calling webview.destroy() on destroy()
                 //thus resulting in a NullPointerException
                 if(webView!=null) {
-                   webView.setNetworkAvailable(value); 
+                   webView.setNetworkAvailable(value);
                 }
             }
             @Override
@@ -331,20 +331,6 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
 
     @Override
     public void destroy() {
-        // 如果先调用destroy()方法，则会命中if (isDestroyed()) return;这一行代码，需要先onDetachedFromWindow()，再
-        // destory()
-        ViewParent parent = webView.getParent();
-        if (parent != null) {
-            ((ViewGroup) parent).removeView(webView);
-        }
-        webView.stopLoading();
-        // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
-        webView.getSettings().setJavaScriptEnabled(false);
-        webView.clearHistory();
-        webView.clearView();
-        webView.removeAllViews();
-        /////////////////////////////////////////////////
-
         webView.chromeClient.destroyLastDialog();
         webView.destroy();
         // unregister the receiver

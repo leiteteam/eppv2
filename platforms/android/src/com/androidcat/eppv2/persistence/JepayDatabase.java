@@ -136,7 +136,11 @@ public class JepayDatabase {
 
     public List<TaskData> queryUndoneMulDatas(String userid, int offset, int num) {
         try {
-            return mDbUtils.findAll(Selector.from(TaskData.class).where("userid", "=", userid).and("state", "=", "0").offset(offset).limit(num));
+          List<TaskData> taskList = mDbUtils.findAll(Selector.from(TaskData.class).where("userid", "=", userid).and("state", "=", "0").offset(offset).limit(num));
+          if (taskList == null) {
+            return new ArrayList<TaskData>();
+          }
+          return taskList;
         } catch (DbException e) {
             e.printStackTrace();
         }
@@ -157,7 +161,11 @@ public class JepayDatabase {
    */
   public List<TaskData> queryMulDatas(String userid, int offset, int num) {
     try {
-      return mDbUtils.findAll(Selector.from(TaskData.class).where("userid", "=", userid).and("state", "=", "1").offset(offset).limit(num));
+      List<TaskData> taskList = mDbUtils.findAll(Selector.from(TaskData.class).where("userid", "=", userid).and("state", "=", "1").offset(offset).limit(num));
+      if (taskList == null) {
+        return new ArrayList<TaskData>();
+      }
+      return taskList;
     } catch (DbException e) {
       e.printStackTrace();
     }

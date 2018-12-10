@@ -72,7 +72,7 @@ public class PluginCoreWorker {
     DzPrinterHelper printerHelper = new DzPrinterHelper();
     if (printerHelper.isPrinterConnected()) {
       callbackContext.success("已连接");
-    }else {
+    } else {
       callbackContext.success("未连接");
     }
   }
@@ -104,11 +104,12 @@ public class PluginCoreWorker {
 
   public static void downloadTask(CordovaPlugin plugin, String tasksJson, final CallbackContext callbackContext) {
     try {
-      List<TaskData> taskList = new Gson().fromJson(tasksJson,new TypeToken<List<TaskData>>() {}.getType());
+      List<TaskData> taskList = new Gson().fromJson(tasksJson, new TypeToken<List<TaskData>>() {
+      }.getType());
       JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
-      if (database.updateTaskDataList(taskList)){
+      if (database.updateTaskDataList(taskList)) {
         callbackContext.success();
-      }else {
+      } else {
         callbackContext.error("数据缓存失败");
       }
     } catch (Exception e) {
@@ -121,8 +122,8 @@ public class PluginCoreWorker {
     JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
     JSONObject jsonObject = new JSONObject();
     try {
-      jsonObject.put("undoneCountNum",database.getUndoneTaskCount(username));
-      jsonObject.put("doneCountNum",database.getDoneTaskCount(username));
+      jsonObject.put("undoneCountNum", database.getUndoneTaskCount(username));
+      jsonObject.put("doneCountNum", database.getDoneTaskCount(username));
       callbackContext.success(jsonObject);
     } catch (JSONException e) {
       e.printStackTrace();
@@ -135,40 +136,47 @@ public class PluginCoreWorker {
     JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
     List<TaskData> list = database.getUndoneTaskList(username);
     JSONArray jsonArray = new JSONArray();
-    for (TaskData data : list){
-      String json = new Gson().toJson(data);
-      jsonArray.put(json);
+    if (list != null && list.size() > 0){
+      for (TaskData data : list) {
+        String json = new Gson().toJson(data);
+        jsonArray.put(json);
+      }
     }
     callbackContext.success(jsonArray);
   }
 
-    public static void getUndoneTaskListByPage(CordovaPlugin plugin, String info, final CallbackContext callbackContext) {
-        try {
-            JSONObject jsonObject = new JSONObject(info);
-            String username = jsonObject.optString("username");
-            int offset = jsonObject.optInt("offset");
-            int pageSize = jsonObject.optInt("pageSize");
-            JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
-            List<TaskData> list = database.queryUndoneMulDatas(username,offset,pageSize);
-            JSONArray jsonArray = new JSONArray();
-            for (TaskData data : list){
-                String json = new Gson().toJson(data);
-                jsonArray.put(json);
-            }
-            callbackContext.success(jsonArray);
-        } catch (JSONException e) {
-            e.printStackTrace();
+  public static void getUndoneTaskListByPage(CordovaPlugin plugin, String info, final CallbackContext callbackContext) {
+    try {
+      JSONObject jsonObject = new JSONObject(info);
+      String username = jsonObject.optString("username");
+      int offset = jsonObject.optInt("offset");
+      int pageSize = jsonObject.optInt("pageSize");
+      JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
+      List<TaskData> list = database.queryUndoneMulDatas(username, offset, pageSize);
+      JSONArray jsonArray = new JSONArray();
+      if (list != null && list.size() > 0) {
+        for (TaskData data : list) {
+          String json = new Gson().toJson(data);
+          jsonArray.put(json);
         }
+      }
+      callbackContext.success(jsonArray);
+    } catch (JSONException e) {
+      e.printStackTrace();
     }
+  }
 
   public static void getDoneTaskList(CordovaPlugin plugin, String username, final CallbackContext callbackContext) {
     JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
     List<TaskData> list = database.getDoneTaskList(username);
     JSONArray jsonArray = new JSONArray();
-    for (TaskData data : list){
-      String json = new Gson().toJson(data);
-      jsonArray.put(json);
+    if (list != null && list.size() > 0){
+      for (TaskData data : list) {
+        String json = new Gson().toJson(data);
+        jsonArray.put(json);
+      }
     }
+
     callbackContext.success(jsonArray);
   }
 
@@ -179,12 +187,15 @@ public class PluginCoreWorker {
       int offset = jsonObject.optInt("offset");
       int pageSize = jsonObject.optInt("pageSize");
       JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
-      List<TaskData> list = database.queryMulDatas(username,offset,pageSize);
+      List<TaskData> list = database.queryMulDatas(username, offset, pageSize);
       JSONArray jsonArray = new JSONArray();
-      for (TaskData data : list){
-        String json = new Gson().toJson(data);
-        jsonArray.put(json);
+      if (list != null && list.size() > 0){
+        for (TaskData data : list) {
+          String json = new Gson().toJson(data);
+          jsonArray.put(json);
+        }
       }
+
       callbackContext.success(jsonArray);
     } catch (JSONException e) {
       e.printStackTrace();
@@ -193,19 +204,20 @@ public class PluginCoreWorker {
 
   public static void updateTaskDataToUploaded(CordovaPlugin plugin, String listStr, final CallbackContext callbackContext) {
     JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
-    List<String> taskidList = new Gson().fromJson(listStr,new TypeToken<List<String>>(){}.getType());
-    if(database.updateTaskDataToUploaded(taskidList)){
+    List<String> taskidList = new Gson().fromJson(listStr, new TypeToken<List<String>>() {
+    }.getType());
+    if (database.updateTaskDataToUploaded(taskidList)) {
       callbackContext.success();
-    }else {
+    } else {
       callbackContext.error("本地数据更新失败,请重新上传");
     }
   }
 
   public static void updateSingleTaskDataToUploaded(CordovaPlugin plugin, String taskid, final CallbackContext callbackContext) {
     JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
-    if(database.updateTaskDataToUploaded(taskid)){
+    if (database.updateTaskDataToUploaded(taskid)) {
       callbackContext.success();
-    }else {
+    } else {
       callbackContext.error("本地数据更新失败,请重新上传");
     }
   }
@@ -213,10 +225,11 @@ public class PluginCoreWorker {
 
   public static void saveSample(CordovaPlugin plugin, String dataStr, final CallbackContext callbackContext) {
     JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
-    TaskData taskData = new Gson().fromJson(dataStr,new TypeToken<TaskData>(){}.getType());
-    if(database.updateTaskData(taskData)){
+    TaskData taskData = new Gson().fromJson(dataStr, new TypeToken<TaskData>() {
+    }.getType());
+    if (database.updateTaskData(taskData)) {
       callbackContext.success();
-    }else {
+    } else {
       callbackContext.error("本地数据更新失败,请重新保存");
     }
   }
@@ -224,9 +237,9 @@ public class PluginCoreWorker {
   public static void getUserInfo(CordovaPlugin plugin, String username, final CallbackContext callbackContext) {
     JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
     UserInfo userInfo = database.getUserInfo(username);
-    if (userInfo != null){
+    if (userInfo != null) {
       callbackContext.success(new Gson().toJson(userInfo));
-    }else {
+    } else {
       callbackContext.error("");
     }
   }
@@ -234,27 +247,27 @@ public class PluginCoreWorker {
   public static void updateUserInfo(CordovaPlugin plugin, String infoStr, final CallbackContext callbackContext) {
     JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
     UserInfo userInfo = new Gson().fromJson(infoStr, UserInfo.class);
-    if (database.updateUserInfo(userInfo)){
+    if (database.updateUserInfo(userInfo)) {
       callbackContext.success();
-    }else {
+    } else {
       callbackContext.error("");
     }
   }
 
-  public static void navigation(CordovaPlugin plugin,String commData, final CallbackContext callbackContext){
+  public static void navigation(CordovaPlugin plugin, String commData, final CallbackContext callbackContext) {
     try {
       JSONObject data = new JSONObject(commData);
       String dlat = data.optString("lat");
       String dlon = data.optString("lng");
-      if (Utils.isApplicationInstalled(plugin.cordova.getActivity(),"com.autonavi.minimap")){
-        MapNaviUtil.openGaoDeMap(plugin.cordova.getActivity(),"","","",dlat,dlon,"");
+      if (Utils.isApplicationInstalled(plugin.cordova.getActivity(), "com.autonavi.minimap")) {
+        MapNaviUtil.openGaoDeMap(plugin.cordova.getActivity(), "", "", "", dlat, dlon, "");
         callbackContext.success();
         return;
       }
 
       double lat = Double.parseDouble(dlat);
       double lng = Double.parseDouble(dlon);
-      LatLng dst = new LatLng(lat,lng);
+      LatLng dst = new LatLng(lat, lng);
       //Poi start = new Poi("三元桥", new LatLng(39.96087,116.45798), "");
 
       Poi end = new Poi("目的地", dst, "");
@@ -335,47 +348,47 @@ public class PluginCoreWorker {
     }
   }
 
-  public static void getWifiState(CordovaPlugin plugin, final CallbackContext callbackContext){
-    if (SystemSettingUtil.isWifiAvailable(plugin.cordova.getActivity())){
+  public static void getWifiState(CordovaPlugin plugin, final CallbackContext callbackContext) {
+    if (SystemSettingUtil.isWifiAvailable(plugin.cordova.getActivity())) {
       callbackContext.success(1);
-    }else {
+    } else {
       callbackContext.success(0);
     }
   }
 
-  public static void get4gState(CordovaPlugin plugin, final CallbackContext callbackContext){
-    if (SystemSettingUtil.is4GAvailable(plugin.cordova.getActivity())){
+  public static void get4gState(CordovaPlugin plugin, final CallbackContext callbackContext) {
+    if (SystemSettingUtil.is4GAvailable(plugin.cordova.getActivity())) {
       callbackContext.success(1);
-    }else {
+    } else {
       callbackContext.success(0);
     }
   }
 
-  public static void getBleState(CordovaPlugin plugin, final CallbackContext callbackContext){
-    if (SystemSettingUtil.isBleAvailable()){
+  public static void getBleState(CordovaPlugin plugin, final CallbackContext callbackContext) {
+    if (SystemSettingUtil.isBleAvailable()) {
       callbackContext.success(1);
-    }else {
+    } else {
       callbackContext.success(0);
     }
   }
 
-  public static void switchWifi(CordovaPlugin plugin, final CallbackContext callbackContext){
+  public static void switchWifi(CordovaPlugin plugin, final CallbackContext callbackContext) {
     SystemSettingUtil.switchWifi(plugin.cordova.getActivity());
     callbackContext.success();
   }
 
-  public static void switch4g(CordovaPlugin plugin, final CallbackContext callbackContext){
+  public static void switch4g(CordovaPlugin plugin, final CallbackContext callbackContext) {
     SystemSettingUtil.switch4g(plugin.cordova.getActivity());
     callbackContext.success();
   }
 
-  public static void switchBle(CordovaPlugin plugin, final CallbackContext callbackContext){
+  public static void switchBle(CordovaPlugin plugin, final CallbackContext callbackContext) {
     SystemSettingUtil.switchBle();
     callbackContext.success();
   }
 
   public static void startTracing(final CordovaPlugin plugin, String taskid, final CallbackContext callbackContext) {
-    if (!Utils.isGpsOpen(plugin.cordova.getActivity())){
+    if (!Utils.isGpsOpen(plugin.cordova.getActivity())) {
       final NormalDialog dialog = new NormalDialog(plugin.cordova.getActivity());
       dialog.content("您尚未开启Gps开关，导航和记录需开启Gps。请前往开启")
         .contentTextColor(R.color.text_black)
@@ -412,7 +425,7 @@ public class PluginCoreWorker {
     JSONArray jsonArray = new JSONArray();
 
     List<Track> list = database.getTrackList(taskid);
-    for (Track data : list){
+    for (Track data : list) {
       String json = new Gson().toJson(data);
       try {
         JSONObject track = new JSONObject(json);
@@ -427,7 +440,7 @@ public class PluginCoreWorker {
 
   public static void findOnMap(final CordovaPlugin plugin, String loc, final CallbackContext callbackContext) {
     Intent intent = new Intent(plugin.cordova.getActivity(), FindOnMapActivity.class);
-    intent.putExtra("target",loc);
+    intent.putExtra("target", loc);
     plugin.cordova.getActivity().startActivity(intent);
     callbackContext.success();
   }
