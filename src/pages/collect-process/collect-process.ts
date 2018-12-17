@@ -2,7 +2,7 @@ import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface
 import { BasePage } from './../base/base';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, ActionSheetController } from 'ionic-angular';
 /**
  * Generated class for the CollectProcessPage page.
  *
@@ -32,7 +32,7 @@ export class CollectProcessPage extends BasePage {
   isFlagInput: boolean = false;
   model: number = 0;
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
-    private camera: Camera, private alertCtrl: AlertController, public device: DeviceIntefaceServiceProvider) {
+    private camera: Camera, private alertCtrl: AlertController,public actionSheet:ActionSheetController, public device: DeviceIntefaceServiceProvider) {
     super(navCtrl, navParams, toastCtrl);
     //初始化json
     this.initJson();
@@ -273,10 +273,15 @@ export class CollectProcessPage extends BasePage {
     if (this.isFlagInput) {
       return;
     }
+    //show options
+    this.openCamera(loc);
+  }
+
+  openCamera(loc) {
+    console.log('open click 1');
     // 设置选项
     const options: CameraOptions = {
       quality: 80,
-      sourceType: this.camera.PictureSourceType.CAMERA,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
@@ -284,34 +289,50 @@ export class CollectProcessPage extends BasePage {
       targetHeight: 520,
       targetWidth: 360
     }
+    var buttons = [{
+      text: "拍照",
+      handler: () => {
+        options.sourceType = this.camera.PictureSourceType.CAMERA;
+        this.getImgWithIndex(loc,options);
+      }
+    }, {
+      text: "从相册中选择",
+      handler: () => {
+        console.log('photolibary');
+        options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
+        this.getImgWithIndex(loc,options);
+      }
+    }, {
+      text: "取消",
+      role: 'cancel',
+      handler: () => {
+      }
+    }];
+
+    let actionSheet = this.actionSheet.create({
+      buttons: buttons
+    });
+    actionSheet.present();
+  }
+
+  getImgWithIndex(loc,options){
+    
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
       let base64Image = imageData;
       switch (loc) {
         case 1:
-          this.eastNorthImg = base64Image;
-          break;
-        case 2:
-          this.northImg = base64Image;
-          break;
-        case 3:
-          this.westNorthImg = base64Image;
-          break;
-        case 4:
           this.eastImg = base64Image;
           break;
-        case 5:
-          this.westImg = base64Image;
-          break;
-        case 6:
-          this.eastSouthImg = base64Image;
-          break;
-        case 7:
+        case 2:
           this.southImg = base64Image;
           break;
-        case 8:
-          this.westSouthImg = base64Image;
+        case 3:
+          this.westImg = base64Image;
+          break;
+        case 4:
+          this.northImg = base64Image;
           break;
       }
       //清理缓存的图片文件
@@ -321,6 +342,7 @@ export class CollectProcessPage extends BasePage {
       // Handle error
     });
   }
+
   //删除照片
   delImg(loc) {
     if (this.isFlagInput) {

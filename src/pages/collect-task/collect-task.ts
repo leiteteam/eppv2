@@ -4,7 +4,7 @@ import { BasePage } from './../base/base';
 import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface-service/device-inteface-service';
 import { CameraOptions, Camera } from '@ionic-native/camera';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, ActionSheetController } from 'ionic-angular';
 
 /**
  * Generated class for the CollectTaskPage page.
@@ -35,7 +35,7 @@ export class CollectTaskPage extends BasePage {
   tipContent:string = "状态更改成功！";
   isStateFlag:boolean = true;
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, 
-    public device:DeviceIntefaceServiceProvider, private camera: Camera, public alertCtrl:AlertController,
+    public device:DeviceIntefaceServiceProvider, private camera: Camera, public alertCtrl:AlertController,public actionSheet:ActionSheetController,
     public db:DbServiceProvider, public events:Events ) {
     super(navCtrl, navParams, toastCtrl);
     //this.callback = navParams.get("callback");
@@ -270,18 +270,51 @@ export class CollectTaskPage extends BasePage {
     if(this.isFlagInput){
       return;
     }
+    //show options
+    this.openCamera(loc);
+  }
+
+  openCamera(loc) {
+    console.log('open click 1');
     // 设置选项
     const options: CameraOptions = {
       quality: 80,
-      sourceType: this.camera.PictureSourceType.CAMERA,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation:true,
-      saveToPhotoAlbum: true,
-      targetHeight:520,
-      targetWidth:360
+      correctOrientation: true,
+      //saveToPhotoAlbum:true,
+      targetHeight: 520,
+      targetWidth: 360
     }
+    var buttons = [{
+      text: "拍照",
+      handler: () => {
+        options.sourceType = this.camera.PictureSourceType.CAMERA;
+        this.getImgWithIndex(loc,options);
+      }
+    }, {
+      text: "从相册中选择",
+      handler: () => {
+        console.log('photolibary');
+        options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
+        this.getImgWithIndex(loc,options);
+      }
+    }, {
+      text: "取消",
+      role: 'cancel',
+      handler: () => {
+      }
+    }];
+
+    let actionSheet = this.actionSheet.create({
+      buttons: buttons
+    });
+    actionSheet.present();
+  }
+
+  getImgWithIndex(loc,options){
+    
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
@@ -302,11 +335,12 @@ export class CollectTaskPage extends BasePage {
       }
       //清理缓存的图片文件
       this.camera.cleanup();
-     }, (err) => {
-       console.log(err);
+    }, (err) => {
+      console.log(err);
       // Handle error
-     });
+    });
   }
+  
   aletBigImg(imgBuf:String,titleName:any){
     let alert = this.alertCtrl.create({
       title: titleName,
