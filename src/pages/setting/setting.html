@@ -39,7 +39,7 @@
           <ion-toggle [(ngModel)]="bleState" color="secondary" (ionChange)="switchBle($event)" ></ion-toggle>
         </ion-item> -->
       
-        <ion-item style="margin-top: 15px;">
+        <ion-item style="margin-top: 15px;" (click)="bluetoothSearch()"  >
             <ion-icon name="print" item-start color="primary"></ion-icon>
             <ion-label>打印机连接状态</ion-label>
             <p item-end>{{printState}}</p>

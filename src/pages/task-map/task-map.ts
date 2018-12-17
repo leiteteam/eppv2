@@ -150,7 +150,7 @@ export class TaskMapPage extends BasePage {
     this.returnedMarkers = [];
 
     AppServiceProvider.getInstance().undownTaskList.forEach(element => {
-      let lnglat = new AMap.LngLat(element.Point.Longitude, element.Point.Latitude);
+      let lnglat = new AMap.LngLat(element.Point.ALongitude, element.Point.ALatitude);
       let marker = new AMap.Marker({
         icon: "assets/imgs/marker_download.png",
         position: lnglat
@@ -159,7 +159,7 @@ export class TaskMapPage extends BasePage {
     });
 
     AppServiceProvider.getInstance().downloadedTaskList.forEach(element => {
-      let lnglat = new AMap.LngLat(element.Point.Longitude, element.Point.Latitude);
+      let lnglat = new AMap.LngLat(element.Point.ALongitude, element.Point.ALatitude);
       let marker = new AMap.Marker({
         icon: "assets/imgs/marker.png",
         position: lnglat
@@ -168,7 +168,7 @@ export class TaskMapPage extends BasePage {
     });
 
     AppServiceProvider.getInstance().uploadedTaskList.forEach(element => {
-      let lnglat = new AMap.LngLat(element.Point.Longitude, element.Point.Latitude);
+      let lnglat = new AMap.LngLat(element.Point.ALongitude, element.Point.ALatitude);
       let marker = new AMap.Marker({
         icon: "assets/imgs/marker_done.png",
         position: lnglat
@@ -177,7 +177,7 @@ export class TaskMapPage extends BasePage {
     });
 
     AppServiceProvider.getInstance().returnedTaskList.forEach(element => {
-      let lnglat = new AMap.LngLat(element.Point.Longitude, element.Point.Latitude);
+      let lnglat = new AMap.LngLat(element.Point.ALongitude, element.Point.ALatitude);
       let marker = new AMap.Marker({
         icon: "assets/imgs/marker_return.png",
         position: lnglat

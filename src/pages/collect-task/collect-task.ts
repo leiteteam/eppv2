@@ -31,6 +31,7 @@ export class CollectTaskPage extends BasePage {
   changeImg:String;
   distance:number = 0;
   model:number = 0;
+  disInterval: any;
   tipContent:string = "状态更改成功！";
   isStateFlag:boolean = true;
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController, 
@@ -63,7 +64,48 @@ export class CollectTaskPage extends BasePage {
           this.changeImg = pictures[index].base64;
           break;
       }
+      this.sampleData.WJSampleTool = "铁铲";
+      this.sampleData.WJSampleContainer = "布袋";
+      this.db.getString("organicSplTool",organicSplTool=>{
+        if (organicSplTool) {
+          this.sampleData.WJSampleTool = organicSplTool
+        }
+      });
+      this.db.getString("organicSplContainer",organicSplContainer=>{
+        if (organicSplContainer) {
+          this.sampleData.WJSampleContainer = organicSplContainer
+        }
+      });
+      this.db.getString("abioSplTool",abioSplTool=>{
+        if (abioSplTool) {
+          this.sampleData.YJSampleTool = abioSplTool
+        }
+      });
+      this.db.getString("abioSplContainer",abioSplContainer=>{
+        if (abioSplContainer) {
+          this.sampleData.YJSampleContainer = abioSplContainer
+        }
+      });
     }
+  }
+  ionViewDidEnter(){
+    this.disInterval = setInterval(() =>{
+      if(this.isFlagInput){
+        return;
+      }
+      this.device.push("gps_location","",(location)=>{
+        location = JSON.parse(location);
+        this.sampleData.FactLongitude = location.lng;
+        this.sampleData.FactLatitude = location.lat;
+        this.sampleData.DeviationDistance = this.getDistance(this.taskData.Point.Latitude, this.taskData.Point.Longitude, location.lat, location.lng);
+        }, (err)=>{
+          this.toast("定位失败，请在室外空旷处再试!");
+        }
+      );
+    }, 1000);
+  }
+  ionViewDidLeave(){
+   clearInterval(this.disInterval);
   }
   getLatLng(){
     if(this.isFlagInput){
@@ -82,11 +124,12 @@ export class CollectTaskPage extends BasePage {
   }
   //保存
   save(){
+    console.log("作用类型:" + this.sampleData.cropType + ", 土地利用:" + this.sampleData.soilMake + ", 土壤类型:" + this.sampleData.CropType);
     if(this.isFlagInput){
       this.navCtrl.pop();
       return;
     }
-    if(!this.sampleData.FactLongitude || !this.sampleData.FactLatitude || this.sampleData.SampleDepthFrom == null ||
+    if(!this.sampleData.FactLongitude || !this.sampleData.FactLatitude || this.sampleData.SampleDepthFrom == null || this.sampleData.soilMake == 10 || this.sampleData.cropTypes == 10 ||
       this.sampleData.SampleDepthFrom.toString() == "" || this.sampleData.SampleDepthTo == null || this.sampleData.SampleDepthTo.toString() == "" ||
      !this.sampleData.Weight || this.sampleData.SoilTexture == 0 || this.sampleData.SoilColor == 0 ){
       this.toast("请将带*的信息输入完整！");
@@ -128,10 +171,10 @@ export class CollectTaskPage extends BasePage {
     } else
     if(!this.sampleData.FactAddress || this.sampleData.Altitude == '' || this.sampleData.IrrigationMethod == 0 || this.sampleData.IrrigationType == 0 ||
     this.sampleData.TerrainType == 0 || this.sampleData.Weather == 0 || !this.sampleData.DueEast || !this.sampleData.DueSouth || 
-    !this.sampleData.DueWest || !this.sampleData.DueNorth){
+    !this.sampleData.DueWest || !this.sampleData.DueNorth || this.sampleData.soilMake == 10 || this.sampleData.cropType == 10 ){
       this.isStateFlag = false;
       this.tipContent = "但样点信息未填写完整！";
-    } else if(pictures.length < (this.changeImg == null ? 7 : 8)){
+    } else if(pictures.length < (this.changeImg == null ? 11 : 12)){
       this.isStateFlag = false;
       this.tipContent = "但样点方位照没有拍全！";
     } else if(!this.spleTask.samples.isCompany){
@@ -140,26 +183,6 @@ export class CollectTaskPage extends BasePage {
     }
     this.sampleData.Pictures = pictures;
     this.sampleData.TaskID = this.spleTask.taskid;
-    this.db.getString("organicSplTool",organicSplTool=>{
-      if (organicSplTool) {
-        this.sampleData.WJSampleTool = organicSplTool
-      }
-    });
-    this.db.getString("organicSplContainer",organicSplContainer=>{
-      if (organicSplContainer) {
-        this.sampleData.WJSampleContainer = organicSplContainer
-      }
-    });
-    this.db.getString("abioSplTool",abioSplTool=>{
-      if (abioSplTool) {
-        this.sampleData.YJSampleTool = abioSplTool
-      }
-    });
-    this.db.getString("abioSplContainer",abioSplContainer=>{
-      if (abioSplContainer) {
-        this.sampleData.YJSampleContainer = abioSplContainer
-      }
-    });
     //有数据保存将状态改为已编辑
     this.taskData.editFlag = true;
     //复制内存中当前的spleTask，用于数据保存
@@ -167,7 +190,7 @@ export class CollectTaskPage extends BasePage {
     //原始spleTask仍用于内存中使用，所以需保持同步更新字段内容
     let date = new Date();
     if( this.sampleData.SamplingTime == '' ){
-      this.sampleData.SamplingTime =  date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+      this.sampleData.SamplingTime =  this.formatDateTime(date);
     }
     this.spleTask['samples'] = this.sampleData;
     this.spleTask['data'] = this.taskData;
@@ -327,6 +350,90 @@ export class CollectTaskPage extends BasePage {
     });
     alert.present();
   }
+  toolBtn(){
+    let titleName = "采样工具";
+    let alert = this.alertCtrl.create();
+    alert.setTitle( titleName + "-多选框" );
+
+    alert.addInput({
+      type: 'checkbox',
+      label: '铁铲',
+      value: '铁铲'
+    });
+    alert.addInput({
+      type: 'checkbox',
+      label: '土钻',
+      value: '土钻'
+    });
+    alert.addInput({
+      type: 'checkbox',
+      label: '木铲',
+      value: '木铲'
+    });
+    alert.addInput({
+      type: 'checkbox',
+      label: '竹片',
+      value: '竹片'
+    });
+    alert.addInput({
+      type: 'checkbox',
+      label: '其他',
+      value: '其他'
+    });
+    alert.addButton('取消');
+    alert.addButton({
+      text: '确定',
+      handler: data => {
+        if(data.length <= 0){
+          this.toast("未选择工具");
+          return;
+        }
+        let datas: String = data.join(",");
+        this.sampleData.WJSampleTool = datas;
+      }
+    });
+    alert.present();
+  }
+  containerBtn(){
+    let titleName = "采样容器";
+
+    let alert = this.alertCtrl.create();
+    alert.setTitle( titleName + "-多选框" );
+
+    alert.addInput({
+      type: 'checkbox',
+      label: '布袋',
+      value: '布袋'
+    });
+    alert.addInput({
+      type: 'checkbox',
+      label: '聚乙烯袋',
+      value: '聚乙烯袋'
+    });
+    alert.addInput({
+      type: 'checkbox',
+      label: '棕色磨口瓶',
+      value: '棕色磨口瓶'
+    });
+    alert.addInput({
+      type: 'checkbox',
+      label: '其他',
+      value: '其他'
+    });
+    alert.addButton('取消');
+    alert.addButton({
+      text: '确定',
+      handler: data => {
+        if(data.length <= 0){
+          this.toast("未选择容器");
+          return;
+        }
+        let datas: String = data.join(",");
+        this.sampleData.WJSampleContainer = datas;
+      }
+    });
+    alert.present();
+  }
   controlSamples: any = [
     {
       name: '',
@@ -351,6 +458,7 @@ export class CollectTaskPage extends BasePage {
         { text: '中壤土', value: 4 },
         { text: '重壤土', value: 5 },
         { text: '黏土', value: 6 },
+        { text: '壤土', value: 7 },
         { text: '其它', value: 10 }
       ]
     }
@@ -379,6 +487,42 @@ export class CollectTaskPage extends BasePage {
       ]
     }
   ];
+  humiditys: any = [
+    {
+      name: '',
+      options: [        
+        { text: '请选择', value: 10 },
+        { text: '干', value: 0 },
+        { text: '潮', value: 1 },
+        { text: '湿', value: 2 },
+        { text: '重潮', value: 3 },
+        { text: '极潮', value: 4 },
+      ]
+    }
+  ];
+  soilTypes2: any = [
+    {
+      name: '',
+      options: [        
+        { text: '请选择', value: 99 },
+        { text: '砖红壤', value: 0 },
+        { text: '赤红壤', value: 1 },
+        { text: '红壤和黄壤', value: 2 },
+        { text: '黄棕壤', value: 3 },
+        { text: '棕壤', value: 4 },
+        { text: '暗棕壤', value: 5 },
+        { text: '寒棕壤', value: 6 },
+        { text: '褐土', value: 7 },
+        { text: '黑钙土', value: 8 },
+        { text: '栗钙土', value: 9 },
+        { text: '棕钙土', value: 10 },
+        { text: '黑垆土', value: 11 },
+        { text: '荒漠土', value: 12 },
+        { text: '草甸土', value: 13 },
+        { text: '漠土', value: 14 },
+      ]
+    }
+  ];
   ionViewDidLoad() {
     console.log('ionViewDidLoad CollectTaskPage');
   }
@@ -394,5 +538,20 @@ export class CollectTaskPage extends BasePage {
     s = Math.round(s * 10000) / 10;
     return s;
   }
+  formatDateTime(inputTime) {  
+    let date = inputTime;
+    let y = date.getFullYear();  
+    let m = date.getMonth() + 1;  
+    m = m < 10 ? ('0' + m) : m;  
+    let d = date.getDate();  
+    d = d < 10 ? ('0' + d) : d;  
+    let h = date.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;  
+    second = second < 10 ? ('0' + second) : second; 
+    return y + '-' + m + '-' + d+' ' + h + ':' + minute + ':' + second;  
+}
 }
 

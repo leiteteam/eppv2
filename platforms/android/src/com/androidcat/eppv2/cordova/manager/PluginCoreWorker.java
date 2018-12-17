@@ -19,7 +19,9 @@ import com.androidcat.eppv2.CheckPermissionActivity;
 import com.androidcat.eppv2.LocationActivity;
 import com.androidcat.eppv2.R;
 import com.androidcat.eppv2.cordova.plugin.map.MapNaviUtil;
+import com.androidcat.eppv2.cordova.plugin.print.BluetoothSearch;
 import com.androidcat.eppv2.cordova.plugin.print.DzPrinterHelper;
+import com.androidcat.eppv2.cordova.plugin.print.POSTEKPrintHelper;
 import com.androidcat.eppv2.cordova.plugin.qrcode.QrCodeHelper;
 import com.androidcat.eppv2.persistence.JepayDatabase;
 import com.androidcat.eppv2.persistence.bean.TaskData;
@@ -55,8 +57,8 @@ import java.util.List;
 
 public class PluginCoreWorker {
 
-  public static void print(final String message, final CallbackContext callbackContext) {
-    DzPrinterHelper printerHelper = new DzPrinterHelper();
+  public static void print(final CordovaPlugin plugin, final String message, final CallbackContext callbackContext) {
+    /*DzPrinterHelper printerHelper = new DzPrinterHelper();
     if (printerHelper.isPrinterConnected()) {
       if (printerHelper.print2dBarcode(message, printerHelper.getPrintParam(1, 0))) {
         callbackContext.success("打印成功");
@@ -65,6 +67,13 @@ public class PluginCoreWorker {
       }
     } else {
       callbackContext.error("打印机尚未连接，请确保打印设备连接正常后再试");
+    }*/
+    POSTEKPrintHelper printHelper = new POSTEKPrintHelper();
+    int status = printHelper.isPrint(plugin.cordova.getActivity(), message);
+    if(status == 0){
+      callbackContext.success();
+    } else {
+      callbackContext.error(status);
     }
   }
 
@@ -72,16 +81,25 @@ public class PluginCoreWorker {
     DzPrinterHelper printerHelper = new DzPrinterHelper();
     if (printerHelper.isPrinterConnected()) {
       callbackContext.success("已连接");
-    } else {
+    }else {
       callbackContext.success("未连接");
     }
   }
 
   public static void init(final CordovaPlugin plugin, final CallbackContext callbackContext) {
-    DzPrinterHelper printerHelper = new DzPrinterHelper();
-    printerHelper.init(plugin.cordova.getActivity(), callbackContext);
+    BluetoothSearch search = new BluetoothSearch();
+    search.search(plugin.cordova.getActivity(), callbackContext);
+    /*DzPrinterHelper printerHelper = new DzPrinterHelper();
+    printerHelper.init(plugin.cordova.getActivity(), callbackContext);*/
   }
 
+  public static void getSearch (final CallbackContext callbackContext){
+      BluetoothSearch.getSearch(callbackContext);
+  }
+  public static void stopSearch(final CallbackContext callbackContext){
+      new BluetoothSearch().stopSearch();
+      callbackContext.success();
+  }
   public static void openOfflineMap(final CordovaPlugin plugin, final CallbackContext callbackContext) {
     //在Activity页面调用startActvity启动离线地图组件
     // 设置应用单独的地图存储目录
@@ -107,9 +125,9 @@ public class PluginCoreWorker {
       List<TaskData> taskList = new Gson().fromJson(tasksJson, new TypeToken<List<TaskData>>() {
       }.getType());
       JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
-      if (database.updateTaskDataList(taskList)) {
+      if (database.updateTaskDataList(taskList)){
         callbackContext.success();
-      } else {
+      }else {
         callbackContext.error("数据缓存失败");
       }
     } catch (Exception e) {
@@ -122,8 +140,8 @@ public class PluginCoreWorker {
     JepayDatabase database = JepayDatabase.getInstance(plugin.cordova.getActivity());
     JSONObject jsonObject = new JSONObject();
     try {
-      jsonObject.put("undoneCountNum", database.getUndoneTaskCount(username));
-      jsonObject.put("doneCountNum", database.getDoneTaskCount(username));
+      jsonObject.put("undoneCountNum",database.getUndoneTaskCount(username));
+      jsonObject.put("doneCountNum",database.getDoneTaskCount(username));
       callbackContext.success(jsonObject);
     } catch (JSONException e) {
       e.printStackTrace();
@@ -176,7 +194,6 @@ public class PluginCoreWorker {
         jsonArray.put(json);
       }
     }
-
     callbackContext.success(jsonArray);
   }
 
@@ -195,7 +212,6 @@ public class PluginCoreWorker {
           jsonArray.put(json);
         }
       }
-
       callbackContext.success(jsonArray);
     } catch (JSONException e) {
       e.printStackTrace();

@@ -18,7 +18,7 @@ import { DbServiceProvider } from '../../providers/db-service/db-service';
   templateUrl: 'home.html',
 })
 export class HomePage extends BasePage {
-  title:String = "大连市农用地土壤污染详查终端";
+  title:String = "农用地土壤污染详查终端";
   bgImg = "assets/imgs/halo.jpg";
   newsList:any = [
     {

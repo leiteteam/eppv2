@@ -1,3 +1,4 @@
+import { PrintServiceProvider } from './../../providers/print-service/print-service';
 import { BasePage } from './../base/base';
 import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface-service/device-inteface-service';
 import { Component, ChangeDetectorRef } from '@angular/core';
@@ -24,6 +25,7 @@ export class SampleCodePage extends BasePage {
     public toastCtrl: ToastController,
     private ref: ChangeDetectorRef, 
     public device:DeviceIntefaceServiceProvider, 
+    public print: PrintServiceProvider,
     public navParams: NavParams, 
     public alertCtrl:AlertController) {
     super(navCtrl, navParams, toastCtrl);
@@ -38,38 +40,40 @@ export class SampleCodePage extends BasePage {
     }
   }
   printCodes(){
-    this.device.push("printInit","",msg =>{
-      console.log("连接成功，正在打印...");
-      this.device.push("print", "主样:" + this.sampleData.SampleCode ,msg =>{
-        console.log("打印成功");
-      },err => {
-        this.toast(err);
-        console.log("push failed");
-        console.log(err);
-      });
-    },err => {
-      this.toast(err);
-      console.log("push failed");
-      console.log(err);
-    });
+    this.print.print("主样:" + this.sampleData.SampleCode, this.sampleData.SampleCode);
+    // this.device.push("printInit","",msg =>{
+    //   console.log("连接成功，正在打印...");
+    //   this.device.push("print", "主样:" + this.sampleData.SampleCode ,msg =>{
+    //     console.log("打印成功");
+    //   },err => {
+    //     this.toast(err);
+    //     console.log("push failed");
+    //     console.log(err);
+    //   });
+    // },err => {
+    //   this.toast(err);
+    //   console.log("push failed");
+    //   console.log(err);
+    // });
     
     
   }
   printCode(SubSampleId){
-    this.device.push("printInit","hello print!",msg =>{
-      console.log("连接成功，正在打印...");
-      this.device.push("print", "子样:" + SubSampleId ,msg =>{
-        console.log("打印成功");
-      },err => {
-        this.toast(err);
-        console.log("push failed");
-        console.log(err);
-      });
-    },err => {
-      this.toast(err);
-      console.log("push failed");
-      console.log(err);
-    });
+    this.print.print("子样:" + SubSampleId, SubSampleId);
+    // this.device.push("printInit","hello print!",msg =>{
+    //   console.log("连接成功，正在打印...");
+    //   this.device.push("print", "子样:" + SubSampleId ,msg =>{
+    //     console.log("打印成功");
+    //   },err => {
+    //     this.toast(err);
+    //     console.log("push failed");
+    //     console.log(err);
+    //   });
+    // },err => {
+    //   this.toast(err);
+    //   console.log("push failed");
+    //   console.log(err);
+    // });
 
   }
   sampleSplit = (subSamples, num) => {

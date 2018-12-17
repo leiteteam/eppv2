@@ -50,7 +50,7 @@ export class SpleFilesPage extends BasePage{
         spleTasks['data'] = {};
         spleTasks['data']['Point'] = point;
         spleTasks['data']['company'] = msg.record.company;
-        this.navCtrl.push("CollectProcessPage", {spleTask: spleTasks, model: 2});
+        this.navCtrl.push("CollectProcessPage", {spleTask: spleTasks, model: 2, type: 1});
         console.log(spleTasks);
       },
       error => {

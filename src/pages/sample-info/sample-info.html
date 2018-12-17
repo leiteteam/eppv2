@@ -42,14 +42,15 @@
       <ion-label>样点类型:</ion-label>
       <ion-input type="text" class="input-border" [value]="taskData?.Point?.PointCategory | pointType" disabled="true"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="type == 1" >
       <ion-label>采样负责人:</ion-label>
       <ion-input type="text" class="input-border" [value]="taskData?.Point?.PointName" placeholder="无" disabled="true"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="type == 1" >
       <ion-label>采样日期:</ion-label>
       <ion-input type="text" class="input-border" [value]="taskData?.CompletedTime" placeholder="无" disabled="true"></ion-input>
     </ion-item>
+    <!-- 
     <ion-item>
       <ion-label>详查单元编码:</ion-label>
       <ion-input type="text" class="input-border" [value]="taskData?.Point?.InvestigationCode" placeholder="无" disabled="true"></ion-input>
@@ -61,7 +62,6 @@
     <ion-item>
       <ion-label style="opacity:1 !important;">是否测试多环芳烃:</ion-label>
       <ion-toggle disabled="true" checked="{{taskData?.Point?.IsTestDhft}}" style="opacity:1 !important;"></ion-toggle>
-      <!-- <ion-input type="text" class="input-border"  disabled="true"></ion-input> -->
     </ion-item>
     <ion-item>
       <ion-label style="opacity:1 !important;">是否测试重金属可提取物:</ion-label>
@@ -74,6 +74,6 @@
     <ion-item>
         <ion-label>增测项目其它污染物:</ion-label>
         <ion-input type="text" class="input-border" [value]="taskData?.Point?.ZcxmOtherParams" placeholder="无" disabled="true"></ion-input>
-      </ion-item>
+      </ion-item> -->
   </ion-list>
 </ion-content>

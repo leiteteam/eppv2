@@ -1,3 +1,4 @@
+import { PrintServiceProvider } from './../../providers/print-service/print-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { BasePage } from '../base/base';
@@ -31,7 +32,8 @@ export class PrintAssistPage extends BasePage{
     public device:DeviceIntefaceServiceProvider,
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public toastCtrl:ToastController) {
+    public toastCtrl:ToastController, 
+    public prints: PrintServiceProvider) {
     super(navCtrl,navParams,toastCtrl);
   }
 
@@ -80,18 +82,19 @@ export class PrintAssistPage extends BasePage{
   }
 
   print(code){
-    this.device.push("printInit","",msg =>{
-      console.log("push success");
-      this.device.push("print",code,msg =>{
-        console.log("push success");
-      },err => {
-        this.toast(err);
-        console.log("push failed");
-      });
-    },err => {
-      this.toast(err);
-      console.log("push failed");
-    });
+    this.prints.print(code, code);
+    // this.device.push("printInit","",msg =>{
+    //   console.log("push success");
+    //   this.device.push("print",code,msg =>{
+    //     console.log("push success");
+    //   },err => {
+    //     this.toast(err);
+    //     console.log("push failed");
+    //   });
+    // },err => {
+    //   this.toast(err);
+    //   console.log("push failed");
+    // });
   }
 
   reset(){

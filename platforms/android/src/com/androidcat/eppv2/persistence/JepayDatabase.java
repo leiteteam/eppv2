@@ -133,10 +133,10 @@ public class JepayDatabase {
             return new ArrayList<TaskData>();
         }
     }
-
+    
     public List<TaskData> queryUndoneMulDatas(String userid, int offset, int num) {
         try {
-          List<TaskData> taskList = mDbUtils.findAll(Selector.from(TaskData.class).where("userid", "=", userid).and("state", "=", "0").offset(offset).limit(num));
+            List<TaskData> taskList = mDbUtils.findAll(Selector.from(TaskData.class).where("userid", "=", userid).and("state", "=", "0").offset(offset).limit(num));
           if (taskList == null) {
             return new ArrayList<TaskData>();
           }
@@ -169,7 +169,7 @@ public class JepayDatabase {
     } catch (DbException e) {
       e.printStackTrace();
     }
-      return new ArrayList<TaskData>();
+    return new ArrayList<TaskData>();
   }
 
     public List<TaskData> getDoneTaskList(String userid) {
@@ -266,24 +266,23 @@ public class JepayDatabase {
             return false;
         }
     }
+    public boolean updateTaskDataToUploaded(String taskId) {
+        if (mDbUtils == null) {
+            return false;
+        }
+        try {
+            TaskData localData = getTaskData(taskId);
+            localData.state = 2;
+            mDbUtils.replace(localData);
 
-  public boolean updateTaskDataToUploaded(String taskId) {
-    if (mDbUtils == null) {
-      return false;
+            //清除关联的轨迹表数据
+            delTrackByTaskid(taskId);
+            return true;
+        } catch (DbException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-    try {
-      TaskData localData = getTaskData(taskId);
-      localData.state = 2;
-      mDbUtils.replace(localData);
-
-      //清除关联的轨迹表数据
-      delTrackByTaskid(taskId);
-      return true;
-    } catch (DbException e) {
-      e.printStackTrace();
-      return false;
-    }
-  }
 
     public TaskData getTaskData(String taskid) {
         if (mDbUtils == null) {

@@ -81,7 +81,6 @@ public class MapNaviUtil {
     return String.format(newUri, appName, dname, dlat, dlon);
   }
 
-
   private final static double a = 6378245.0; // 长半轴
   private final static double pi = 3.14159265358979324; // π
   private final static double ee = 0.00669342162296594323; // e²

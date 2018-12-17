@@ -37,13 +37,23 @@
       <ion-input type="number"  placeholder="请输入数字" class="input-border" [disabled]="isFlagInput" [(ngModel)]="sampleData.Altitude"></ion-input>
     </ion-item>
 
-    <ion-item no-lines>
+    <!-- <ion-item no-lines>
       <ion-label>土壤发生分类:</ion-label>
       <ion-input type="text" class="input-border" disabled="true" [value]="taskData?.Point?.SoilFsType"></ion-input>
     </ion-item>
     <ion-item no-lines>
       <ion-label>土壤系统分类:</ion-label>
       <ion-input type="text" class="input-border" disabled="true" [value]="taskData?.Point?.SoilXtType"></ion-input>
+    </ion-item> -->
+    <ion-item detail-push>
+      <ion-label style="opacity: 1 !important;">土地利用:</ion-label>
+      <ion-multi-picker item-end class="input-redio" [disabled]="isFlagInput" [(ngModel)]="sampleData.LandUse" [multiPickerColumns]="soilMakes"
+        doneText="确定" cancelText="取消"></ion-multi-picker>
+    </ion-item>
+    <ion-item detail-push>
+      <ion-label style="opacity: 1 !important;">作物类型:</ion-label>
+      <ion-multi-picker item-end class="input-redio" [disabled]="isFlagInput" [(ngModel)]="sampleData.CropType" [multiPickerColumns]="cropTypes"
+        doneText="确定" cancelText="取消"></ion-multi-picker>
     </ion-item>
     <ion-item detail-push>
       <ion-label style="opacity: 1 !important;">灌溉方式:</ion-label>
@@ -85,23 +95,44 @@
       <ion-label>周边潜在污染源信息:</ion-label>
       <ion-input type="text"  placeholder="请输入文本" [disabled]="isFlagInput" [(ngModel)]="sampleData.PollutantRemark" class="input-border"></ion-input>
     </ion-item>
-    <div class="item item-ios" style="height:200px;">
-      <div (click)="getImg(1)" (press)='delImg(1)' style="display: inline-block;height: 45%; width:23%; margin-top: 45px; text-align: center;">
+    <div class="item item-ios">
+      <div (click)="getImg(1)" (press)='delImg(1)' style="display: inline-block;height: 0.3em; width:31%; margin-top: 45px; text-align: center;">
+        <img src="{{eastNorthImg != null ? 'data:image/jpeg;base64,' + eastNorthImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        ↖ 东北
+      </div>
+      <div style="display: inline-block;height: 0.3em; width:31%; margin-top: 45px; text-align: center;">
+        <img (click)="getImg(2)" (press)='delImg(2)' src="{{northImg != null ? 'data:image/jpeg;base64,' + northImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        ↑ 正北
+      </div>
+      <div style="display: inline-block;height: 0.3em; width:31%; margin-top: 45px; text-align: center;">
+        <img (click)="getImg(3)" (press)='delImg(3)' src="{{westNorthImg != null ? 'data:image/jpeg;base64,' + westNorthImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        ↗ 西北
+      </div>
+      <div (click)="getImg(4)" (press)='delImg(4)' style="display: inline-block;height: 0.3em; width:31%; margin-top: 45px; text-align: center;">
         <img src="{{eastImg != null ? 'data:image/jpeg;base64,' + eastImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
-        正东
+        ← 正东
       </div>
-      <div style="display: inline-block;height: 45%; width:23%; margin-top: 45px; text-align: center;">
-        <img (click)="getImg(2)" (press)='delImg(2)' src="{{southImg != null ? 'data:image/jpeg;base64,' + southImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
-        正南
+      <div style="display: inline-block;height: 0.3em; width:31%; margin-top: 45px; text-align: center;">
+        <img src="assets/imgs/fw.png" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        &nbsp;
       </div>
-      <div style="display: inline-block;height: 45%; width:23%; margin-top: 45px; text-align: center;">
-        <img (click)="getImg(3)" (press)='delImg(3)' src="{{westImg != null ? 'data:image/jpeg;base64,' + westImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
-        正西
+      <div style="display: inline-block;height: 0.3em; width:31%; margin-top: 45px; text-align: center;">
+        <img (click)="getImg(5)" (press)='delImg(5)' src="{{westImg != null ? 'data:image/jpeg;base64,' + westImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        → 正西
       </div>
-      <div style="display: inline-block;height: 45%; width:23%; margin-top: 45px; text-align: center;">
-        <img (click)="getImg(4)" (press)='delImg(4)' src="{{northImg != null ? 'data:image/jpeg;base64,' + northImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
-        正北
+      <div style="display: inline-block;height: 0.3em; width:31%; margin-top: 45px; text-align: center;">
+        <img (click)="getImg(6)" (press)='delImg(6)' src="{{eastSouthImg != null ? 'data:image/jpeg;base64,' + eastSouthImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        ↙ 东南
       </div>
+      <div style="display: inline-block;height: 0.3em; width:31%; margin-top: 45px; text-align: center;">
+        <img (click)="getImg(7)" (press)='delImg(7)' src="{{southImg != null ? 'data:image/jpeg;base64,' + southImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        ↓ 正南
+      </div>
+      <div style="display: inline-block;height: 0.3em; width:31%; margin-top: 45px; text-align: center;">
+        <img (click)="getImg(8)" (press)='delImg(8)' src="{{westSouthImg != null ? 'data:image/jpeg;base64,' + westSouthImg : 'assets/imgs/addphoto.png'}}" style="margin: 0 auto;display:block; padding: 3px 3px;"/>
+        ↘ 西南
+      </div>
+      
     </div>
   </ion-list>
   <div style="margin-top:30px;margin-left:20px;margin-right:20px">

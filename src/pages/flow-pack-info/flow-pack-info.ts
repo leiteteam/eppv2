@@ -1,3 +1,4 @@
+import { PrintServiceProvider } from './../../providers/print-service/print-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import { BasePage } from '../base/base';
@@ -37,6 +38,7 @@ export class FlowPackInfoPage extends BasePage{
     public net:TyNetworkServiceProvider,
     public alert:AlertController,
     public navCtrl: NavController, 
+    public prints: PrintServiceProvider, 
     public navParams: NavParams,
     public toastCtrl:ToastController) {
     super(navCtrl,navParams,toastCtrl);
@@ -181,18 +183,19 @@ export class FlowPackInfoPage extends BasePage{
   }
 
   print(sple){
-    this.device.push("printInit","",msg =>{
-      console.log("push success");
-      this.device.push("print",sple.TwoSampleId,msg =>{
-        console.log("push success");
-      },err => {
-        this.toast(err);
-        console.log("push failed");
-      });
-    },err => {
-      this.toast(err);
-      console.log("push failed");
-    });
+    this.prints.print(sple.TwoSampleId, sple.TwoSampleId)
+    // this.device.push("printInit","",msg =>{
+    //   console.log("push success");
+    //   this.device.push("print",sple.TwoSampleId,msg =>{
+    //     console.log("push success");
+    //   },err => {
+    //     this.toast(err);
+    //     console.log("push failed");
+    //   });
+    // },err => {
+    //   this.toast(err);
+    //   console.log("push failed");
+    // });
   }
 
   ionViewDidLeave(){

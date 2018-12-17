@@ -19,10 +19,13 @@
 
 package com.androidcat.eppv2;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -37,6 +40,7 @@ import org.json.JSONObject;
 public class MainActivity extends LocationActivity  {
 
   private boolean hasUpdateChecked = false;
+  private static final int REQUEST_CODE1 = 1001;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,7 @@ public class MainActivity extends LocationActivity  {
     //register native event broadcast receiver
     registerEventReceiver();
     checkUpdate();
+    requestPermission();
   }
 
   private void checkUpdate(){
@@ -136,5 +141,14 @@ public class MainActivity extends LocationActivity  {
       method = String.format("javascript:cordova.fireWindowEvent('%s','%s');", eventName, data.toString() );
     }
     this.appView.loadUrl(method);
+  }
+  //请求权限
+  private void requestPermission() {
+    if (Build.VERSION.SDK_INT >= 23) {
+      int check = checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION);
+      if (check != PackageManager.PERMISSION_GRANTED) {
+        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE1);
+      }
+    }
   }
 }

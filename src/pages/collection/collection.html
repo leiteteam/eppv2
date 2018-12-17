@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>样品采集</ion-title>
+    <ion-title>{{address}}</ion-title>
   </ion-navbar>
 
   <ion-segment mode="md" class="commSegBtn" [(ngModel)]="spleCategory">
@@ -47,7 +47,7 @@
           <P style="color: #949059">点位编码:{{spleTask.data.Point.SampleNumber}} <span *ngIf="spleTask.data.editFlag" style="float: right; color: #f53d3d">已编辑</span></P>
           <h5 class="title">{{spleTask.data.Point.ForecastAddress}}</h5>
           <p class="date">{{spleTask.data.Point.PointName}}</p>
-          <p class="date">{{spleTask.data.category[spleTask.data.SampleCategory].CategoryName}}</p>
+          <!-- <p class="date">{{spleTask.data.category[spleTask.data.SampleCategory].CategoryName}}</p> -->
           <ion-item no-margin no-lines class="buttonItem">
             <button ion-button icon-start item-end (click)="onCllect(spleTask)">
               <ion-icon name="create"></ion-icon>采样</button>
@@ -57,7 +57,6 @@
         </ion-item>
         <ion-custom-empty *ngIf="todoList == null|| todoList.length==0"></ion-custom-empty>
       </ion-list>
-      
       <ion-infinite-scroll *ngIf="todoList.length<undoneCountNum" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content loadingText="正在加载..."></ion-infinite-scroll-content>
       </ion-infinite-scroll>
@@ -79,7 +78,6 @@
         </ion-item>
         <ion-custom-empty *ngIf="doneList == null|| doneList.length==0"></ion-custom-empty>
       </ion-list>
-      
       <ion-infinite-scroll *ngIf="doneList.length<doneCountNum" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content loadingText="正在加载..."></ion-infinite-scroll-content>
       </ion-infinite-scroll>

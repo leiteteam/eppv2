@@ -45,6 +45,9 @@ export class CollectionPage extends BasePage{
   pageSize:number = 10;
   cacheMax:number = 30;
 
+  
+  address: any = '样品采集';
+
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     public alertCtrl:AlertController,
@@ -63,8 +66,8 @@ export class CollectionPage extends BasePage{
     this.countTask();
   }
 
-  onCllect(spleTask){
-    let left = this.cacheMax - this.doneCountNum;
+  onCllect(spleTask){   
+     let left = this.cacheMax - this.doneCountNum;
     if (left <=0){
       this.showUploadTip(spleTask);
       return
@@ -75,7 +78,7 @@ export class CollectionPage extends BasePage{
     }
     this.navCtrl.push('CollectProcessPage', {'spleTask':spleTask, model: 0});
   }
-
+  
   showUploadTip(spleTask){
     let alert = this.alertCtrl.create({
       title: '警告提示',
@@ -116,6 +119,9 @@ export class CollectionPage extends BasePage{
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad CollectionPage');
+  }
+
+  ionViewDidEnter(){
     this.getTodoList(0,this.pageSize);
   }
 
@@ -138,7 +144,6 @@ export class CollectionPage extends BasePage{
       this.getFlowedList(refresher);
     }
   }
-
   doInfinite(refresher) {
     console.log("上拉加载更多");
     if (this.tabIndex == 0){
@@ -271,10 +276,10 @@ export class CollectionPage extends BasePage{
 
   navigation(task){
     if (task.data){
-      this.device.push( "navigation", {lat:task.data.Point.Latitude,lng:task.data.Point.Longitude} );
+      this.device.push( "navigation", {lat:task.data.Point.ALatitude,lng:task.data.Point.ALongitude} );
     }
     if (task.Point){
-      this.device.push( "navigation", {lat:task.Point.Latitude,lng:task.Point.Longitude} );
+      this.device.push( "navigation", {lat:task.Point.ALatitude,lng:task.Point.ALongitude} );
     }
   }
 

@@ -1,6 +1,7 @@
+import { DbServiceProvider } from './../../providers/db-service/db-service';
 
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, Events, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, Events, ToastController, ModalController } from 'ionic-angular';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
 import { BasePage } from '../base/base';
 
@@ -30,6 +31,8 @@ export class SettingPage extends BasePage{
     public alert:AlertController,
     public events:Events,
     public device:DeviceIntefaceServiceProvider,
+    public modalCtrl: ModalController, 
+    public db:DbServiceProvider,
     public loadingCtrl:LoadingController,
     public toastCtrl:ToastController) {
       super(navCtrl,navParams,toastCtrl);
@@ -39,8 +42,16 @@ export class SettingPage extends BasePage{
     console.log('ionViewDidLoad SettingPage');
     this.initState();
   }
+  bluetoothSearch(){
+    this.modalCtrl.create("BluetoothSearchPage").present();
+  }
 
   initState(){
+    this.db.getString("bluetoothAddress", res => {
+      if(res != null && res != ""){
+        this.printState = JSON.parse(res).name;
+      }
+    });
     this.device.push("wifiState","",(state)=>{
       this.wifiState = state==1;
     });

@@ -21,8 +21,8 @@
     <ion-label item-start>实际经/纬度:
       <span style="color: red">*</span>
     </ion-label>
-    <ion-textarea type="text" item-end autoresize="2" placeholder="点击按钮获取经/纬度" [value]="sampleData.FactLongitude + '\n' + sampleData.FactLatitude" disabled="true"></ion-textarea>
-    <button ion-button item-end (click)="getLatLng()">获取</button>
+    <ion-textarea type="text" item-end autoresize="2" placeholder="获取经/纬度" [value]="sampleData.FactLongitude + '\n' + sampleData.FactLatitude" disabled="true"></ion-textarea>
+    <!-- <button ion-button item-end (click)="getLatLng()">获取</button> -->
     <!-- <div item-end style="float: right;">
       <input type="number" class="input-border" style="width: 31%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.FactLongitude" /> -
       <input type="number" class="input-border" style="width: 31%;" [disabled]="isFlagInput" [(ngModel)]="sampleData.FactLatitude" />
@@ -72,6 +72,28 @@
     </ion-label>
     <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.SoilColor" [multiPickerColumns]="soilColors" doneText="确定"
       cancelText="取消"></ion-multi-picker>
+  </ion-item>
+  <ion-item detail-push>
+      <ion-label style="opacity: 1 !important;">土壤湿度:
+        <span style="color: red">*</span>
+      </ion-label>
+      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.Humidity" [multiPickerColumns]="humiditys" doneText="确定"
+        cancelText="取消"></ion-multi-picker>
+  </ion-item>
+  <ion-item detail-push>
+      <ion-label style="opacity: 1 !important;">土壤类型:
+        <span style="color: red">*</span>
+      </ion-label>
+      <ion-multi-picker item-end style="color:darkgray" [disabled]="isFlagInput" [(ngModel)]="sampleData.SoilType" [multiPickerColumns]="soilTypes2" doneText="确定"
+        cancelText="取消"></ion-multi-picker>
+    </ion-item>
+  <ion-item detail-push (click)="toolBtn()">
+      <ion-label>采样工具:</ion-label>
+      <ion-input disabled="true" [value]="sampleData?.WJSampleTool" placeholder="请选择" class="input-checked"></ion-input>
+  </ion-item>
+  <ion-item detail-push (click)="containerBtn()">
+      <ion-label>采样容器:</ion-label>
+      <ion-input disabled="true" [value]="sampleData?.WJSampleContainer" placeholder="请选择" class="input-checked"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label>样品说明:</ion-label>

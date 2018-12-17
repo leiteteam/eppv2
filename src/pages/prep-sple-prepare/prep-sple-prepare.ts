@@ -1,3 +1,4 @@
+import { PrintServiceProvider } from './../../providers/print-service/print-service';
 import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface-service/device-inteface-service';
 import { prepSubSample } from './../prep-sple-element/prep-sple-element';
 import { Component, ChangeDetectorRef } from '@angular/core';
@@ -40,6 +41,7 @@ export class PrepSplePreparePage extends BasePage {
     public toastCtrl: ToastController,
     public navCtrl: NavController,
     public navParams: NavParams,
+    public print: PrintServiceProvider,
     private ref: ChangeDetectorRef, 
     public device:DeviceIntefaceServiceProvider,
     public alertCtrl:AlertController) {
@@ -143,20 +145,21 @@ export class PrepSplePreparePage extends BasePage {
   }
 
   spleCoding(subSampleId) {
-    this.device.push("printInit","hello print!",msg =>{
-      console.log("连接成功，正在打印...");
-      this.device.push("print", "子样:" + subSampleId ,msg =>{
-        console.log("打印成功");
-      },err => {
-        this.toast(err);
-        console.log("push failed");
-        console.log(err);
-      });
-    },err => {
-      this.toast(err);
-      console.log("push failed");
-      console.log(err);
-    });
+    this.print.print("子样:" + subSampleId, subSampleId);
+    // this.device.push("printInit","hello print!",msg =>{
+    //   console.log("连接成功，正在打印...");
+    //   this.device.push("print", "子样:" + subSampleId ,msg =>{
+    //     console.log("打印成功");
+    //   },err => {
+    //     this.toast(err);
+    //     console.log("push failed");
+    //     console.log(err);
+    //   });
+    // },err => {
+    //   this.toast(err);
+    //   console.log("push failed");
+    //   console.log(err);
+    // });
   }
   normSplit() {
     for (let i = 1; i < 4; i++) {

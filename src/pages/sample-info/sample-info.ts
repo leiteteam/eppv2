@@ -15,10 +15,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SampleInfoPage {
   taskData:any;
+  type: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    
     this.taskData = navParams.get("taskData");
+    this.type = navParams.data.type;
   }
 
   ionViewDidLoad() {

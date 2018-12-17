@@ -50,7 +50,7 @@ export class MorePage extends BasePage{
     this.device.push("offlineMap");
   }
 
-  gotoSettings(){
+  gotoSettings(){ 
     this.navCtrl.push("SettingPage");
   }
 
@@ -63,5 +63,5 @@ export class MorePage extends BasePage{
       this.toastShort(err);
     });
   }
-
+  
 }

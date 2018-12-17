@@ -19,10 +19,14 @@ export class CollectProcessPage extends BasePage {
   newCompany: any;
   taskData: any;
   sampleData: any;
-  eastImg: String;
-  southImg: String;
-  westImg: String;
-  northImg: String;
+  eastImg: String;//东
+  southImg: String;//南
+  westImg: String;//西
+  northImg: String;//北
+  eastNorthImg: String;//东北
+  westNorthImg: String;//西北
+  eastSouthImg: String;//东南
+  westSouthImg: String;//西南
   spleTask: any;
   tipContent:string = "!";
   isFlagInput: boolean = false;
@@ -56,6 +60,18 @@ export class CollectProcessPage extends BasePage {
           case "正北":
             this.northImg = pictures[index].base64;
             break;
+          case "东北":
+            this.eastNorthImg = pictures[index].base64;
+            break;
+          case "西北":
+            this.westNorthImg = pictures[index].base64;
+            break;
+          case "东南":
+            this.eastSouthImg = pictures[index].base64;
+            break;
+          case "西南":
+            this.westSouthImg = pictures[index].base64;
+            break;
         }
       }
     } else {
@@ -86,7 +102,8 @@ export class CollectProcessPage extends BasePage {
     let pictures: any = JSON.stringify(this.sampleData.Pictures);
     pictures = JSON.parse(pictures);
     for (let i = 0, flag = true; i < pictures.length; flag ? i++ : i) {
-      if (pictures[i].type == "正东" || pictures[i].type == "正南" || pictures[i].type == "正西" || pictures[i].type == "正北") {
+      if (pictures[i].type == "正东" || pictures[i].type == "正南" || pictures[i].type == "正西" || pictures[i].type == "正北" || 
+      pictures[i].type == "东北" || pictures[i].type == "西北" || pictures[i].type == "东南" || pictures[i].type == "西南") {
         pictures.splice(i, 1);
         flag = false;
       } else {
@@ -104,6 +121,18 @@ export class CollectProcessPage extends BasePage {
     }
     if (this.northImg) {
       pictures.push({ type: "正北", base64: this.northImg });
+    }
+    if (this.eastNorthImg) {
+      pictures.push({ type: "东北", base64: this.eastNorthImg });
+    }
+    if (this.westNorthImg) {
+      pictures.push({ type: "西北", base64: this.westNorthImg });
+    }
+    if (this.eastSouthImg) {
+      pictures.push({ type: "东南", base64: this.eastSouthImg });
+    }
+    if (this.westSouthImg) {
+      pictures.push({ type: "西南", base64: this.westSouthImg });
     }
     if(this.sampleData.FactAddress || this.sampleData.Altitude != '' || this.sampleData.IrrigationMethod != 0 || this.sampleData.IrrigationType != 0 ||
     this.sampleData.TerrainType != 0 || this.sampleData.Weather != 0 || this.sampleData.DueEast || this.sampleData.DueSouth || 
@@ -192,26 +221,51 @@ export class CollectProcessPage extends BasePage {
     
     switch (loc) {
       case 1:
+        if (this.eastNorthImg != null && this.eastNorthImg != '') {
+          this.aletBigImg(this.eastNorthImg, '东北');
+          return;
+        }
+        break;
+      case 2:
+        if (this.northImg != null && this.northImg != '') {
+          this.aletBigImg(this.northImg, '正北');
+          return;
+        }
+        break;
+      case 3:
+        if (this.westNorthImg != null && this.westNorthImg != '') {
+          this.aletBigImg(this.westNorthImg, '西北');
+          return;
+        }
+        break;
+      case 4:
         if (this.eastImg != null && this.eastImg != '') {
           this.aletBigImg(this.eastImg, '正东');
           return;
         }
         break;
-      case 2:
+      case 5:
+        if (this.westImg != null && this.westImg != '') {
+          this.aletBigImg(this.northImg, '正北');
+          this.aletBigImg(this.westImg, '正西');
+          return;
+        }
+        break;
+      case 6:
+        if (this.eastSouthImg != null && this.eastSouthImg != '') {
+          this.aletBigImg(this.eastSouthImg, '东南');
+          return;
+        }
+        break;
+        case 7:
         if (this.southImg != null && this.southImg != '') {
           this.aletBigImg(this.southImg, '正南');
           return;
         }
         break;
-      case 3:
-        if (this.westImg != null && this.westImg != '') {
-          this.aletBigImg(this.westImg, '正西');
-          return;
-        }
-        break;
-      case 4:
-        if (this.northImg != null && this.northImg != '') {
-          this.aletBigImg(this.northImg, '正北');
+        case 8:
+        if (this.westSouthImg != null && this.westSouthImg != '') {
+          this.aletBigImg(this.westSouthImg, '西南');
           return;
         }
         break;
@@ -236,16 +290,28 @@ export class CollectProcessPage extends BasePage {
       let base64Image = imageData;
       switch (loc) {
         case 1:
-          this.eastImg = base64Image;
+          this.eastNorthImg = base64Image;
           break;
         case 2:
-          this.southImg = base64Image;
+          this.northImg = base64Image;
           break;
         case 3:
-          this.westImg = base64Image;
+          this.westNorthImg = base64Image;
           break;
         case 4:
-          this.northImg = base64Image;
+          this.eastImg = base64Image;
+          break;
+        case 5:
+          this.westImg = base64Image;
+          break;
+        case 6:
+          this.eastSouthImg = base64Image;
+          break;
+        case 7:
+          this.southImg = base64Image;
+          break;
+        case 8:
+          this.westSouthImg = base64Image;
           break;
       }
       //清理缓存的图片文件
@@ -272,16 +338,28 @@ export class CollectProcessPage extends BasePage {
           handler: () => {
             switch (loc) {
               case 1:
-                this.eastImg = null;
+                this.eastNorthImg = null;
                 break;
               case 2:
-                this.southImg = null;
+                this.northImg = null;
                 break;
               case 3:
-                this.westImg = null;
+                this.westNorthImg = null;
                 break;
               case 4:
-                this.northImg = null;
+                this.eastImg = null;
+                break;
+              case 5:
+                this.westImg = null;
+                break;
+              case 6:
+                this.eastSouthImg = null;
+                break;
+              case 7:
+                this.southImg = null;
+                break;
+              case 8:
+                this.westSouthImg = null;
                 break;
             }
           }
@@ -301,6 +379,34 @@ export class CollectProcessPage extends BasePage {
         { text: '滴灌', value: 4 },
         { text: '渗灌', value: 5 },
         { text: '其他', value: 10 }
+      ]
+    }
+  ];
+  soilMakes: any = [
+    {
+      name: '',
+      options: [
+        { text: '旱地', value: 0 },
+        { text: '水田', value: 1 },
+        { text: '林地', value: 2 },
+        { text: '草地', value: 3 },
+        { text: '荒地', value: 4 },
+        { text: '其他', value: 5 },
+        { text: '请选择', value: 10 }
+      ]
+    }
+  ];
+  cropTypes: any = [
+    {
+      name: '',
+      options: [
+        { text: '小麦', value: 0 },
+        { text: '水稻', value: 1 },
+        { text: '玉米', value: 2 },
+        { text: '豆芽', value: 3 },
+        { text: '蔬菜', value: 4 },
+        { text: '其他', value: 5 },
+        { text: '请选择', value: 10 }
       ]
     }
   ];
@@ -353,15 +459,15 @@ export class CollectProcessPage extends BasePage {
 
   findOnMap(){
     if (this.spleTask.data){
-      this.device.push( "findOnMap", {lat:this.spleTask.data.Point.Latitude,lng:this.spleTask.data.Point.Longitude} );
+      this.device.push( "findOnMap", {lat:this.spleTask.data.Point.ALatitude,lng:this.spleTask.data.Point.ALongitude} );
     }
     if (this.spleTask.Point){
-      this.device.push( "findOnMap", {lat:this.spleTask.Point.Latitude,lng:this.spleTask.Point.Longitude} );
+      this.device.push( "findOnMap", {lat:this.spleTask.Point.ALatitude,lng:this.spleTask.Point.ALongitude} );
     }
   }
 
   sampleInfoBtn() {
-    this.navCtrl.push('SampleInfoPage', { taskData: this.taskData });
+    this.navCtrl.push('SampleInfoPage', { taskData: this.taskData, type: this.navParams.data.type });
   }
   companyInfo = (company) => {
     return new Promise((resolve, reject) => {
@@ -437,6 +543,10 @@ export class CollectProcessPage extends BasePage {
       "DueWest": "",
       "DueNorth": "",
       "PollutantRemark": "",
+      "LandUse": 10,
+      "CropType": 10,
+      "Humidity": 10,
+      "SoilType": 99,
       "FactLongitude": '',
       "FactLatitude": '',
       "DeviationDistance": 0,

@@ -1,3 +1,4 @@
+import { PrintServiceProvider } from './../../providers/print-service/print-service';
 import { DeviceIntefaceServiceProvider } from './../../providers/device-inteface-service/device-inteface-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
@@ -33,7 +34,8 @@ export class FlowPackManagerPage extends BasePage{
   constructor(
     public net:TyNetworkServiceProvider,
     public navCtrl: NavController, 
-    public navParams: NavParams,
+    public navParams: NavParams, 
+    public prints: PrintServiceProvider,
     public toastCtrl:ToastController,
     public device:DeviceIntefaceServiceProvider) {
     super(navCtrl,navParams,toastCtrl);
@@ -76,20 +78,21 @@ export class FlowPackManagerPage extends BasePage{
   }
 
   print(pack){
-    this.device.push("printInit","hello print!",msg =>{
-      console.log("连接成功，正在打印...");
-      this.device.push("print", "包码:" + pack.PackageCode ,msg =>{
-        console.log("打印成功");
-      },err => {
-        this.toast(err);
-        console.log("push failed");
-        console.log(err);
-      });
-    },err => {
-      this.toast(err);
-      console.log("push failed");
-      console.log(err);
-    });
+    this.prints.print("包码:" + pack.PackageCode, pack.PackageCode);
+    // this.device.push("printInit","hello print!",msg =>{
+    //   console.log("连接成功，正在打印...");
+    //   this.device.push("print", "包码:" + pack.PackageCode ,msg =>{
+    //     console.log("打印成功");
+    //   },err => {
+    //     this.toast(err);
+    //     console.log("push failed");
+    //     console.log(err);
+    //   });
+    // },err => {
+    //   this.toast(err);
+    //   console.log("push failed");
+    //   console.log(err);
+    // });
   }
 
   newPack(){

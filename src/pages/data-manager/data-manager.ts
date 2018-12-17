@@ -5,7 +5,6 @@ import { TyNetworkServiceProvider } from '../../providers/ty-network-service/ty-
 import { AppGlobal, AppServiceProvider } from '../../providers/app-service/app-service';
 import { BasePage } from '../base/base';
 import { DeviceIntefaceServiceProvider } from '../../providers/device-inteface-service/device-inteface-service';
-import { resolveDefinition } from '../../../node_modules/@angular/core/src/view/util';
 
 /**
  * Generated class for the DataManagerPage page.
@@ -21,9 +20,9 @@ import { resolveDefinition } from '../../../node_modules/@angular/core/src/view/
 })
 export class DataManagerPage extends BasePage{
 
-  cacheMax:number = 30;
-
   tobeDownloadedNum:number = 0;
+
+  cacheMax:number = 30;
 
   undoneCountNum:number = 0;
   doneCountNum:number = 0;
@@ -416,13 +415,13 @@ export class DataManagerPage extends BasePage{
       });
     });
   }
-
-  /////////////////////////////////////////逐条上传记录带进度////////////////////////////////////////////////
+ /////////////////////////////////////////逐条上传记录带进度////////////////////////////////////////////////
 
   uploadAll(taskList){
     return new Promise((resolve,reject)=>{
       let spleList:any[] = [];
       taskList.forEach(element => {
+        console.log(element);
         let task = JSON.parse(element);
         task.data = JSON.parse(task.data);
         if (task.samples){
@@ -467,5 +466,5 @@ export class DataManagerPage extends BasePage{
       });
     });
   }
-  
+ 
 }

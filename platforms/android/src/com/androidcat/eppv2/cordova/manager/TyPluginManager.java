@@ -226,8 +226,7 @@ public class TyPluginManager {
         job.put("street",mainActivity.street);
         job.put("address",mainActivity.address);
         callbackContext.success(job.toString());
-      }
-      else if ("gps_location".equals(code)){
+      }else if ("gps_location".equals(code)){
         MainActivity mainActivity = (MainActivity) plugin.cordova.getActivity();
         JSONObject job = new JSONObject();
         LatLonPoint latLonPoint = MapNaviUtil.toGPSPoint(Double.parseDouble(mainActivity.lat),Double.parseDouble(mainActivity.lng));
@@ -245,9 +244,15 @@ public class TyPluginManager {
       else if ("printInit".equals(code)){
         PluginCoreWorker.init(plugin,callbackContext);
       }
+      else if ("getSearch".equals(code)){
+        PluginCoreWorker.getSearch(callbackContext);
+      }
+      else if ("stopSearch".equals(code)){
+        PluginCoreWorker.stopSearch(callbackContext);
+      }
       else if ("print".equals(code)){
         String data = jsonObject.optString("commandData");
-        PluginCoreWorker.print(data,callbackContext);
+        PluginCoreWorker.print(plugin,data,callbackContext);
       }
       else if ("offlineMap".equals(code)){
         PluginCoreWorker.openOfflineMap(plugin,callbackContext);
@@ -267,27 +272,24 @@ public class TyPluginManager {
       else if("getTodoList".equals(code)){
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.getUndoneTaskList(plugin,commandData,callbackContext);
-      }
-      else if("getTodoListByPage".equals(code)){
+      }else if("getTodoListByPage".equals(code)){
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.getUndoneTaskListByPage(plugin,commandData,callbackContext);
       }
       else if("getDoneList".equals(code)){
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.getDoneTaskList(plugin,commandData,callbackContext);
-      }
-      else if("getDoneListByPage".equals(code)){
+      }else if("getDoneListByPage".equals(code)){
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.getDoneTaskListByPage(plugin,commandData,callbackContext);
       }
       else if("updateTaskDataToUploaded".equals(code)){
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.updateTaskDataToUploaded(plugin,commandData,callbackContext);
-      }else if("updateSingleTaskDataToUploaded".equals(code)){
+      }else if("updateSingleTaskDataToUploaded".equals(code)) {
         String commandData = jsonObject.optString("commandData");
-        PluginCoreWorker.updateSingleTaskDataToUploaded(plugin,commandData,callbackContext);
-      }
-      else if("saveSample".equals(code)){
+        PluginCoreWorker.updateSingleTaskDataToUploaded(plugin, commandData, callbackContext);
+      }else if("saveSample".equals(code)){
         String commandData = jsonObject.optString("commandData");
         PluginCoreWorker.saveSample(plugin,commandData,callbackContext);
       }
